@@ -19,13 +19,18 @@ export function ChatProvider({ children }) {
   const [activeChatId, setActiveChatId] = useState(null);
   const activeChat = chats.find((c) => c.id === activeChatId) ?? null;
 
-  const saveChats = (updatedChats) => {
-    setChats(updatedChats);
+  // Persist chats to localStorage. Shared by all chat mutations.
+  const persistChats = (updatedChats) => {
     try {
       localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
     } catch (err) {
       console.error('Failed to save chats to localStorage:', err);
     }
+  };
+
+  const saveChats = (updatedChats) => {
+    setChats(updatedChats);
+    persistChats(updatedChats);
   };
 
   const setActiveChat = (chat) => {
@@ -63,12 +68,36 @@ export function ChatProvider({ children }) {
         return { ...chat, messages: [...chat.messages, message] };
       });
 
-      try {
-        localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
-      } catch (err) {
-        console.error('Failed to save chats to localStorage:', err);
+      persistChats(updatedChats);
+      return updatedChats;
+    });
+  };
+
+  // Handle an inbound message by phone number: append it to the matching chat,
+  // or create a new chat if the sender is not yet in the list.
+  // This mirrors how real messengers surface conversations from new contacts.
+  const receiveMessage = (phoneNumber, message) => {
+    setChats((prevChats) => {
+      const existingChat = prevChats.find((c) => c.phoneNumber === phoneNumber);
+
+      let updatedChats;
+      if (existingChat) {
+        updatedChats = prevChats.map((chat) =>
+          chat.id === existingChat.id
+            ? { ...chat, messages: [...chat.messages, message] }
+            : chat
+        );
+      } else {
+        const newChat = {
+          id: Date.now().toString(),
+          phoneNumber,
+          messages: [message],
+          createdAt: new Date().toISOString(),
+        };
+        updatedChats = [newChat, ...prevChats];
       }
 
+      persistChats(updatedChats);
       return updatedChats;
     });
   };
@@ -87,6 +116,7 @@ export function ChatProvider({ children }) {
     setActiveChat,
     createChat,
     addMessage,
+    receiveMessage,
     deleteChat,
   };
 
