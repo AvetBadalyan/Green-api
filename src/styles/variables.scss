@@ -1,17 +1,34 @@
-// Color palette - inspired by Green-API branding
-$primary-green: #00c853;
-$primary-green-dark: #00a344;
-$primary-dark: #1a1a2e;
-$secondary-dark: #16213e;
-$surface-dark: #0f0f23;
-$text-primary: #ffffff;
-$text-secondary: #a0a0a0;
-$border-color: #2a2a4a;
+// MAX (web.max.ru) exact color palette
+// Extracted from mobile app and web screenshots
 
-// Chat specific colors
-$message-outgoing: #005c4b;
-$message-incoming: #202c33;
-$chat-bg: #0b141a;
+$primary-accent: #1877f2;        // Vivid royal blue - "+" button, active icons, links
+$primary-accent-dark: #1565c0;   // Darker blue for hover states
+$primary-accent-light: rgba(24, 119, 242, 0.15); // Transparent blue for active bg
+
+$nav-bg: #111122;                // Leftmost icon nav - dark navy
+$sidebar-bg: #111122;            // Chat list panel - same dark navy
+$chat-bg: #13132a;               // Main chat area - slightly purple-navy
+$header-bg: #111122;             // Header/footer bars
+
+$text-primary: #ffffff;          // White text
+$text-secondary: #888899;        // Muted gray-purple text
+$text-muted: #4a4a6a;            // Very muted, placeholders
+
+$border-color: #1e1e35;          // Subtle border between panels
+
+// Semantic colors
+$error-color: #ff5252;
+$error-color-soft: #ff6b6b;
+$error-bg: rgba(255, 82, 82, 0.08);
+$error-border: rgba(255, 82, 82, 0.25);
+
+// Message bubbles - purple-gray like MAX messages
+$message-outgoing: #2d2d52;      // Sent messages - medium purple
+$message-incoming: #1e1e38;      // Received messages - darker purple
+
+// Avatar gradients - purple gradient like MAX profile icons
+$avatar-gradient-start: #6b3fa0;
+$avatar-gradient-end: #3d2080;
 
 // Spacing
 $spacing-xs: 4px;
@@ -24,12 +41,8 @@ $spacing-xl: 32px;
 $radius-sm: 4px;
 $radius-md: 8px;
 $radius-lg: 12px;
+$radius-xl: 18px;
 
 // Transitions
 $transition-fast: 0.15s ease;
 $transition-normal: 0.25s ease;
-
-// Breakpoints
-$mobile: 480px;
-$tablet: 768px;
-$desktop: 1024px;

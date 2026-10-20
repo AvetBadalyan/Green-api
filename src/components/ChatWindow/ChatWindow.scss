@@ -4,28 +4,33 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  // MAX-style: dark navy with very subtle space pattern effect
   background-color: $chat-bg;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 15% 80%, rgba(24, 119, 242, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 85% 20%, rgba(100, 50, 200, 0.05) 0%, transparent 60%);
 }
 
 .chat-header {
   display: flex;
   align-items: center;
   gap: $spacing-md;
-  padding: $spacing-md $spacing-lg;
-  background-color: $primary-dark;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $header-bg;
   border-bottom: 1px solid $border-color;
+  height: 56px;
 
   .chat-avatar {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background-color: $border-color;
+    background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
     display: flex;
     align-items: center;
     justify-content: center;
     color: $text-primary;
-    font-weight: bold;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: 13px;
   }
 
   .chat-header-info {
@@ -33,9 +38,10 @@
   }
 
   .chat-name {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     color: $text-primary;
+    display: block;
   }
 }
 
@@ -46,7 +52,8 @@
   padding: $spacing-sm $spacing-md;
   background-color: rgba(255, 82, 82, 0.1);
   color: #ff5252;
-  font-size: 14px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 82, 82, 0.2);
 
   button {
     background: transparent;
@@ -59,57 +66,58 @@
 .chat-input-area {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
-  padding: $spacing-md $spacing-lg;
-  background-color: $primary-dark;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background-color: $header-bg;
   border-top: 1px solid $border-color;
 
   input {
     flex: 1;
-    padding: $spacing-md;
-    background-color: $secondary-dark;
+    padding: $spacing-sm $spacing-md;
+    background-color: rgba(255, 255, 255, 0.06);
     border: 1px solid $border-color;
-    border-radius: $radius-lg;
+    border-radius: $radius-xl;
     color: $text-primary;
-    font-size: 15px;
+    font-size: 14px;
+    height: 40px;
     transition: border-color $transition-fast;
 
     &::placeholder {
-      color: $text-secondary;
+      color: $text-muted;
     }
 
     &:focus {
-      border-color: $primary-green;
+      border-color: rgba($primary-accent, 0.5);
     }
 
     &:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
     }
   }
 
-  button {
-    width: 48px;
-    height: 48px;
+  .send-btn {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background-color: $primary-green;
+    background-color: $primary-accent;
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all $transition-fast;
+    transition: background-color $transition-fast;
+    flex-shrink: 0;
 
     &:hover:not(:disabled) {
-      background-color: $primary-green-dark;
+      background-color: $primary-accent-dark;
     }
 
     &:disabled {
-      background-color: $border-color;
-      color: $text-secondary;
+      background-color: rgba($primary-accent, 0.3);
     }
 
     .loading {
-      font-size: 20px;
-      letter-spacing: 2px;
+      font-size: 14px;
+      letter-spacing: 1px;
     }
   }
 }

@@ -6,33 +6,40 @@
   align-items: center;
   justify-content: center;
   background-color: $chat-bg;
+  // MAX-style glow: blue-purple radial glow in center/bottom
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 65%, rgba(80, 40, 160, 0.25) 0%, rgba(24, 119, 242, 0.08) 50%, transparent 75%),
+    radial-gradient(ellipse 40% 30% at 50% 55%, rgba(24, 119, 242, 0.1) 0%, transparent 60%);
 }
 
 .empty-chat-content {
   text-align: center;
   color: $text-secondary;
 
-  .logo-icon {
-    width: 80px;
-    height: 80px;
-    background-color: $primary-green;
-    color: white;
-    border-radius: $radius-lg;
+  .empty-icon {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    font-size: 40px;
     margin: 0 auto $spacing-lg;
+
+    svg {
+      color: rgba(255, 255, 255, 0.5);
+    }
   }
 
   h2 {
-    font-size: 24px;
+    font-size: 20px;
+    font-weight: 500;
     color: $text-primary;
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-sm;
   }
 
   p {
     font-size: 14px;
+    color: $text-secondary;
   }
 }

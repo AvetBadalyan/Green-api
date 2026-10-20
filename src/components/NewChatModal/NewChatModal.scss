@@ -2,11 +2,8 @@
 
 .modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,12 +12,11 @@
 }
 
 .modal {
-  background-color: $secondary-dark;
+  background-color: $sidebar-bg;
   border-radius: $radius-lg;
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   border: 1px solid $border-color;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
 .modal-header {
@@ -31,7 +27,7 @@
   border-bottom: 1px solid $border-color;
 
   h2 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     color: $text-primary;
     margin: 0;
@@ -45,10 +41,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all $transition-fast;
+    transition: color $transition-fast;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
       color: $text-primary;
     }
   }
@@ -65,48 +60,49 @@
   margin-bottom: $spacing-md;
 
   label {
-    font-size: 14px;
+    font-size: 13px;
     color: $text-secondary;
     font-weight: 500;
   }
 
   input {
-    padding: $spacing-md;
-    background-color: $surface-dark;
+    padding: $spacing-sm $spacing-md;
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid $border-color;
     border-radius: $radius-md;
     color: $text-primary;
-    font-size: 16px;
+    font-size: 15px;
+    height: 44px;
     transition: border-color $transition-fast;
 
     &::placeholder {
-      color: $text-secondary;
+      color: $text-muted;
     }
 
     &:focus {
-      border-color: $primary-green;
+      border-color: rgba($primary-accent, 0.5);
     }
   }
 
   .hint {
     font-size: 12px;
-    color: $text-secondary;
+    color: $text-muted;
   }
 }
 
 .error-message {
-  background-color: rgba(255, 82, 82, 0.1);
-  border: 1px solid rgba(255, 82, 82, 0.3);
-  color: #ff5252;
+  background-color: rgba(255, 82, 82, 0.08);
+  border: 1px solid rgba(255, 82, 82, 0.25);
+  color: #ff6b6b;
   padding: $spacing-sm $spacing-md;
   border-radius: $radius-md;
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: $spacing-md;
 }
 
 .modal-actions {
   display: flex;
-  gap: $spacing-md;
+  gap: $spacing-sm;
   justify-content: flex-end;
   margin-top: $spacing-lg;
 }
@@ -116,27 +112,26 @@
   background-color: transparent;
   color: $text-secondary;
   font-size: 14px;
-  font-weight: 500;
   border-radius: $radius-md;
   border: 1px solid $border-color;
   transition: all $transition-fast;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
     color: $text-primary;
+    border-color: $text-secondary;
   }
 }
 
 .submit-btn {
   padding: $spacing-sm $spacing-lg;
-  background-color: $primary-green;
+  background-color: $primary-accent;
   color: white;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   border-radius: $radius-md;
   transition: background-color $transition-fast;
 
   &:hover {
-    background-color: $primary-green-dark;
+    background-color: $primary-accent-dark;
   }
 }

@@ -1,80 +1,133 @@
 @use '../../styles/variables.scss' as *;
 
-.sidebar {
-  width: 320px;
-  background-color: $secondary-dark;
+.sidebar-wrapper {
+  display: flex;
+  height: 100vh;
+  flex-shrink: 0;
+}
+
+// Narrow icon-only left nav - exactly like MAX web left bar
+.icon-nav {
+  width: 52px;
+  background-color: $nav-bg;
+  border-right: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-md 0;
+
+  .icon-nav-logo {
+    margin-bottom: $spacing-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon-nav-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .nav-logout {
+    margin-top: auto;
+    padding-bottom: $spacing-sm;
+  }
+}
+
+// Individual nav icon button
+.nav-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-md;
+  background: transparent;
+  color: $text-secondary;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  transition: all $transition-fast;
+  font-size: 10px;
+
+  &:hover {
+    color: $text-primary;
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  &.active {
+    color: $primary-accent;
+  }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+
+    &:hover {
+      background-color: transparent;
+      color: $text-secondary;
+    }
+  }
+}
+
+// Chat list panel - second column like MAX
+.chat-panel {
+  width: 260px;
+  background-color: $sidebar-bg;
   border-right: 1px solid $border-color;
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-.sidebar-header {
+.chat-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: $spacing-md;
   border-bottom: 1px solid $border-color;
-  background-color: $primary-dark;
 
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: $spacing-sm;
-
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background-color: $primary-green;
-      color: white;
-      border-radius: $radius-sm;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .logo-text {
-      font-size: 16px;
-      font-weight: bold;
-      color: $primary-green;
-    }
-  }
-
-  .logout-btn {
-    background: transparent;
-    color: $text-secondary;
-    padding: $spacing-sm;
-    border-radius: $radius-sm;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all $transition-fast;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: $text-primary;
-    }
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-primary;
   }
 }
 
+// Round blue "+" button - exactly like MAX header
 .new-chat-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: $primary-accent;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: $spacing-sm;
-  margin: $spacing-md;
-  padding: $spacing-md;
-  background-color: $primary-green;
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: $radius-md;
   transition: background-color $transition-fast;
+  flex-shrink: 0;
 
   &:hover {
-    background-color: $primary-green-dark;
+    background-color: $primary-accent-dark;
+  }
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin: $spacing-sm $spacing-md;
+  padding: $spacing-sm $spacing-md;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: $radius-md;
+  color: $text-muted;
+  font-size: 14px;
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.6;
   }
 }
 
@@ -85,19 +138,17 @@
 
 .no-chats {
   text-align: center;
-  padding: $spacing-xl;
+  padding: $spacing-xl $spacing-md;
   color: $text-secondary;
 
   p {
-    margin-bottom: $spacing-sm;
-    
-    &:first-child {
-      font-size: 16px;
-      color: $text-primary;
-    }
+    font-size: 14px;
+    margin-bottom: $spacing-xs;
 
-    &:last-child {
-      font-size: 14px;
+    &:first-child {
+      font-size: 15px;
+      color: $text-primary;
+      margin-bottom: $spacing-sm;
     }
   }
 }
@@ -105,32 +156,30 @@
 .chat-item {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
-  padding: $spacing-md;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
   cursor: pointer;
   transition: background-color $transition-fast;
-  border-bottom: 1px solid $border-color;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.04);
   }
 
   &.active {
-    background-color: rgba($primary-green, 0.1);
-    border-left: 3px solid $primary-green;
+    background-color: $primary-accent-light;
   }
 }
 
 .chat-avatar {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background-color: $border-color;
+  background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $text-primary;
-  font-weight: bold;
+  color: white;
+  font-weight: 600;
   font-size: 14px;
   flex-shrink: 0;
 }
@@ -140,17 +189,17 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: $spacing-xs;
+  gap: 2px;
 }
 
 .chat-name {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: $text-primary;
 }
 
 .chat-preview {
-  font-size: 13px;
+  font-size: 12px;
   color: $text-secondary;
   white-space: nowrap;
   overflow: hidden;

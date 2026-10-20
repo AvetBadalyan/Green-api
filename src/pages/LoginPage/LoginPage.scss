@@ -5,17 +5,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, $surface-dark 0%, $primary-dark 100%);
+  background-color: $chat-bg;
+  background-image: radial-gradient(ellipse 80% 60% at 50% 70%, rgba(80, 40, 160, 0.2) 0%, transparent 70%);
   padding: $spacing-md;
 }
 
 .login-container {
-  background-color: $secondary-dark;
+  background-color: $sidebar-bg;
   border-radius: $radius-lg;
   padding: $spacing-xl;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  max-width: 400px;
   border: 1px solid $border-color;
 }
 
@@ -28,14 +28,14 @@
     align-items: center;
     justify-content: center;
     gap: $spacing-sm;
-    margin-bottom: $spacing-md;
+    margin-bottom: $spacing-lg;
 
     .logo-icon {
-      width: 40px;
-      height: 40px;
-      background-color: $primary-green;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
       color: white;
-      border-radius: $radius-md;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -44,14 +44,15 @@
     }
 
     .logo-text {
-      font-size: 24px;
-      font-weight: bold;
-      color: $primary-green;
+      font-size: 20px;
+      font-weight: 600;
+      color: $text-primary;
     }
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 22px;
+    font-weight: 600;
     color: $text-primary;
     margin-bottom: $spacing-sm;
   }
@@ -74,73 +75,74 @@
   gap: $spacing-xs;
 
   label {
-    font-size: 14px;
+    font-size: 13px;
     color: $text-secondary;
     font-weight: 500;
   }
 
   input {
-    padding: $spacing-md;
-    background-color: $surface-dark;
+    padding: $spacing-sm $spacing-md;
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid $border-color;
     border-radius: $radius-md;
     color: $text-primary;
-    font-size: 16px;
+    font-size: 15px;
+    height: 44px;
     transition: border-color $transition-fast;
 
     &::placeholder {
-      color: $text-secondary;
+      color: $text-muted;
     }
 
     &:focus {
-      border-color: $primary-green;
+      border-color: rgba($primary-accent, 0.6);
     }
 
     &:disabled {
-      opacity: 0.6;
+      opacity: 0.5;
     }
   }
 }
 
 .error-message {
-  background-color: rgba(255, 82, 82, 0.1);
-  border: 1px solid rgba(255, 82, 82, 0.3);
-  color: #ff5252;
+  background-color: rgba(255, 82, 82, 0.08);
+  border: 1px solid rgba(255, 82, 82, 0.25);
+  color: #ff6b6b;
   padding: $spacing-sm $spacing-md;
   border-radius: $radius-md;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .login-button {
-  padding: $spacing-md;
-  background-color: $primary-green;
+  height: 44px;
+  background-color: $primary-accent;
   color: white;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 500;
   border-radius: $radius-md;
   transition: background-color $transition-fast;
   margin-top: $spacing-sm;
 
   &:hover:not(:disabled) {
-    background-color: $primary-green-dark;
+    background-color: $primary-accent-dark;
   }
 
   &:disabled {
-    background-color: $text-secondary;
+    background-color: rgba($primary-accent, 0.4);
   }
 }
 
 .login-footer {
-  margin-top: $spacing-xl;
+  margin-top: $spacing-lg;
   text-align: center;
 
   p {
     color: $text-secondary;
-    font-size: 14px;
+    font-size: 13px;
 
     a {
-      color: $primary-green;
-      
+      color: $primary-accent;
+
       &:hover {
         text-decoration: underline;
       }
