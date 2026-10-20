@@ -92,8 +92,9 @@
   gap: 3px;
   transition: all $transition-fast;
   font-size: 10px;
+  cursor: pointer;
 
-  &:hover {
+  &:hover:not(:disabled) {
     color: $text-primary;
     background-color: rgba(255, 255, 255, 0.06);
   }
@@ -103,13 +104,9 @@
   }
 
   &:disabled {
-    opacity: 0.35;
-    cursor: default;
-
-    &:hover {
-      background-color: transparent;
-      color: $text-secondary;
-    }
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 }
 
