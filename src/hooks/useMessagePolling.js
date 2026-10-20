@@ -15,11 +15,15 @@ function useMessagePolling() {
   const { credentials } = useAuth();
   const { receiveMessage } = useChat();
   const pollingRef = useRef(null);
+  const isPollingRef = useRef(false); // prevents concurrent poll calls
 
   useEffect(() => {
     if (!credentials) return;
 
     const pollOnce = async () => {
+      if (isPollingRef.current) return; // already polling, skip this tick
+      isPollingRef.current = true;
+
       try {
         const notification = await receiveNotification(credentials);
 
@@ -45,6 +49,8 @@ function useMessagePolling() {
         await deleteNotification(credentials, receiptId);
       } catch (err) {
         console.error('Polling error:', err);
+      } finally {
+        isPollingRef.current = false; // release the lock
       }
     };
 
