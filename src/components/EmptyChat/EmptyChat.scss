@@ -1,0 +1,38 @@
+@use '../../styles/variables.scss' as *;
+
+.empty-chat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $chat-bg;
+}
+
+.empty-chat-content {
+  text-align: center;
+  color: $text-secondary;
+
+  .logo-icon {
+    width: 80px;
+    height: 80px;
+    background-color: $primary-green;
+    color: white;
+    border-radius: $radius-lg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 40px;
+    margin: 0 auto $spacing-lg;
+  }
+
+  h2 {
+    font-size: 24px;
+    color: $text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}

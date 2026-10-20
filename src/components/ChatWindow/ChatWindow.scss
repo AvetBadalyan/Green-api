@@ -1,0 +1,115 @@
+@use '../../styles/variables.scss' as *;
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $chat-bg;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background-color: $primary-dark;
+  border-bottom: 1px solid $border-color;
+
+  .chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $border-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-primary;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .chat-header-info {
+    flex: 1;
+  }
+
+  .chat-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: $text-primary;
+  }
+}
+
+.chat-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-sm $spacing-md;
+  background-color: rgba(255, 82, 82, 0.1);
+  color: #ff5252;
+  font-size: 14px;
+
+  button {
+    background: transparent;
+    color: inherit;
+    font-size: 16px;
+    padding: $spacing-xs;
+  }
+}
+
+.chat-input-area {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background-color: $primary-dark;
+  border-top: 1px solid $border-color;
+
+  input {
+    flex: 1;
+    padding: $spacing-md;
+    background-color: $secondary-dark;
+    border: 1px solid $border-color;
+    border-radius: $radius-lg;
+    color: $text-primary;
+    font-size: 15px;
+    transition: border-color $transition-fast;
+
+    &::placeholder {
+      color: $text-secondary;
+    }
+
+    &:focus {
+      border-color: $primary-green;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+
+  button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: $primary-green;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-fast;
+
+    &:hover:not(:disabled) {
+      background-color: $primary-green-dark;
+    }
+
+    &:disabled {
+      background-color: $border-color;
+      color: $text-secondary;
+    }
+
+    .loading {
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+  }
+}
