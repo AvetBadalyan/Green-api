@@ -1,0 +1,149 @@
+@use '../../styles/variables.scss' as *;
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $surface-dark 0%, $primary-dark 100%);
+  padding: $spacing-md;
+}
+
+.login-container {
+  background-color: $secondary-dark;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  border: 1px solid $border-color;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background-color: $primary-green;
+      color: white;
+      border-radius: $radius-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: $primary-green;
+    }
+  }
+
+  h1 {
+    font-size: 24px;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  p {
+    color: $text-secondary;
+    font-size: 14px;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  label {
+    font-size: 14px;
+    color: $text-secondary;
+    font-weight: 500;
+  }
+
+  input {
+    padding: $spacing-md;
+    background-color: $surface-dark;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    color: $text-primary;
+    font-size: 16px;
+    transition: border-color $transition-fast;
+
+    &::placeholder {
+      color: $text-secondary;
+    }
+
+    &:focus {
+      border-color: $primary-green;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+}
+
+.error-message {
+  background-color: rgba(255, 82, 82, 0.1);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+  color: #ff5252;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-size: 14px;
+}
+
+.login-button {
+  padding: $spacing-md;
+  background-color: $primary-green;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: $radius-md;
+  transition: background-color $transition-fast;
+  margin-top: $spacing-sm;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-green-dark;
+  }
+
+  &:disabled {
+    background-color: $text-secondary;
+  }
+}
+
+.login-footer {
+  margin-top: $spacing-xl;
+  text-align: center;
+
+  p {
+    color: $text-secondary;
+    font-size: 14px;
+
+    a {
+      color: $primary-green;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
