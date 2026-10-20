@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useChat } from '../../context/ChatContext';
 import './NewChatModal.scss';
 
+const MIN_PHONE_LENGTH = 11; // Minimum digits including country code
+
 function NewChatModal({ onClose }) {
   const { createChat } = useChat();
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -18,8 +20,8 @@ function NewChatModal({ onClose }) {
       return;
     }
 
-    if (cleanPhone.length < 10) {
-      setError('Please enter a valid phone number with country code');
+    if (cleanPhone.length < MIN_PHONE_LENGTH) {
+      setError(`Phone number must include country code (at least ${MIN_PHONE_LENGTH} digits)`);
       return;
     }
 
@@ -28,39 +30,44 @@ function NewChatModal({ onClose }) {
   };
 
   const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
+    if (e.target === e.currentTarget) onClose();
   };
 
   return (
-    <div className="modal-backdrop" onClick={handleBackdropClick}>
+    <div
+      className="modal-backdrop"
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
       <div className="modal">
         <div className="modal-header">
-          <h2>New Chat</h2>
-          <button className="close-btn" onClick={onClose}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <h2 id="modal-title">New Chat</h2>
+          <button className="close-btn" onClick={onClose} aria-label="Close modal">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
 
-        <form className="modal-form" onSubmit={handleSubmit}>
+        <form className="modal-form" onSubmit={handleSubmit} noValidate>
           <div className="form-group">
             <label htmlFor="phoneNumber">Phone Number</label>
             <input
               type="tel"
               id="phoneNumber"
               value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="e.g., 79001234567"
+              onChange={(e) => { setPhoneNumber(e.target.value); setError(''); }}
+              placeholder="e.g. 79001234567"
               autoFocus
+              autoComplete="tel"
             />
-            <span className="hint">Enter phone number with country code (without + or spaces)</span>
+            <span className="hint">Include country code, digits only (e.g. 79001234567)</span>
           </div>
 
-          {error && <div className="error-message">{error}</div>}
+          {error && <p className="error-message" role="alert">{error}</p>}
 
           <div className="modal-actions">
             <button type="button" className="cancel-btn" onClick={onClose}>

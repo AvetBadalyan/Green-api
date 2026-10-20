@@ -22,12 +22,14 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      // Verify credentials by making a test API call
       await getSettings({ idInstance: idInstance.trim(), apiTokenInstance: apiTokenInstance.trim() });
       login(idInstance.trim(), apiTokenInstance.trim());
     } catch (err) {
-      console.error('Login error:', err);
-      setError('Invalid credentials or connection error. Please check your Instance ID and API Token.');
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Invalid credentials. Please check your Instance ID and API Token.');
+      } else {
+        setError('Connection error. Please check your credentials and try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -38,48 +40,52 @@ function LoginPage() {
       <div className="login-container">
         <div className="login-header">
           <div className="logo">
-            <span className="logo-icon">G</span>
+            <div className="logo-icon">G</div>
             <span className="logo-text">GREEN-API</span>
           </div>
-          <h1>Welcome to MAX Chat</h1>
+          <h1>Sign in</h1>
           <p>Enter your GREEN-API credentials to start messaging</p>
         </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit} noValidate>
           <div className="form-group">
-            <label htmlFor="idInstance">Instance ID (idInstance)</label>
+            <label htmlFor="idInstance">Instance ID</label>
             <input
               type="text"
               id="idInstance"
               value={idInstance}
-              onChange={(e) => setIdInstance(e.target.value)}
-              placeholder="Enter your Instance ID"
+              onChange={(e) => { setIdInstance(e.target.value); setError(''); }}
+              placeholder="e.g. 1101234567"
+              autoComplete="username"
+              required
               disabled={loading}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="apiTokenInstance">API Token (apiTokenInstance)</label>
+            <label htmlFor="apiTokenInstance">API Token</label>
             <input
               type="password"
               id="apiTokenInstance"
               value={apiTokenInstance}
-              onChange={(e) => setApiTokenInstance(e.target.value)}
-              placeholder="Enter your API Token"
+              onChange={(e) => { setApiTokenInstance(e.target.value); setError(''); }}
+              placeholder="Your API token"
+              autoComplete="current-password"
+              required
               disabled={loading}
             />
           </div>
 
-          {error && <div className="error-message">{error}</div>}
+          {error && <p className="error-message" role="alert">{error}</p>}
 
           <button type="submit" className="login-button" disabled={loading}>
-            {loading ? 'Connecting...' : 'Login'}
+            {loading ? 'Connecting...' : 'Sign in'}
           </button>
         </form>
 
         <div className="login-footer">
           <p>
-            Don't have credentials?{' '}
+            No credentials?{' '}
             <a href="https://console.green-api.com/" target="_blank" rel="noopener noreferrer">
               Get them at GREEN-API Console
             </a>
