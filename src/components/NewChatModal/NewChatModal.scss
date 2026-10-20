@@ -1,0 +1,142 @@
+@use '../../styles/variables.scss' as *;
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: $spacing-md;
+}
+
+.modal {
+  background-color: $secondary-dark;
+  border-radius: $radius-lg;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid $border-color;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-lg;
+  border-bottom: 1px solid $border-color;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  .close-btn {
+    background: transparent;
+    color: $text-secondary;
+    padding: $spacing-xs;
+    border-radius: $radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: $text-primary;
+    }
+  }
+}
+
+.modal-form {
+  padding: $spacing-lg;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+
+  label {
+    font-size: 14px;
+    color: $text-secondary;
+    font-weight: 500;
+  }
+
+  input {
+    padding: $spacing-md;
+    background-color: $surface-dark;
+    border: 1px solid $border-color;
+    border-radius: $radius-md;
+    color: $text-primary;
+    font-size: 16px;
+    transition: border-color $transition-fast;
+
+    &::placeholder {
+      color: $text-secondary;
+    }
+
+    &:focus {
+      border-color: $primary-green;
+    }
+  }
+
+  .hint {
+    font-size: 12px;
+    color: $text-secondary;
+  }
+}
+
+.error-message {
+  background-color: rgba(255, 82, 82, 0.1);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+  color: #ff5252;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-size: 14px;
+  margin-bottom: $spacing-md;
+}
+
+.modal-actions {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: flex-end;
+  margin-top: $spacing-lg;
+}
+
+.cancel-btn {
+  padding: $spacing-sm $spacing-lg;
+  background-color: transparent;
+  color: $text-secondary;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: $radius-md;
+  border: 1px solid $border-color;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: $text-primary;
+  }
+}
+
+.submit-btn {
+  padding: $spacing-sm $spacing-lg;
+  background-color: $primary-green;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: $radius-md;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $primary-green-dark;
+  }
+}
