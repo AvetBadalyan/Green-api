@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
@@ -6,8 +6,12 @@ const STORAGE_KEY = 'greenapi_credentials';
 
 export function AuthProvider({ children }) {
   const [credentials, setCredentials] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
   });
 
   const isAuthenticated = Boolean(credentials?.idInstance && credentials?.apiTokenInstance);
@@ -21,6 +25,7 @@ export function AuthProvider({ children }) {
   const logout = () => {
     setCredentials(null);
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('greenapi_chats');
   };
 
   const value = {

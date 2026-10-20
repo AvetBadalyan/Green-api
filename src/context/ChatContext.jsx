@@ -6,28 +6,42 @@ const CHATS_STORAGE_KEY = 'greenapi_chats';
 
 export function ChatProvider({ children }) {
   const [chats, setChats] = useState(() => {
-    const saved = localStorage.getItem(CHATS_STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem(CHATS_STORAGE_KEY);
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
   });
-  const [activeChat, setActiveChat] = useState(null);
 
-  const saveChats = (newChats) => {
-    setChats(newChats);
-    localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(newChats));
+  // Store only the active chat ID, derive the full object from chats array.
+  // This ensures activeChat is always in sync with chats state.
+  const [activeChatId, setActiveChatId] = useState(null);
+  const activeChat = chats.find((c) => c.id === activeChatId) ?? null;
+
+  const saveChats = (updatedChats) => {
+    setChats(updatedChats);
+    try {
+      localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
+    } catch (err) {
+      console.error('Failed to save chats to localStorage:', err);
+    }
+  };
+
+  const setActiveChat = (chat) => {
+    setActiveChatId(chat ? chat.id : null);
   };
 
   const createChat = (phoneNumber) => {
-    // Format phone number - remove any non-digits
     const cleanPhone = phoneNumber.replace(/\D/g, '');
-    
-    // Check if chat already exists
-    const existingChat = chats.find(chat => chat.phoneNumber === cleanPhone);
+
+    // Reuse existing chat if phone number already exists
+    const existingChat = chats.find((chat) => chat.phoneNumber === cleanPhone);
     if (existingChat) {
-      setActiveChat(existingChat);
+      setActiveChatId(existingChat.id);
       return existingChat;
     }
 
-    // Create new chat
     const newChat = {
       id: Date.now().toString(),
       phoneNumber: cleanPhone,
@@ -37,33 +51,33 @@ export function ChatProvider({ children }) {
 
     const updatedChats = [newChat, ...chats];
     saveChats(updatedChats);
-    setActiveChat(newChat);
+    setActiveChatId(newChat.id);
     return newChat;
   };
 
   const addMessage = (chatId, message) => {
-    const updatedChats = chats.map(chat => {
-      if (chat.id === chatId) {
-        const updatedChat = {
-          ...chat,
-          messages: [...chat.messages, message],
-        };
-        // Update active chat if it's the current one
-        if (activeChat?.id === chatId) {
-          setActiveChat(updatedChat);
-        }
-        return updatedChat;
+    // Use functional updater to avoid stale closure issues
+    setChats((prevChats) => {
+      const updatedChats = prevChats.map((chat) => {
+        if (chat.id !== chatId) return chat;
+        return { ...chat, messages: [...chat.messages, message] };
+      });
+
+      try {
+        localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
+      } catch (err) {
+        console.error('Failed to save chats to localStorage:', err);
       }
-      return chat;
+
+      return updatedChats;
     });
-    saveChats(updatedChats);
   };
 
   const deleteChat = (chatId) => {
-    const updatedChats = chats.filter(chat => chat.id !== chatId);
+    const updatedChats = chats.filter((chat) => chat.id !== chatId);
     saveChats(updatedChats);
-    if (activeChat?.id === chatId) {
-      setActiveChat(null);
+    if (activeChatId === chatId) {
+      setActiveChatId(null);
     }
   };
 

@@ -1,4 +1,3 @@
-import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ChatWindow from '../../components/ChatWindow/ChatWindow';

@@ -1,64 +1,67 @@
 import axios from 'axios';
 
 const API_BASE_URL = 'https://api.green-api.com';
+const REQUEST_TIMEOUT_MS = 15000;
 
 /**
- * Create axios instance with credentials
+ * Create a configured axios instance for a given instance.
+ * A single instance is created per credentials object.
  */
-const createApiInstance = (idInstance, apiTokenInstance) => {
+const createApiInstance = (idInstance) => {
   return axios.create({
     baseURL: `${API_BASE_URL}/waInstance${idInstance}`,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
+    timeout: REQUEST_TIMEOUT_MS,
   });
 };
 
 /**
- * Send a text message
- * https://green-api.com/v3/docs/api/sending/SendMessage/
+ * Send a text message to a WhatsApp number.
+ * Docs: https://green-api.com/v3/docs/api/sending/SendMessage/
  */
 export const sendMessage = async (credentials, phoneNumber, message) => {
   const { idInstance, apiTokenInstance } = credentials;
-  const api = createApiInstance(idInstance, apiTokenInstance);
+  const api = createApiInstance(idInstance);
 
   const response = await api.post(`/sendMessage/${apiTokenInstance}`, {
     chatId: `${phoneNumber}@c.us`,
-    message: message,
+    message,
   });
 
   return response.data;
 };
 
 /**
- * Receive incoming notification
- * https://green-api.com/v3/docs/api/receiving/technology-http-api/
+ * Receive one incoming notification from the queue.
+ * Returns null when the queue is empty.
+ * Docs: https://green-api.com/v3/docs/api/receiving/technology-http-api/
  */
 export const receiveNotification = async (credentials) => {
   const { idInstance, apiTokenInstance } = credentials;
-  const api = createApiInstance(idInstance, apiTokenInstance);
+  const api = createApiInstance(idInstance);
 
   const response = await api.get(`/receiveNotification/${apiTokenInstance}`);
   return response.data;
 };
 
 /**
- * Delete notification after processing
+ * Delete a processed notification from the queue by its receipt ID.
+ * Must be called after every receiveNotification to advance the queue.
  */
 export const deleteNotification = async (credentials, receiptId) => {
   const { idInstance, apiTokenInstance } = credentials;
-  const api = createApiInstance(idInstance, apiTokenInstance);
+  const api = createApiInstance(idInstance);
 
   const response = await api.delete(`/deleteNotification/${apiTokenInstance}/${receiptId}`);
   return response.data;
 };
 
 /**
- * Get account settings / check if instance is authorized
+ * Get instance settings — used to verify credentials on login.
  */
 export const getSettings = async (credentials) => {
   const { idInstance, apiTokenInstance } = credentials;
-  const api = createApiInstance(idInstance, apiTokenInstance);
+  const api = createApiInstance(idInstance);
 
   const response = await api.get(`/getSettings/${apiTokenInstance}`);
   return response.data;
