@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { sendMessage } from '../../services/api';
@@ -11,7 +11,6 @@ function ChatWindow() {
   const [inputText, setInputText] = useState('');
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
-  const pollingRef = useRef(null);
 
   const handleSend = async (e) => {
     e.preventDefault();

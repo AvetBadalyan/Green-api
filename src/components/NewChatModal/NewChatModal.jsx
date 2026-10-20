@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useChat } from '../../context/ChatContext';
 import './NewChatModal.scss';
 
@@ -9,10 +9,52 @@ function NewChatModal({ onClose }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
 
+  const modalRef = useRef(null);
+  const phoneInputRef = useRef(null);
+
+  // Focus trap and Escape key handling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      // Focus trap - Tab key
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Focus the input on mount
+    if (phoneInputRef.current) {
+      phoneInputRef.current.focus();
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
 
+    // Basic validation - createChat() will sanitize the number
     const cleanPhone = phoneNumber.replace(/\D/g, '');
 
     if (!cleanPhone) {
@@ -25,7 +67,8 @@ function NewChatModal({ onClose }) {
       return;
     }
 
-    createChat(cleanPhone);
+    // Pass unsanitized - createChat handles sanitization
+    createChat(phoneNumber);
     onClose();
   };
 
@@ -34,14 +77,14 @@ function NewChatModal({ onClose }) {
   };
 
   return (
-    <div
-      className="modal-backdrop"
-      onClick={handleBackdropClick}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
-    >
-      <div className="modal">
+    <div className="modal-backdrop" onClick={handleBackdropClick}>
+      <div
+        ref={modalRef}
+        className="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
         <div className="modal-header">
           <h2 id="modal-title">New Chat</h2>
           <button className="close-btn" onClick={onClose} aria-label="Close modal">
@@ -56,12 +99,12 @@ function NewChatModal({ onClose }) {
           <div className="form-group">
             <label htmlFor="phoneNumber">Phone Number</label>
             <input
+              ref={phoneInputRef}
               type="tel"
               id="phoneNumber"
               value={phoneNumber}
               onChange={(e) => { setPhoneNumber(e.target.value); setError(''); }}
               placeholder="e.g. 79001234567"
-              autoFocus
               autoComplete="tel"
             />
             <span className="hint">Include country code, digits only (e.g. 79001234567)</span>

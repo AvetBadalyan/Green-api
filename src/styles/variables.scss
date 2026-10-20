@@ -12,7 +12,7 @@ $header-bg: #111122;             // Header/footer bars
 
 $text-primary: #ffffff;          // White text
 $text-secondary: #888899;        // Muted gray-purple text
-$text-muted: #4a4a6a;            // Very muted, placeholders
+$text-muted: #8888a8;            // Lighter muted for WCAG AA compliance (4.5:1 on dark bg)
 
 $border-color: #1e1e35;          // Subtle border between panels
 
@@ -46,3 +46,21 @@ $radius-xl: 18px;
 // Transitions
 $transition-fast: 0.15s ease;
 $transition-normal: 0.25s ease;
+
+// Responsive breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// Responsive mixin
+@mixin mobile {
+  @media (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin tablet-up {
+  @media (min-width: $breakpoint-tablet + 1) {
+    @content;
+  }
+}

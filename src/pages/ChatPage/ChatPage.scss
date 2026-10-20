@@ -5,6 +5,10 @@
   height: 100vh;
   overflow: hidden;
   background-color: $chat-bg;
+  // Mobile: stack sidebar above chat
+  @include mobile {
+    flex-direction: column;
+  }
 }
 
 .chat-main {
@@ -13,4 +17,10 @@
   flex-direction: column;
   overflow: hidden;
   min-width: 0;
+
+  // Mobile: take remaining height
+  @include mobile {
+    flex: 1;
+    min-height: 0;
+  }
 }

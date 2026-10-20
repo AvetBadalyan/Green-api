@@ -4,6 +4,19 @@
   display: flex;
   height: 100vh;
   flex-shrink: 0;
+
+  // Mobile: horizontal layout at bottom
+  @include mobile {
+    height: auto;
+    flex-direction: column-reverse;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    max-height: 70vh;
+    border-top: 1px solid $border-color;
+  }
 }
 
 // Narrow icon-only left nav - exactly like MAX web left bar
@@ -16,11 +29,27 @@
   align-items: center;
   padding: $spacing-md 0;
 
+  // Mobile: horizontal bar at bottom
+  @include mobile {
+    width: 100%;
+    height: 52px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0 $spacing-md;
+    border-right: none;
+    border-top: 1px solid $border-color;
+  }
+
   .icon-nav-logo {
     margin-bottom: $spacing-lg;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: $primary-accent;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   .icon-nav-items {
@@ -29,11 +58,23 @@
     align-items: center;
     gap: 2px;
     flex: 1;
+
+    @include mobile {
+      flex-direction: row;
+      gap: $spacing-md;
+      flex: none;
+    }
   }
 
   .nav-logout {
     margin-top: auto;
     padding-bottom: $spacing-sm;
+
+    @include mobile {
+      margin-top: 0;
+      margin-left: auto;
+      padding-bottom: 0;
+    }
   }
 }
 
@@ -80,6 +121,15 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+
+  // Mobile: full width, collapsible
+  @include mobile {
+    width: 100%;
+    height: auto;
+    max-height: calc(70vh - 52px);
+    border-right: none;
+    border-bottom: 1px solid $border-color;
+  }
 }
 
 .chat-panel-header {
@@ -89,7 +139,7 @@
   padding: $spacing-md;
   border-bottom: 1px solid $border-color;
 
-  h2 {
+  h1 {
     font-size: 18px;
     font-weight: 600;
     color: $text-primary;
@@ -114,6 +164,7 @@
   }
 }
 
+// Search bar - visual placeholder only (not functional), F-12
 .search-bar {
   display: flex;
   align-items: center;
@@ -124,6 +175,9 @@
   border-radius: $radius-md;
   color: $text-muted;
   font-size: 14px;
+  cursor: default;
+  opacity: 0.5;
+  user-select: none;
 
   svg {
     flex-shrink: 0;
@@ -134,6 +188,10 @@
 .chat-list {
   flex: 1;
   overflow-y: auto;
+
+  @include mobile {
+    max-height: 200px;
+  }
 }
 
 .no-chats {
@@ -182,6 +240,12 @@
   font-weight: 600;
   font-size: 14px;
   flex-shrink: 0;
+
+  @include mobile {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
 }
 
 .chat-info {

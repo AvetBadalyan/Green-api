@@ -1,82 +1,79 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
 
 const ChatContext = createContext(null);
 
 const CHATS_STORAGE_KEY = 'greenapi_chats';
 
-export function ChatProvider({ children }) {
-  const [chats, setChats] = useState(() => {
-    try {
-      const saved = localStorage.getItem(CHATS_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+function loadChatsFromStorage() {
+  try {
+    const saved = localStorage.getItem(CHATS_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch {
+    return [];
+  }
+}
+
+function persistChats(updatedChats) {
+  try {
+    localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
+  } catch (err) {
+    console.error('Failed to save chats to localStorage:', err);
+  }
+}
+
+export function ChatProvider({ children, onMount }) {
+  const [chats, setChats] = useState(loadChatsFromStorage);
 
   // Store only the active chat ID, derive the full object from chats array.
-  // This ensures activeChat is always in sync with chats state.
   const [activeChatId, setActiveChatId] = useState(null);
-  const activeChat = chats.find((c) => c.id === activeChatId) ?? null;
+  const activeChat = useMemo(
+    () => chats.find((c) => c.id === activeChatId) ?? null,
+    [chats, activeChatId]
+  );
 
-  // Persist chats to localStorage. Shared by all chat mutations.
-  const persistChats = (updatedChats) => {
-    try {
-      localStorage.setItem(CHATS_STORAGE_KEY, JSON.stringify(updatedChats));
-    } catch (err) {
-      console.error('Failed to save chats to localStorage:', err);
-    }
-  };
-
-  const saveChats = (updatedChats) => {
-    setChats(updatedChats);
-    persistChats(updatedChats);
-  };
-
-  const setActiveChat = (chat) => {
+  const setActiveChat = useCallback((chat) => {
     setActiveChatId(chat ? chat.id : null);
-  };
+  }, []);
 
-  const createChat = (phoneNumber) => {
+  const createChat = useCallback((phoneNumber) => {
     const cleanPhone = phoneNumber.replace(/\D/g, '');
 
-    // Reuse existing chat if phone number already exists
-    const existingChat = chats.find((chat) => chat.phoneNumber === cleanPhone);
-    if (existingChat) {
-      setActiveChatId(existingChat.id);
-      return existingChat;
-    }
+    setChats((prevChats) => {
+      // Reuse existing chat if phone number already exists
+      const existingChat = prevChats.find((chat) => chat.phoneNumber === cleanPhone);
+      if (existingChat) {
+        setActiveChatId(existingChat.id);
+        return prevChats;
+      }
 
-    const newChat = {
-      id: Date.now().toString(),
-      phoneNumber: cleanPhone,
-      messages: [],
-      createdAt: new Date().toISOString(),
-    };
+      const newChat = {
+        id: Date.now().toString(),
+        phoneNumber: cleanPhone,
+        messages: [],
+        createdAt: new Date().toISOString(),
+      };
 
-    const updatedChats = [newChat, ...chats];
-    saveChats(updatedChats);
-    setActiveChatId(newChat.id);
-    return newChat;
-  };
+      const updatedChats = [newChat, ...prevChats];
+      persistChats(updatedChats);
+      setActiveChatId(newChat.id);
+      return updatedChats;
+    });
+  }, []);
 
-  const addMessage = (chatId, message) => {
-    // Use functional updater to avoid stale closure issues
+  const addMessage = useCallback((chatId, message) => {
     setChats((prevChats) => {
       const updatedChats = prevChats.map((chat) => {
         if (chat.id !== chatId) return chat;
         return { ...chat, messages: [...chat.messages, message] };
       });
-
       persistChats(updatedChats);
       return updatedChats;
     });
-  };
+  }, []);
 
   // Handle an inbound message by phone number: append it to the matching chat,
   // or create a new chat if the sender is not yet in the list.
-  // This mirrors how real messengers surface conversations from new contacts.
-  const receiveMessage = (phoneNumber, message) => {
+  const receiveMessage = useCallback((phoneNumber, message) => {
     setChats((prevChats) => {
       const existingChat = prevChats.find((c) => c.phoneNumber === phoneNumber);
 
@@ -100,25 +97,47 @@ export function ChatProvider({ children }) {
       persistChats(updatedChats);
       return updatedChats;
     });
-  };
+  }, []);
 
-  const deleteChat = (chatId) => {
-    const updatedChats = chats.filter((chat) => chat.id !== chatId);
-    saveChats(updatedChats);
-    if (activeChatId === chatId) {
-      setActiveChatId(null);
+  const deleteChat = useCallback((chatId) => {
+    setChats((prevChats) => {
+      const updatedChats = prevChats.filter((chat) => chat.id !== chatId);
+      persistChats(updatedChats);
+      return updatedChats;
+    });
+    setActiveChatId((prevId) => (prevId === chatId ? null : prevId));
+  }, []);
+
+  // Reset all chat state (called on logout)
+  const resetChats = useCallback(() => {
+    setChats([]);
+    setActiveChatId(null);
+    try {
+      localStorage.removeItem(CHATS_STORAGE_KEY);
+    } catch {}
+  }, []);
+
+  // Register resetChats with parent on mount
+  useEffect(() => {
+    if (onMount) {
+      onMount(resetChats);
     }
-  };
+  }, [onMount, resetChats]);
 
-  const value = {
-    chats,
-    activeChat,
-    setActiveChat,
-    createChat,
-    addMessage,
-    receiveMessage,
-    deleteChat,
-  };
+  // Memoize context value to prevent unnecessary re-renders
+  const value = useMemo(
+    () => ({
+      chats,
+      activeChat,
+      setActiveChat,
+      createChat,
+      addMessage,
+      receiveMessage,
+      deleteChat,
+      resetChats,
+    }),
+    [chats, activeChat, setActiveChat, createChat, addMessage, receiveMessage, deleteChat, resetChats]
+  );
 
   return (
     <ChatContext.Provider value={value}>

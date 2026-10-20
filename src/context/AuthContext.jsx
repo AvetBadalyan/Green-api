@@ -1,10 +1,10 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo, useCallback } from 'react';
 
 const AuthContext = createContext(null);
 
 const STORAGE_KEY = 'greenapi_credentials';
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children, onLogout }) {
   const [credentials, setCredentials] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -16,24 +16,28 @@ export function AuthProvider({ children }) {
 
   const isAuthenticated = Boolean(credentials?.idInstance && credentials?.apiTokenInstance);
 
-  const login = (idInstance, apiTokenInstance) => {
+  const login = useCallback((idInstance, apiTokenInstance) => {
     const newCredentials = { idInstance, apiTokenInstance };
     setCredentials(newCredentials);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newCredentials));
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setCredentials(null);
     localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem('greenapi_chats');
-  };
+    // Call the callback to reset chats in ChatContext
+    if (onLogout) onLogout();
+  }, [onLogout]);
 
-  const value = {
-    credentials,
-    isAuthenticated,
-    login,
-    logout,
-  };
+  const value = useMemo(
+    () => ({
+      credentials,
+      isAuthenticated,
+      login,
+      logout,
+    }),
+    [credentials, isAuthenticated, login, logout]
+  );
 
   return (
     <AuthContext.Provider value={value}>

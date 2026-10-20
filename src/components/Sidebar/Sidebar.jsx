@@ -30,8 +30,8 @@ function Sidebar() {
       <nav className="icon-nav" aria-label="Main navigation">
         <div className="icon-nav-logo" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" fill="#1877f2" opacity="0.2" />
-            <circle cx="12" cy="12" r="6" fill="#1877f2" />
+            <circle cx="12" cy="12" r="10" fill="currentColor" className="logo-outer" opacity="0.2" />
+            <circle cx="12" cy="12" r="6" fill="currentColor" className="logo-inner" />
           </svg>
         </div>
 
@@ -70,7 +70,7 @@ function Sidebar() {
       {/* Chat list panel */}
       <div className="chat-panel">
         <div className="chat-panel-header">
-          <h2>Chats</h2>
+          <h1>Chats</h1>
           <button
             className="new-chat-btn"
             onClick={() => setShowNewChat(true)}
@@ -106,7 +106,12 @@ function Sidebar() {
                 onClick={() => setActiveChat(chat)}
                 role="listitem"
                 tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && setActiveChat(chat)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveChat(chat);
+                  }
+                }}
                 aria-selected={activeChat?.id === chat.id}
               >
                 <div className="chat-avatar" aria-hidden="true">

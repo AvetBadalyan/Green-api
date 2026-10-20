@@ -9,6 +9,13 @@
   background-image:
     radial-gradient(ellipse 60% 40% at 15% 80%, rgba(24, 119, 242, 0.04) 0%, transparent 60%),
     radial-gradient(ellipse 40% 50% at 85% 20%, rgba(100, 50, 200, 0.05) 0%, transparent 60%);
+
+  // Mobile: adjust height to account for bottom nav
+  @include mobile {
+    height: auto;
+    flex: 1;
+    min-height: 0;
+  }
 }
 
 .chat-header {
@@ -19,6 +26,12 @@
   background-color: $header-bg;
   border-bottom: 1px solid $border-color;
   height: 56px;
+  flex-shrink: 0;
+
+  @include mobile {
+    padding: $spacing-sm $spacing-md;
+    height: 48px;
+  }
 
   .chat-avatar {
     width: 36px;
@@ -31,6 +44,12 @@
     color: $text-primary;
     font-weight: 600;
     font-size: 13px;
+
+    @include mobile {
+      width: 32px;
+      height: 32px;
+      font-size: 11px;
+    }
   }
 
   .chat-header-info {
@@ -42,6 +61,10 @@
     font-weight: 500;
     color: $text-primary;
     display: block;
+
+    @include mobile {
+      font-size: 14px;
+    }
   }
 }
 
@@ -50,10 +73,11 @@
   align-items: center;
   justify-content: space-between;
   padding: $spacing-sm $spacing-md;
-  background-color: rgba(255, 82, 82, 0.1);
-  color: #ff5252;
+  background-color: $error-bg;
+  color: $error-color;
   font-size: 13px;
-  border-bottom: 1px solid rgba(255, 82, 82, 0.2);
+  border-bottom: 1px solid $error-border;
+  flex-shrink: 0;
 
   button {
     background: transparent;
@@ -70,6 +94,11 @@
   padding: $spacing-sm $spacing-md;
   background-color: $header-bg;
   border-top: 1px solid $border-color;
+  flex-shrink: 0;
+
+  @include mobile {
+    padding: $spacing-sm $spacing-md $spacing-md;
+  }
 
   input {
     flex: 1;

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { receiveNotification, deleteNotification } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
@@ -11,11 +11,19 @@ const POLL_INTERVAL_MS = 5000;
  * or not a specific chat is open — this ensures messages from new
  * contacts are received and a conversation is created automatically.
  */
-function useMessagePolling() {
+export default function useMessagePolling() {
   const { credentials } = useAuth();
   const { receiveMessage } = useChat();
   const pollingRef = useRef(null);
   const isPollingRef = useRef(false); // prevents concurrent poll calls
+
+  // Memoize the receiveMessage call to satisfy exhaustive deps
+  const handleIncomingMessage = useCallback(
+    (senderPhone, message) => {
+      receiveMessage(senderPhone, message);
+    },
+    [receiveMessage]
+  );
 
   useEffect(() => {
     if (!credentials) return;
@@ -36,7 +44,7 @@ function useMessagePolling() {
           const textData = body.messageData?.textMessageData;
 
           if (senderPhone && textData?.textMessage) {
-            receiveMessage(senderPhone, {
+            handleIncomingMessage(senderPhone, {
               id: body.idMessage || Date.now().toString(),
               text: textData.textMessage,
               type: 'incoming',
@@ -58,7 +66,5 @@ function useMessagePolling() {
     pollingRef.current = setInterval(pollOnce, POLL_INTERVAL_MS);
 
     return () => clearInterval(pollingRef.current);
-  }, [credentials]);
+  }, [credentials, handleIncomingMessage]);
 }
-
-export default useMessagePolling;

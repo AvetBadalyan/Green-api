@@ -33,7 +33,7 @@ button {
   cursor: pointer;
   font-family: inherit;
   border: none;
-  outline: none;
+  background: transparent;
 
   &:disabled {
     cursor: not-allowed;
@@ -41,9 +41,18 @@ button {
   }
 }
 
+// Focus-visible ring for keyboard navigation (F-17)
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid $primary-accent;
+  outline-offset: 2px;
+}
+
 input, textarea {
   font-family: inherit;
-  outline: none;
 }
 
 ::-webkit-scrollbar {
