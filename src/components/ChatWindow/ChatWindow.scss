@@ -136,8 +136,10 @@
     transition: background-color $transition-fast;
     flex-shrink: 0;
 
-    &:hover:not(:disabled) {
-      background-color: $primary-accent-hover;
+    @media (hover: hover) {
+      &:hover:not(:disabled) {
+        background-color: $primary-accent-hover;
+      }
     }
 
     &:disabled {

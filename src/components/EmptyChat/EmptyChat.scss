@@ -52,7 +52,7 @@
 // MAX primary button — exact match to computed styles from web.max.ru
 .add-chats-btn {
   margin-top: $spacing-sm;
-  // Layout
+  // Layout — button is a flex column that centers its content span
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,28 +65,45 @@
   border: none;
   // Color
   background-color: $primary-accent;
-  color: #ffffff;
   cursor: pointer;
-  // Typography — matches MAX --font-action-large
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 20px;
-  letter-spacing: 0.15px;
-  font-family: inherit;
   // Interaction
-  transition: background-color $transition-fast;
   position: relative;
+  transition: background-color $transition-fast;
 
-  &:hover {
-    background-color: $primary-accent-hover;
+  // MAX uses @media (hover: hover) so hover doesn't stick on touch devices
+  @media (hover: hover) {
+    &:hover {
+      background-color: $primary-accent-hover;
+    }
   }
 
   &:active {
-    background-color: #005fcc;
+    background-color: $primary-accent-dark;
   }
 
   &:focus-visible {
     outline: 2px solid $primary-accent;
     outline-offset: 3px;
+  }
+
+  // Inner label span — matches MAX .content span computed styles
+  &__label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;          // space between optional icon + text
+    width: 100%;
+    min-width: 0;
+    height: 20px;      // matches line-height
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    // Typography — matches MAX --font-action-large
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.15px;
+    color: #ffffff;
+    font-family: inherit;
   }
 }

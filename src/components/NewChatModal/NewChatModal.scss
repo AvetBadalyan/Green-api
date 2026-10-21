@@ -131,7 +131,9 @@
   border-radius: $radius-md;
   transition: background-color $transition-fast;
 
-  &:hover {
-    background-color: $primary-accent-hover;
+  @media (hover: hover) {
+    &:hover {
+      background-color: $primary-accent-hover;
+    }
   }
 }

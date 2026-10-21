@@ -13,7 +13,7 @@ function EmptyChat({ onNewChat }) {
         <p>Choose a conversation or start a new one</p>
         {onNewChat && (
           <button className="add-chats-btn" onClick={onNewChat}>
-            Add chats
+            <span className="add-chats-btn__label">Add chats</span>
           </button>
         )}
       </div>
