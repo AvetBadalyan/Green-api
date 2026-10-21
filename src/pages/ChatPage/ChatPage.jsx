@@ -71,8 +71,9 @@ function ChatPage() {
   }, [activeChatId, activeMsgCount, markChatReadById]);
 
   // On narrow screens we show one pane at a time: the sidebar, or the open chat.
-  // A chat is "open" when activeChat is set, or when the Calls empty view is showing.
-  const chatPaneActive = Boolean(activeChat) || currentView === 'calls';
+  // Calls view stays in the sidebar pane on mobile (same as Contacts),
+  // so we only switch panes when an actual chat is open.
+  const chatPaneActive = Boolean(activeChat);
 
   return (
     <div className={`chat-page${chatPaneActive ? ' chat-page--chat-open' : ''}`}>
@@ -89,7 +90,7 @@ function ChatPage() {
             ? <ChatWindow />
             : currentView === 'calls'
               ? <CallsEmpty />
-              : null /* Chats/Contacts with nothing open → just the background, like MAX */}
+              : null /* no chat selected — background shows through */}
         </div>
       </main>
 

@@ -31,8 +31,7 @@ function getUnreadCount(chat) {
   ).length;
 }
 
-// ── Filled SVG icons matching MAX's solid icon style ─────────────────────────
-
+// Sidebar navigation icons (solid/filled style)
 const icons = {
   // Filled chat bubble (All chats)
   all: (
@@ -66,7 +65,6 @@ const icons = {
   ),
 };
 
-// Single nav button with filled icon + label
 function NavItem({ view, currentView, setCurrentView, label, icon, badge }) {
   const isActive = currentView === view;
   return (
@@ -105,10 +103,8 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
     if (currentView === 'new') setCurrentView('all');
   };
 
-  // Unread count across ALL chats for the "New" badge
-  const totalUnread = chats.reduce((sum, c) => sum + getUnreadCount(c), 0);
+  const totalUnread = chats.reduce((sum, chat) => sum + getUnreadCount(chat), 0);
 
-  // Filter logic
   const isChatsView = currentView === 'all' || currentView === 'new';
   const visibleChats = isChatsView
     ? chats
@@ -129,10 +125,8 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
   return (
     <div className="sidebar-wrapper">
 
-      {/* ── Left nav: 77px ── */}
       <nav className="icon-nav" aria-label="Main navigation">
 
-        {/* Top group: chat folder tabs */}
         <div className="nav-scroll">
           <NavItem
             view="all"
@@ -153,7 +147,6 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
 
         <div className="nav-separator" aria-hidden="true" />
 
-        {/* Bottom group: other sections */}
         <div className="nav-bottom">
           <NavItem
             view="contacts"
@@ -251,7 +244,6 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                         handleChatClick(chat);
                       }
                     }}
-                    aria-selected={activeChat?.id === chat.id}
                   >
                     <ChatAvatar
                       phoneNumber={chat.phoneNumber}

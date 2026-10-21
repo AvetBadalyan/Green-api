@@ -150,8 +150,8 @@ function ContactsPanel({ setCurrentView }) {
             key={contact.id}
             className="contact-item"
             onClick={() => handleContactClick(contact)}
-            role="listitem"
             title={`Start chat with ${contact.name || formatPhone(contact.id)}`}
+            role="listitem"
           >
             <div className="contact-avatar" aria-hidden="true">{getInitials(contact)}</div>
             <div className="contact-info">

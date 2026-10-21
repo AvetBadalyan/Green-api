@@ -5,14 +5,12 @@ function MessageList({ messages, onDeleteMessage }) {
   const listRef = useRef(null);
   const [contextMenu, setContextMenu] = useState(null);
 
-  // Auto-scroll to bottom whenever new messages arrive
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTop = listRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // Close context menu on click outside or Escape
   useEffect(() => {
     if (!contextMenu) return;
     const handleClick = () => setContextMenu(null);
@@ -32,12 +30,13 @@ function MessageList({ messages, onDeleteMessage }) {
   };
 
   const handleContextMenu = (e, message) => {
-    // Only allow delete for outgoing messages
+    // Only outgoing messages can be deleted
     if (message.type !== 'outgoing') return;
     e.preventDefault();
+    // Clamp so the menu stays inside the viewport
     setContextMenu({
-      x: e.clientX,
-      y: e.clientY,
+      x: Math.min(e.clientX, window.innerWidth - 160),
+      y: Math.min(e.clientY, window.innerHeight - 60),
       messageId: message.id,
     });
   };

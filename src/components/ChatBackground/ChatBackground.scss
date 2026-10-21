@@ -1,10 +1,7 @@
 @use '../../styles/variables.scss' as *;
 
-// ── MAX (web.max.ru) chat background, "space" dark theme ─────────────────────
-// Replicates MAX's three stacked `.layer` elements. All values below are the
-// *computed* colors read from the real app's DevTools, so the result matches
-// what MAX actually renders in this theme (the authored CSS uses design-token
-// variables that resolve to these in space/dark).
+// Three-layer background matching web.max.ru space/dark theme.
+// Layer order: flat base → transparent middle → SVG-masked purple tint.
 
 .chat-background {
   position: absolute;
@@ -13,7 +10,6 @@
   pointer-events: none;
 }
 
-// Every layer fills the container, stacked in source order.
 .chat-background__layer {
   position: absolute;
   inset: 0;
@@ -22,15 +18,12 @@
   pointer-events: none;
 }
 
-// Layer 1 — base. MAX: linear-gradient(28deg, #141414 8.03%, #141414 91.51%)
-// Both stops are identical, so it's a flat near-black fill.
+// Flat near-black base
 .chat-background__layer-base {
   background: linear-gradient(28deg, #141414 8.03%, #141414 91.51%);
 }
 
-// Layer 2 — additional radial gradients. In the space theme every stop
-// resolves to transparent, so this layer is present but invisible (kept to
-// mirror MAX's structure 1:1).
+// Transparent in this theme — kept for structural parity with web.max.ru
 .chat-background__layer-additional {
   background:
     radial-gradient(57.57% 53.61% at 94.4% 14.38%,
@@ -39,9 +32,7 @@
       rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0) 100%);
 }
 
-// Layer 3 — pattern. MAX: two transparent radials + a flat purple-blue linear
-// gradient, masked by the repeating space SVG at its native tile size.
-// Computed linear gradient resolves to rgba(80, 91, 199, 0.3) across the board.
+// Purple-blue tint revealed through the repeating SVG space pattern
 .chat-background__layer-pattern {
   background:
     radial-gradient(57.57% 53.61% at 94.4% 14.38%,
@@ -51,12 +42,11 @@
     linear-gradient(28deg,
       rgba(80, 91, 199, 0.3) 8.03%, rgba(80, 91, 199, 0.3) 91.51%);
 
-  // Masked by the SVG — only the pattern shapes let the tint through.
   -webkit-mask-image: var(--pattern-url);
   mask-image: var(--pattern-url);
   -webkit-mask-position: 50%;
   mask-position: 50%;
-  -webkit-mask-size: auto;   // native SVG size, like MAX
+  -webkit-mask-size: auto;
   mask-size: auto;
   -webkit-mask-repeat: repeat;
   mask-repeat: repeat;

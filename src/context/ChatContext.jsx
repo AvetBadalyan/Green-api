@@ -49,8 +49,6 @@ export function ChatProvider({ children, onMount }) {
     [chats, activeChatId]
   );
 
-  // ── Basic mutations ───────────────────────────────────────────────────────
-
   const setActiveChat = useCallback((chat) => {
     setActiveChatId(chat ? chat.id : null);
     if (chat) {
@@ -188,8 +186,6 @@ export function ChatProvider({ children, onMount }) {
     setActiveChatId((prev) => (prev === chatId ? null : prev));
   }, []);
 
-  // ── API integration ───────────────────────────────────────────────────────
-
   /**
    * Sync chats from getChats API. Adds new chats, updates names on existing ones.
    * Called once on login; silently fails so the app still works without it.
@@ -295,8 +291,6 @@ export function ChatProvider({ children, onMount }) {
     });
   }, []);
 
-  // ── Reset ─────────────────────────────────────────────────────────────────
-
   const resetChats = useCallback(() => {
     setChats([]);
     setActiveChatId(null);
@@ -306,8 +300,6 @@ export function ChatProvider({ children, onMount }) {
   useEffect(() => {
     if (onMount) onMount(resetChats);
   }, [onMount, resetChats]);
-
-  // ── Context value ─────────────────────────────────────────────────────────
 
   const value = useMemo(
     () => ({

@@ -6,7 +6,7 @@ import MessageList from '../MessageList/MessageList';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import './ChatWindow.scss';
 
-// Debounce sending typing indicator (don't spam the API)
+// Debounce typing indicator to avoid spamming the API
 const TYPING_DEBOUNCE_MS = 2000;
 
 function ChatWindow() {
@@ -19,7 +19,6 @@ function ChatWindow() {
   const inputRef = useRef(null);
   const lastTypingSentRef = useRef(0);
 
-  // Focus input when chat changes
   useEffect(() => {
     inputRef.current?.focus();
   }, [activeChat?.id]);
@@ -127,10 +126,9 @@ function ChatWindow() {
         </div>
       )}
 
-      {/* MAX-style input bar: centered container with max-width */}
       <div className="chat-input-bar">
         <form className="chat-input-container" onSubmit={handleSend}>
-          {/* Attachment button (visual only — text-only per requirements) */}
+          {/* Attachment — disabled, text-only per task requirements */}
           <button
             type="button"
             className="input-icon-btn"
@@ -143,7 +141,7 @@ function ChatWindow() {
             </svg>
           </button>
 
-          {/* Text input — MAX style */}
+          {/* Text input */}
           <div className="input-field-wrap">
             <input
               ref={inputRef}
@@ -157,7 +155,7 @@ function ChatWindow() {
             />
           </div>
 
-          {/* Right-side icons (sticker, video, mic — visual only) */}
+          {/* Icon buttons — visual only, text-only mode */}
           <button
             type="button"
             className="input-icon-btn"
@@ -201,7 +199,6 @@ function ChatWindow() {
             </svg>
           </button>
 
-          {/* Send button — blue circle, only shows when there's text */}
           {inputText.trim() && (
             <button
               type="submit"

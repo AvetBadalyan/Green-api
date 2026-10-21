@@ -62,6 +62,8 @@ function LoginPage() {
               autoComplete="username"
               required
               disabled={loading}
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? 'login-error' : undefined}
             />
           </div>
 
@@ -76,10 +78,12 @@ function LoginPage() {
               autoComplete="current-password"
               required
               disabled={loading}
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? 'login-error' : undefined}
             />
           </div>
 
-          {error && <p className="error-message" role="alert">{error}</p>}
+          {error && <p id="login-error" className="error-message" role="alert">{error}</p>}
 
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? 'Connecting...' : 'Sign in'}

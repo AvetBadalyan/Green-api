@@ -1,25 +1,20 @@
 @use '../../styles/variables.scss' as *;
 
-// ─── Wrapper ─────────────────────────────────────────────────────────────────
-
 .sidebar-wrapper {
   display: flex;
   height: 100vh;
   flex-shrink: 0;
 
-  // On mobile the wrapper fills the screen; the side-panel stretches to fill
-  // the space left of the 77px icon nav (see SidePanel.scss).
   @media (max-width: 768px) {
     width: 100%;
   }
 }
 
-// ─── Left nav: 77px — matches MAX grid "navigation" column ───────────────────
-
+// Left navigation column (77px wide)
 .icon-nav {
   width: 77px;
   min-width: 77px;
-  background-color: $sidebar-bg;  // same as panel — MAX navigation bg matches aside
+  background-color: $sidebar-bg;
   border-right: 1px solid $surface-hover;
   display: flex;
   flex-direction: column;
@@ -27,8 +22,6 @@
   overflow: hidden;
 }
 
-// Top scrollable folder section
-// padding: 16px top, 12px bottom, 4px sides — matches MAX scrollable viewport
 .nav-scroll {
   display: flex;
   flex-direction: column;
@@ -37,7 +30,6 @@
   overflow: hidden;
 }
 
-// Thin separator line between top folders and bottom group
 .nav-separator {
   height: 1px;
   background-color: $divider;
@@ -45,9 +37,6 @@
   flex-shrink: 0;
 }
 
-// Bottom group: Contacts, Calls, Logout
-// flex-grow: 1 fills remaining space; Logout slot is pushed to bottom
-// padding: 0 4px, margin-top: 12px — from MAX .bottomGroup computed
 .nav-bottom {
   display: flex;
   flex-direction: column;
@@ -58,30 +47,24 @@
   overflow: hidden;
 }
 
-// Logout slot pushed to very bottom — matches MAX .item.settings position
+// Logout button pinned to the bottom
 .nav-logout-slot {
   margin-top: auto;
   padding-bottom: 16px;
 }
 
-// ─── Nav item button ─────────────────────────────────────────────────────────
-// Exact values from DevTools:
-// width: 68px, height: 58px, padding: 8px 2px, row-gap: 2px
-// color inactive: #ffffff85 (--icon-tertiary), active: #ffffff (--text-primary)
-
 .nav-item {
-  width: 100%;          // fills container minus 4px padding on each side = ~69px ≈ 68px
+  width: 100%;
   height: 58px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 2px;         // gap between icon and label — from button row-gap: 2px
+  row-gap: 2px;
   padding: 8px 2px;
   background: transparent;
   border: none;
   cursor: pointer;
-  // Inactive: MAX --icon-tertiary
   color: $icon-tertiary;
   text-align: center;
   transition: color $transition-fast;
@@ -97,13 +80,11 @@
     outline-offset: -2px;
   }
 
-  // Active: full white — .button--active { color: var(--text-primary); opacity: 1; }
   &--active {
     color: $text-primary;
   }
 }
 
-// Icon span: 24×24px, display: inline-block, position: relative
 .nav-item__icon {
   display: inline-block;
   width: 24px;
@@ -118,7 +99,7 @@
   }
 }
 
-// Notification badge on nav icon (shown on "New" tab)
+// Unread count badge on a nav icon
 .nav-item__badge {
   position: absolute;
   top: -4px;
@@ -137,15 +118,12 @@
   line-height: 1;
 }
 
-// Label span: width 64px, 1-2 lines clamped
-// font: 400 11px/16px, letter-spacing: 0.3px — exact from DevTools
 .nav-item__label {
   width: 64px;
   font-size: 11px;
   font-weight: 400;
   line-height: 16px;
   letter-spacing: 0.3px;
-  // Two-line clamp matching MAX .title span
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -155,15 +133,12 @@
   text-align: center;
 }
 
-// ─── Chat list content (inside SidePanel body) ───────────────────────────────
-
-// Wrapper anchors the dropdown menu to the + button
+// Anchors the new-chat dropdown to the + button
 .new-chat-wrap {
   position: relative;
   display: flex;
 }
 
-// + button — MAX: 32×32, border-radius 18px (not full circle), icon 20×20
 .new-chat-btn {
   width: 32px;
   min-width: 32px;
@@ -189,8 +164,6 @@
   }
 }
 
-// ─── Chat list ───────────────────────────────────────────────────────────────
-
 .chat-list {
   flex: 1;
   overflow-y: auto;
@@ -204,6 +177,7 @@
   p {
     font-size: 14px;
     margin-bottom: $spacing-xs;
+
     &:first-child {
       font-size: 15px;
       color: $text-primary;
@@ -230,8 +204,6 @@
     background-color: $primary-accent-light;
   }
 }
-
-// Avatar sizing/appearance lives in ChatAvatar.scss; the size prop drives it.
 
 .chat-info {
   flex: 1;

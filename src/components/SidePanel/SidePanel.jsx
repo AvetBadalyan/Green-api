@@ -1,11 +1,7 @@
 import ConnectionStatus from '../ConnectionStatus/ConnectionStatus';
 import './SidePanel.scss';
 
-/**
- * Shared shell for all side panel views (Chats, Contacts, Calls).
- * Every panel has the same width, background, header style, and optional search bar.
- * Each view only provides what differs: title, actions, search, and body content.
- */
+// Shared layout shell for Chats, Contacts and Calls panels.
 function SidePanel({ title, actions, search, children }) {
   return (
     <div className="side-panel">

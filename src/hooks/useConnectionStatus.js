@@ -17,15 +17,15 @@ const INITIAL_DELAY_MS = 2_000;
 export default function useConnectionStatus() {
   const { credentials } = useAuth();
   const [status, setStatus] = useState('loading');
-  const inFlightRef = useRef(false);
+  const requestPendingRef = useRef(false);
 
   const checkStatus = useCallback(async () => {
     if (!credentials) {
       setStatus('notAuthorized');
       return;
     }
-    if (inFlightRef.current) return; // never overlap requests
-    inFlightRef.current = true;
+    if (requestPendingRef.current) return;
+    requestPendingRef.current = true;
 
     try {
       const result = await getStateInstance(credentials);
@@ -36,7 +36,7 @@ export default function useConnectionStatus() {
         setStatus('error');
       }
     } finally {
-      inFlightRef.current = false;
+      requestPendingRef.current = false;
     }
   }, [credentials]);
 

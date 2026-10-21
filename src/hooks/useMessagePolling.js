@@ -10,14 +10,9 @@ const MAX_POLL_INTERVAL_MS = 30000;  // cap when backing off on rate-limit
 const TICK_STATUSES = new Set(['sent', 'delivered', 'read']);
 
 /**
- * Polls the GREEN-API notification queue.
- * Handles:
- *   - incomingMessageReceived  → adds incoming message to the right chat
- *   - outgoingMessageStatus    → advances tick status (sent → delivered → read)
- * All other notification types are consumed and deleted to keep the queue clear.
- *
- * Uses a self-scheduling timeout (not setInterval) so the delay can grow when
- * GREEN-API rate-limits us (429) and shrink back to normal once it recovers.
+ * Polls the GREEN-API notification queue every 5 seconds.
+ * Handles incoming messages and outgoing message status updates.
+ * Uses a self-scheduling timeout so the interval grows on 429s and recovers automatically.
  */
 export default function useMessagePolling() {
   const { credentials } = useAuth();

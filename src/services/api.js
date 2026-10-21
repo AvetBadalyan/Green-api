@@ -12,13 +12,13 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // In-flight request deduplication — if the same logical request is already
 // pending (e.g. React Strict Mode double-mount), return the existing promise
-// instead of firing a second HTTP call.
-const _inflight = new Map();
-const withDedup = (key, fn) => {
-  if (_inflight.has(key)) return _inflight.get(key);
-  const p = fn().finally(() => _inflight.delete(key));
-  _inflight.set(key, p);
-  return p;
+// Deduplicates concurrent calls to the same endpoint (handles StrictMode double-mount).
+const pendingRequests = new Map();
+const dedupeRequest = (key, fn) => {
+  if (pendingRequests.has(key)) return pendingRequests.get(key);
+  const promise = fn().finally(() => pendingRequests.delete(key));
+  pendingRequests.set(key, promise);
+  return promise;
 };
 
 const createApiInstance = (idInstance) => {
@@ -73,7 +73,7 @@ export const getSettings = async (credentials) => {
  */
 export const getStateInstance = (credentials) => {
   const { idInstance, apiTokenInstance } = credentials;
-  return withDedup(`getStateInstance:${idInstance}`, async () => {
+  return dedupeRequest(`getStateInstance:${idInstance}`, async () => {
     const api = createApiInstance(idInstance);
     const response = await api.get(`/getStateInstance/${apiTokenInstance}`);
     return response.data;
@@ -138,7 +138,7 @@ export const deleteNotification = async (credentials, receiptId) => {
  */
 export const getChats = (credentials) => {
   const { idInstance, apiTokenInstance } = credentials;
-  return withDedup(`getChats:${idInstance}`, async () => {
+  return dedupeRequest(`getChats:${idInstance}`, async () => {
     const api = createApiInstance(idInstance);
     const response = await api.get(`/getChats/${apiTokenInstance}`);
     return response.data;
