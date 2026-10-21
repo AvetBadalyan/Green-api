@@ -33,25 +33,32 @@ export const getStateInstance = async (credentials) => {
 
 // ─── Sending ─────────────────────────────────────────────────────────────────
 
-/** Send a text message to a WhatsApp number. */
-export const sendMessage = async (credentials, phoneNumber, message) => {
+/**
+ * Send a text message to a WhatsApp chat.
+ * @param {string} chatId - pre-built chatId, e.g. "79001234567@c.us" or "group@g.us"
+ */
+export const sendMessage = async (credentials, chatId, message) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
   const response = await api.post(`/sendMessage/${apiTokenInstance}`, {
-    chatId: `${phoneNumber}@c.us`,
+    chatId,
     message,
   });
   return response.data;
 };
 
 /**
- * Send typing status to indicate user is typing.
+ * Send a typing notification to the recipient.
+ * typingTime: how long to show the indicator (ms, 1000–20000). Defaults to 5s.
  * @param {string} chatId - "phone@c.us" or "groupid@g.us"
  */
 export const sendTyping = async (credentials, chatId) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
-  const response = await api.post(`/sendTyping/${apiTokenInstance}`, { chatId });
+  const response = await api.post(`/sendTyping/${apiTokenInstance}`, {
+    chatId,
+    typingTime: 5000,
+  });
   return response.data;
 };
 
@@ -99,14 +106,15 @@ export const getContacts = async (credentials) => {
 
 /**
  * Check if a phone number is registered on WhatsApp.
- * @param {string} phoneNumber - Phone number without @ suffix
- * @returns {{ existsWhatsapp: boolean, numberIsFull: boolean }}
+ * Uses chatId format (recommended over deprecated phoneNumber integer field).
+ * @param {string} phoneNumber - digits only, e.g. "79001234567"
+ * @returns {{ existsWhatsapp: boolean, chatId: string }}
  */
 export const checkWhatsapp = async (credentials, phoneNumber) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
   const response = await api.post(`/checkWhatsapp/${apiTokenInstance}`, {
-    phoneNumber,
+    chatId: `${phoneNumber}@c.us`,
   });
   return response.data;
 };

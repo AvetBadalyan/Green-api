@@ -53,7 +53,8 @@ function ChatWindow() {
     setSending(true);
 
     try {
-      const result = await sendMessage(credentials, activeChat.phoneNumber, inputText.trim());
+      const chatId = phoneToChatId(activeChat.phoneNumber, activeChat.isGroup);
+      const result = await sendMessage(credentials, chatId, inputText.trim());
 
       addMessage(activeChat.id, {
         id: result?.idMessage || `local-${crypto.randomUUID?.() ?? Date.now()}`,

@@ -82,8 +82,11 @@
   }
 }
 
-// ─── MAX-style input bar ─────────────────────────────────────────────────────
-// The input bar spans full width but the form inside is centered with max-width
+// ─── MAX composer card ───────────────────────────────────────────────────────
+// The .chat-input-bar is the full-width centering row.
+// The .chat-input-container is MAX's .composer:
+//   width: 708px, height: 48px, background #17181c, border-radius 16px,
+//   box-shadow from computed DevTools, overflow: hidden.
 
 .chat-input-bar {
   flex-shrink: 0;
@@ -96,17 +99,27 @@
 .chat-input-container {
   display: flex;
   align-items: center;
-  gap: 4px;
   width: 100%;
-  max-width: 708px; // MAX exact width
+  max-width: 708px;
   height: 48px;
+
+  // THE card — solid dark with elevation, matching MAX's .composer exactly
+  background-color: #17181c;  // --background-primary in space-dark
+  border-radius: 16px;
+  box-shadow:
+    rgba(0, 0, 0, 0.3) 0px 4px 16px 0px,
+    rgba(0, 0, 0, 0.3) 0px 0px 2px 0px;
+  overflow: hidden;
 
   @media (max-width: 768px) {
     max-width: 100%;
+    border-radius: 12px;
   }
 }
 
-// Ghost icon buttons (attachment, sticker, video, mic)
+// Ghost icon buttons — MAX .button--ghost inside a .btn wrapper.
+// The SVG shape behind them is transparent; only the 24×24 icon is visible.
+// Icon color = --icon-tertiary = rgba(255,255,255,0.52) from space-dark theme.
 .input-icon-btn {
   width: 40px;
   min-width: 40px;
@@ -114,47 +127,41 @@
   border-radius: 50%;
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.52);
+  color: rgba(255, 255, 255, 0.52);   // --icon-tertiary
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: color $transition-fast, background-color $transition-fast;
   flex-shrink: 0;
+  transition: color $transition-fast;
 
   svg {
     width: 24px;
     height: 24px;
+    display: block;
   }
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
       color: rgba(255, 255, 255, 0.8);
-      background-color: rgba(255, 255, 255, 0.06);
     }
   }
 
   &:disabled {
-    opacity: 0.4;
+    color: rgba(255, 255, 255, 0.25);
     cursor: not-allowed;
   }
 }
 
-// Text input wrapper — MAX: 560px inner width, rounded, dark bg
+// Text input — plain transparent, no inner pill.
+// Grows to fill the space between the icon buttons.
 .input-field-wrap {
   flex: 1;
   min-width: 0;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.06);
-  border-radius: 20px;
+  height: 100%;
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  transition: background-color $transition-fast;
-
-  &:focus-within {
-    background-color: rgba(255, 255, 255, 0.09);
-  }
+  padding: 0 4px;
 }
 
 .input-field {

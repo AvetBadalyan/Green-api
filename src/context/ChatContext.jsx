@@ -127,6 +127,30 @@ export function ChatProvider({ children, onMount }) {
     });
   }, []);
 
+  /**
+   * Update the delivery/read status of a specific outgoing message.
+   * webhookChatId comes from the outgoingMessageStatus webhook, e.g. "79001234567@c.us".
+   */
+  const updateMessageStatus = useCallback((webhookChatId, messageId, status) => {
+    const phoneNumber = chatIdToPhone(webhookChatId);
+    setChats((prev) => {
+      const chat = prev.find((c) => c.phoneNumber === phoneNumber);
+      if (!chat) return prev;
+      const updated = prev.map((c) =>
+        c.id === chat.id
+          ? {
+              ...c,
+              messages: c.messages.map((m) =>
+                m.id === messageId ? { ...m, status } : m
+              ),
+            }
+          : c
+      );
+      persistChats(updated);
+      return updated;
+    });
+  }, []);
+
   const receiveMessage = useCallback((phoneNumber, message) => {
     setChats((prev) => {
       const existing = prev.find((c) => c.phoneNumber === phoneNumber);
@@ -233,6 +257,8 @@ export function ChatProvider({ children, onMount }) {
           text: m.textMessage,
           type: m.type === 'incoming' ? 'incoming' : 'outgoing',
           timestamp: new Date(m.timestamp * 1000).toISOString(),
+          // Historical outgoing messages have been delivered at minimum
+          ...(m.type !== 'incoming' && { status: 'delivered' }),
         }));
 
       if (apiNormalised.length === 0) return prev;
@@ -292,6 +318,7 @@ export function ChatProvider({ children, onMount }) {
       createChat,
       addMessage,
       removeMessage,
+      updateMessageStatus,
       receiveMessage,
       deleteChat,
       resetChats,
@@ -299,7 +326,8 @@ export function ChatProvider({ children, onMount }) {
       mergeHistory,
     }),
     [chats, activeChat, setActiveChat, markChatReadById, createChat, addMessage,
-     removeMessage, receiveMessage, deleteChat, resetChats, syncApiChats, mergeHistory]
+     removeMessage, updateMessageStatus, receiveMessage, deleteChat, resetChats,
+     syncApiChats, mergeHistory]
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
