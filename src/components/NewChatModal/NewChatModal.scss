@@ -3,7 +3,7 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(13, 13, 13, 0.64);   // MAX --background-overlay
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,83 +11,94 @@
   padding: $spacing-md;
 }
 
+// MAX modal: 420px wide, 16px outer radius, dark card bg
 .modal {
-  background-color: $sidebar-bg;
-  border-radius: $radius-lg;
-  width: 100%;
-  max-width: 380px;
-  border: 1px solid $border-color;
+  width: 420px;
+  max-width: 100%;
+  background-color: #17181c;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
+// Header: 24px side padding, title 20px/600, close button on the right
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: $spacing-md $spacing-lg;
-  border-bottom: 1px solid $border-color;
+  padding: 24px 24px 0;
 
   h2 {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 600;
+    line-height: 24px;
     color: $text-primary;
     margin: 0;
   }
 
   .close-btn {
     background: transparent;
-    color: $text-secondary;
-    padding: $spacing-xs;
+    border: none;
+    color: rgba(255, 255, 255, 0.52);
+    padding: 4px;
     border-radius: $radius-sm;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    cursor: pointer;
     transition: color $transition-fast;
 
-    &:hover {
-      color: $text-primary;
+    @media (hover: hover) {
+      &:hover { color: $text-primary; }
     }
   }
 }
 
+// Body form: 24px side padding, 20px gaps
 .modal-form {
-  padding: $spacing-lg;
-}
-
-.form-group {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xs;
-  margin-bottom: $spacing-md;
+  padding: 20px 24px 24px;
+  gap: 12px;
+}
 
-  label {
-    font-size: 13px;
-    color: $text-secondary;
-    font-weight: 500;
+// Phone input with a leading "+" prefix
+.phone-field {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  background-color: rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 0 16px;
+  transition: box-shadow $transition-fast;
+
+  &:focus-within {
+    box-shadow: inset 0 0 0 1.5px $primary-accent;
+  }
+
+  .phone-prefix {
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 16px;
+    margin-right: 4px;
   }
 
   input {
-    padding: $spacing-sm $spacing-md;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid $border-color;
-    border-radius: $radius-md;
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
     color: $text-primary;
-    font-size: 15px;
-    height: 44px;
-    transition: border-color $transition-fast;
+    font-size: 16px;
+    line-height: 20px;
+    min-width: 0;
 
-    &::placeholder {
-      color: $text-muted;
-    }
-
-    &:focus {
-      border-color: rgba($primary-accent, 0.5);
-    }
+    &::placeholder { color: rgba(255, 255, 255, 0.4); }
   }
+}
 
-  .hint {
-    font-size: 12px;
-    color: $text-muted;
-  }
+.phone-hint {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.52);
+  margin: 0;
 }
 
 .error-message {
@@ -97,43 +108,31 @@
   padding: $spacing-sm $spacing-md;
   border-radius: $radius-md;
   font-size: 13px;
-  margin-bottom: $spacing-md;
+  margin: 0;
 }
 
-.modal-actions {
-  display: flex;
-  gap: $spacing-sm;
-  justify-content: flex-end;
-  margin-top: $spacing-lg;
-}
-
-.cancel-btn {
-  padding: $spacing-sm $spacing-lg;
-  background-color: transparent;
-  color: $text-secondary;
-  font-size: 14px;
-  border-radius: $radius-md;
-  border: 1px solid $border-color;
-  transition: all $transition-fast;
-
-  &:hover {
-    color: $text-primary;
-    border-color: $text-secondary;
-  }
-}
-
-.submit-btn {
-  padding: $spacing-sm $spacing-lg;
+// Full-width primary button — MAX "Find in MAX"
+.find-btn {
+  width: 100%;
+  height: 52px;
+  margin-top: 8px;
   background-color: $primary-accent;
-  color: white;
-  font-size: 14px;
+  color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  font-size: 17px;
   font-weight: 500;
-  border-radius: $radius-md;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  cursor: pointer;
   transition: background-color $transition-fast;
 
   @media (hover: hover) {
-    &:hover {
-      background-color: $primary-accent-hover;
-    }
+    &:hover:not(:disabled) { background-color: $primary-accent-hover; }
+  }
+
+  &:disabled {
+    background-color: rgba(0, 122, 255, 0.4);
+    cursor: not-allowed;
   }
 }

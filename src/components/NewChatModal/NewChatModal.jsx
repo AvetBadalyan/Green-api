@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useChat } from '../../context/ChatContext';
 import './NewChatModal.scss';
 
-const MIN_PHONE_LENGTH = 11; // Minimum digits including country code
+const MIN_PHONE_LENGTH = 11; // digits incl. country code
 
 function NewChatModal({ onClose }) {
   const { createChat } = useChat();
@@ -12,62 +12,42 @@ function NewChatModal({ onClose }) {
   const modalRef = useRef(null);
   const phoneInputRef = useRef(null);
 
-  // Focus trap and Escape key handling
+  // Focus trap + Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') {
-        onClose();
-        return;
-      }
-
-      // Focus trap - Tab key
+      if (e.key === 'Escape') { onClose(); return; }
       if (e.key === 'Tab' && modalRef.current) {
-        const focusableElements = modalRef.current.querySelectorAll(
+        const focusable = modalRef.current.querySelectorAll(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         );
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-
-        if (e.shiftKey && document.activeElement === firstElement) {
-          e.preventDefault();
-          lastElement.focus();
-        } else if (!e.shiftKey && document.activeElement === lastElement) {
-          e.preventDefault();
-          firstElement.focus();
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault(); first.focus();
         }
       }
     };
-
     document.addEventListener('keydown', handleKeyDown);
-
-    // Focus the input on mount
-    if (phoneInputRef.current) {
-      phoneInputRef.current.focus();
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+    phoneInputRef.current?.focus();
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  const cleanPhone = phoneNumber.replace(/\D/g, '');
+  const isValid = cleanPhone.length >= MIN_PHONE_LENGTH;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
-
-    // Basic validation - createChat() will sanitize the number
-    const cleanPhone = phoneNumber.replace(/\D/g, '');
-
     if (!cleanPhone) {
       setError('Please enter a phone number');
       return;
     }
-
-    if (cleanPhone.length < MIN_PHONE_LENGTH) {
-      setError(`Phone number must include country code (at least ${MIN_PHONE_LENGTH} digits)`);
+    if (!isValid) {
+      setError(`Include country code — at least ${MIN_PHONE_LENGTH} digits`);
       return;
     }
-
-    // Pass unsanitized - createChat handles sanitization
     createChat(phoneNumber);
     onClose();
   };
@@ -86,8 +66,8 @@ function NewChatModal({ onClose }) {
         aria-labelledby="modal-title"
       >
         <div className="modal-header">
-          <h2 id="modal-title">New Chat</h2>
-          <button className="close-btn" onClick={onClose} aria-label="Close modal">
+          <h2 id="modal-title">Search by number</h2>
+          <button className="close-btn" onClick={onClose} aria-label="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
@@ -96,30 +76,31 @@ function NewChatModal({ onClose }) {
         </div>
 
         <form className="modal-form" onSubmit={handleSubmit} noValidate>
-          <div className="form-group">
-            <label htmlFor="phoneNumber">Phone Number</label>
+          <div className="phone-field">
+            <span className="phone-prefix" aria-hidden="true">+</span>
             <input
               ref={phoneInputRef}
               type="tel"
-              id="phoneNumber"
+              inputMode="numeric"
               value={phoneNumber}
               onChange={(e) => { setPhoneNumber(e.target.value); setError(''); }}
-              placeholder="e.g. 79001234567"
+              placeholder="79001234567"
               autoComplete="tel"
+              aria-label="Phone number with country code"
             />
-            <span className="hint">Include country code, digits only (e.g. 79001234567)</span>
           </div>
+
+          <p className="phone-hint">Enter the full number including country code</p>
 
           {error && <p className="error-message" role="alert">{error}</p>}
 
-          <div className="modal-actions">
-            <button type="button" className="cancel-btn" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="submit-btn">
-              Start Chat
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="find-btn"
+            disabled={!isValid}
+          >
+            Find in MAX
+          </button>
         </form>
       </div>
     </div>

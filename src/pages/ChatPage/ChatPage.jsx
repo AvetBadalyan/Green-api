@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useChat } from '../../context/ChatContext';
-import { phoneToChatId } from '../../context/ChatContext';
+import { useChat, phoneToChatId } from '../../context/ChatContext';
 import useMessagePolling from '../../hooks/useMessagePolling';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
-import EmptyChat from '../../components/EmptyChat/EmptyChat';
+import ChatBackground from '../../components/ChatBackground/ChatBackground';
 import CallsEmpty from '../../pages/CallsPage/CallsEmpty';
 import NewChatModal from '../../components/NewChatModal/NewChatModal';
 import {
@@ -36,7 +35,7 @@ function ChatPage() {
   const activeIsGroup = activeChat?.isGroup ?? false;
   const activeChatIdForApi = activePhone ? phoneToChatId(activePhone, activeIsGroup) : null;
 
-  // Track which chats have had history loaded (ref = no re-render needed)
+  // Track which chats have had history loaded / been marked read (refs = no re-render)
   const historyLoadedRef = useRef(new Set());
   const readMarkedRef = useRef(new Set());
 
@@ -49,8 +48,6 @@ function ChatPage() {
   }, [credentials, syncApiChats]);
 
   // ── When a chat is opened: load history once + mark read once ─────────────
-  // Keyed on the chat ID (not the object) so poll-driven chats mutations
-  // don't retrigger these network calls.
   useEffect(() => {
     if (!activeChatId || !credentials || !activeChatIdForApi) return;
 
@@ -73,12 +70,6 @@ function ChatPage() {
     if (activeChatId) markChatReadById(activeChatId);
   }, [activeChatId, activeMsgCount, markChatReadById]);
 
-  function renderMain() {
-    if (currentView === 'calls') return <CallsEmpty />;
-    if (activeChat) return <ChatWindow />;
-    return <EmptyChat onNewChat={() => setShowNewChat(true)} />;
-  }
-
   return (
     <div className="chat-page">
       <Sidebar
@@ -87,7 +78,15 @@ function ChatPage() {
         onNewChat={() => setShowNewChat(true)}
       />
       <main className="chat-main">
-        {renderMain()}
+        {/* Background is always present behind everything */}
+        <ChatBackground />
+        <div className="chat-main__content">
+          {activeChat
+            ? <ChatWindow />
+            : currentView === 'calls'
+              ? <CallsEmpty />
+              : null /* Chats/Contacts with nothing open → just the background, like MAX */}
+        </div>
       </main>
 
       {showNewChat && (

@@ -5,6 +5,7 @@ import ContactsPanel from '../ContactsPanel/ContactsPanel';
 import CallsPage from '../../pages/CallsPage/CallsPage';
 import SidePanel from '../SidePanel/SidePanel';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
+import NewChatMenu from '../NewChatMenu/NewChatMenu';
 import './Sidebar.scss';
 
 const PREVIEW_MAX_LENGTH = 40;
@@ -88,6 +89,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
   const { logout } = useAuth();
   const { chats, activeChat, setActiveChat } = useChat();
   const [searchQuery, setSearchQuery] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const getLastMessage = (chat) => {
     if (chat.messages.length === 0) return 'No messages yet';
@@ -186,17 +188,27 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
         <SidePanel
           title="Chats"
           actions={
-            <button
-              className="new-chat-btn"
-              onClick={onNewChat}
-              title="New Chat"
-              aria-label="Start new chat"
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <line x1="12" y1="5" x2="12" y2="19" />
-                <line x1="5" y1="12" x2="19" y2="12" />
-              </svg>
-            </button>
+            <div className="new-chat-wrap">
+              <button
+                className="new-chat-btn"
+                onClick={() => setMenuOpen((o) => !o)}
+                title="New Chat"
+                aria-label="Start new chat"
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
+              {menuOpen && (
+                <NewChatMenu
+                  onSearchByNumber={onNewChat}
+                  onClose={() => setMenuOpen(false)}
+                />
+              )}
+            </div>
           }
           search={
             <input
