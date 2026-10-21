@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useCallback } from 'react';
+import { useReducer, useEffect, useCallback, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { getContacts } from '../../services/api';
@@ -36,7 +36,7 @@ function ContactsPanel({ setCurrentView }) {
   const { createChat } = useChat();
 
   const [{ contacts, loading, error }, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const [searchValue, dispatchSearch] = useReducer((_prev, next) => next, '');
+  const [searchValue, setSearchValue] = useState('');
 
   const fetchContacts = useCallback(async () => {
     dispatch({ type: 'FETCH_START' });
@@ -114,7 +114,7 @@ function ContactsPanel({ setCurrentView }) {
           type="search"
           placeholder="Search contacts"
           value={searchValue}
-          onChange={(e) => dispatchSearch(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value)}
           aria-label="Search contacts"
         />
       }
