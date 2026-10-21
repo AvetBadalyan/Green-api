@@ -10,17 +10,13 @@ function formatChatTime(timestamp) {
   if (!timestamp) return '';
   const date = new Date(timestamp);
   if (isNaN(date)) return '';
-
   const now = new Date();
-  const isToday = date.toDateString() === now.toDateString();
-  if (isToday) {
+  if (date.toDateString() === now.toDateString()) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
-
   const yesterday = new Date(now);
   yesterday.setDate(yesterday.getDate() - 1);
   if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
-
   return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
 
@@ -29,6 +25,22 @@ function getUnreadCount(chat) {
   return chat.messages.filter(
     (m) => m.type === 'incoming' && m.timestamp > chat.lastReadAt
   ).length;
+}
+
+// Each nav item: icon + text label below, exactly like MAX
+function NavItem({ view, currentView, setCurrentView, label, children }) {
+  const isActive = currentView === view;
+  return (
+    <button
+      className={`nav-item${isActive ? ' nav-item--active' : ''}`}
+      onClick={() => setCurrentView(view)}
+      aria-current={isActive ? 'page' : undefined}
+      aria-label={label}
+    >
+      <span className="nav-item__icon" aria-hidden="true">{children}</span>
+      <span className="nav-item__label">{label}</span>
+    </button>
+  );
 }
 
 function Sidebar({ currentView, setCurrentView, onNewChat }) {
@@ -44,80 +56,54 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
       : text;
   };
 
-  const getInitials = (phone) => phone.slice(-2);
-
   const handleChatClick = (chat) => {
-    setActiveChat(chat); // also resets lastReadAt → clears unread badge
+    setActiveChat(chat);
     setCurrentView('chats');
   };
 
   return (
     <div className="sidebar-wrapper">
-      {/* Narrow icon nav */}
-      <nav className="icon-nav" aria-label="Main navigation">
-        <div className="icon-nav-logo" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.2" />
-            <circle cx="12" cy="12" r="6" fill="currentColor" />
-          </svg>
-        </div>
 
-        <div className="icon-nav-items">
-          <button
-            className={`nav-icon ${currentView === 'chats' ? 'active' : ''}`}
-            title="Chats"
-            aria-label="Chats"
-            aria-current={currentView === 'chats' ? 'page' : undefined}
-            onClick={() => setCurrentView('chats')}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+      {/* Left column: 77px icon nav with labels */}
+      <nav className="icon-nav" aria-label="Main navigation">
+
+        <div className="icon-nav-top">
+          <NavItem view="chats" currentView={currentView} setCurrentView={setCurrentView} label="Chats">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
-          </button>
+          </NavItem>
 
-          <button
-            className={`nav-icon ${currentView === 'contacts' ? 'active' : ''}`}
-            title="Contacts"
-            aria-label="Contacts"
-            aria-current={currentView === 'contacts' ? 'page' : undefined}
-            onClick={() => setCurrentView('contacts')}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+          <NavItem view="contacts" currentView={currentView} setCurrentView={setCurrentView} label="Contacts">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
               <circle cx="9" cy="7" r="4" />
               <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
-          </button>
+          </NavItem>
 
-          <button
-            className={`nav-icon ${currentView === 'calls' ? 'active' : ''}`}
-            title="Calls"
-            aria-label="Calls"
-            aria-current={currentView === 'calls' ? 'page' : undefined}
-            onClick={() => setCurrentView('calls')}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+          <NavItem view="calls" currentView={currentView} setCurrentView={setCurrentView} label="Calls">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.45 2 2 0 0 1 3.57 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z" />
             </svg>
-          </button>
+          </NavItem>
         </div>
 
-        <button
-          className="nav-icon nav-logout"
-          title="Logout"
-          onClick={logout}
-          aria-label="Logout"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <polyline points="16 17 21 12 16 7" />
-            <line x1="21" y1="12" x2="9" y2="12" />
-          </svg>
+        {/* Logout at bottom — same style as nav items */}
+        <button className="nav-item nav-item--logout" onClick={logout} aria-label="Logout">
+          <span className="nav-item__icon" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+          </span>
+          <span className="nav-item__label">Logout</span>
         </button>
       </nav>
 
-      {/* Second column — switches by view */}
+      {/* Right column: panel that switches by view */}
       {currentView === 'contacts' ? (
         <ContactsPanel setCurrentView={setCurrentView} />
       ) : currentView === 'calls' ? (
@@ -140,7 +126,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
           </div>
 
           <div className="search-bar" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
@@ -159,11 +145,10 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                 const lastMsgTime = formatChatTime(
                   chat.messages[chat.messages.length - 1]?.timestamp
                 );
-
                 return (
                   <div
                     key={chat.id}
-                    className={`chat-item ${activeChat?.id === chat.id ? 'active' : ''}`}
+                    className={`chat-item${activeChat?.id === chat.id ? ' chat-item--active' : ''}`}
                     onClick={() => handleChatClick(chat)}
                     role="listitem"
                     tabIndex={0}
@@ -176,19 +161,17 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                     aria-selected={activeChat?.id === chat.id}
                   >
                     <div className="chat-avatar" aria-hidden="true">
-                      {getInitials(chat.phoneNumber)}
+                      {chat.phoneNumber.slice(-2)}
                     </div>
                     <div className="chat-info">
                       <div className="chat-item-top">
                         <span className="chat-name">+{chat.phoneNumber}</span>
-                        {lastMsgTime && (
-                          <span className="chat-time">{lastMsgTime}</span>
-                        )}
+                        {lastMsgTime && <span className="chat-time">{lastMsgTime}</span>}
                       </div>
                       <div className="chat-item-bottom">
                         <span className="chat-preview">{getLastMessage(chat)}</span>
                         {unread > 0 && (
-                          <span className="unread-badge" aria-label={`${unread} unread messages`}>
+                          <span className="unread-badge" aria-label={`${unread} unread`}>
                             {unread > 99 ? '99+' : unread}
                           </span>
                         )}

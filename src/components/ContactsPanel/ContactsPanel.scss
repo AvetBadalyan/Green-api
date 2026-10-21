@@ -1,7 +1,8 @@
 @use '../../styles/variables.scss' as *;
 
 .contacts-panel {
-  width: 260px;
+  width: 317px;
+  min-width: 317px;
   background-color: $sidebar-bg;
   border-right: 1px solid $border-color;
   display: flex;

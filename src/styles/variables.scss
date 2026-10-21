@@ -6,10 +6,10 @@ $primary-accent-hover: #479fff;  // MAX hover — lighter blue rgb(71, 159, 255)
 $primary-accent-dark: #0062cc;   // Pressed / active state
 $primary-accent-light: rgba(0, 122, 255, 0.15); // Transparent blue for active bg
 
-$nav-bg: #111122;                // Leftmost icon nav - dark navy
-$sidebar-bg: #111122;            // Chat list panel - same dark navy
-$chat-bg: #13132a;               // Main chat area - slightly purple-navy
-$header-bg: #111122;             // Header/footer bars
+$nav-bg: #0f0f12;                // MAX --background-surface (left nav column)
+$sidebar-bg: #17181c;            // MAX --background-primary (chat list panel)
+$chat-bg: #17181c;               // Main chat area background
+$header-bg: #17181c;             // Chat header/footer bars
 
 $text-primary: #ffffff;          // White text
 $text-secondary: #888899;        // Muted gray-purple text
