@@ -250,13 +250,37 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+}
+
+.chat-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-xs;
+}
+
+.chat-item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-xs;
 }
 
 .chat-name {
   font-size: 14px;
   font-weight: 500;
   color: $text-primary;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-time {
+  font-size: 11px;
+  color: $text-muted;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .chat-preview {
@@ -265,4 +289,22 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.unread-badge {
+  flex-shrink: 0;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background-color: $primary-accent;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  line-height: 1;
 }

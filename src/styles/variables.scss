@@ -1,9 +1,9 @@
 // MAX (web.max.ru) exact color palette
 // Extracted from mobile app and web screenshots
 
-$primary-accent: #1877f2;        // Vivid royal blue - "+" button, active icons, links
-$primary-accent-dark: #1565c0;   // Darker blue for hover states
-$primary-accent-light: rgba(24, 119, 242, 0.15); // Transparent blue for active bg
+$primary-accent: #007aff;        // MAX exact blue — matches --text-themed / button-primary
+$primary-accent-dark: #0062cc;   // Darker blue for hover states
+$primary-accent-light: rgba(0, 122, 255, 0.15); // Transparent blue for active bg
 
 $nav-bg: #111122;                // Leftmost icon nav - dark navy
 $sidebar-bg: #111122;            // Chat list panel - same dark navy

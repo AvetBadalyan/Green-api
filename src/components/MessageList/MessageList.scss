@@ -61,12 +61,23 @@
   color: $text-primary;
   line-height: 1.45;
   word-wrap: break-word;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
+}
+
+.message-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
 }
 
 .message-time {
   font-size: 11px;
   color: $text-secondary;
+}
+
+.message-checkmark {
+  color: rgba(255, 255, 255, 0.55);
   display: block;
-  text-align: right;
+  flex-shrink: 0;
 }

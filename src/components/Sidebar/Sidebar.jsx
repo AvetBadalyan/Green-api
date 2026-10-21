@@ -1,18 +1,39 @@
-import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import ContactsPanel from '../ContactsPanel/ContactsPanel';
-import NewChatModal from '../NewChatModal/NewChatModal';
+import CallsPage from '../../pages/CallsPage/CallsPage';
 import './Sidebar.scss';
 
 const PREVIEW_MAX_LENGTH = 35;
 
-function Sidebar({ currentView, setCurrentView }) {
+function formatChatTime(timestamp) {
+  if (!timestamp) return '';
+  const date = new Date(timestamp);
+  if (isNaN(date)) return '';
+
+  const now = new Date();
+  const isToday = date.toDateString() === now.toDateString();
+  if (isToday) {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
+
+  return date.toLocaleDateString([], { month: 'short', day: 'numeric' });
+}
+
+function getUnreadCount(chat) {
+  if (!chat.lastReadAt) return 0;
+  return chat.messages.filter(
+    (m) => m.type === 'incoming' && m.timestamp > chat.lastReadAt
+  ).length;
+}
+
+function Sidebar({ currentView, setCurrentView, onNewChat }) {
   const { logout } = useAuth();
   const { chats, activeChat, setActiveChat } = useChat();
-  const [showNewChat, setShowNewChat] = useState(false);
-
-  const formatPhoneNumber = (phone) => `+${phone}`;
 
   const getLastMessage = (chat) => {
     if (chat.messages.length === 0) return 'No messages yet';
@@ -25,9 +46,14 @@ function Sidebar({ currentView, setCurrentView }) {
 
   const getInitials = (phone) => phone.slice(-2);
 
+  const handleChatClick = (chat) => {
+    setActiveChat(chat); // also resets lastReadAt → clears unread badge
+    setCurrentView('chats');
+  };
+
   return (
     <div className="sidebar-wrapper">
-      {/* Narrow icon nav — matches MAX web left column */}
+      {/* Narrow icon nav */}
       <nav className="icon-nav" aria-label="Main navigation">
         <div className="icon-nav-logo" aria-hidden="true">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -63,6 +89,18 @@ function Sidebar({ currentView, setCurrentView }) {
               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
           </button>
+
+          <button
+            className={`nav-icon ${currentView === 'calls' ? 'active' : ''}`}
+            title="Calls"
+            aria-label="Calls"
+            aria-current={currentView === 'calls' ? 'page' : undefined}
+            onClick={() => setCurrentView('calls')}
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.6 3.45 2 2 0 0 1 3.57 1.25h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z" />
+            </svg>
+          </button>
         </div>
 
         <button
@@ -79,16 +117,18 @@ function Sidebar({ currentView, setCurrentView }) {
         </button>
       </nav>
 
-      {/* Second column — chat list or contacts list */}
+      {/* Second column — switches by view */}
       {currentView === 'contacts' ? (
         <ContactsPanel setCurrentView={setCurrentView} />
+      ) : currentView === 'calls' ? (
+        <CallsPage />
       ) : (
         <div className="chat-panel">
           <div className="chat-panel-header">
             <h1>Chats</h1>
             <button
               className="new-chat-btn"
-              onClick={() => setShowNewChat(true)}
+              onClick={onNewChat}
               title="New Chat"
               aria-label="Start new chat"
             >
@@ -114,37 +154,52 @@ function Sidebar({ currentView, setCurrentView }) {
                 <p>Click + to start a conversation</p>
               </div>
             ) : (
-              chats.map((chat) => (
-                <div
-                  key={chat.id}
-                  className={`chat-item ${activeChat?.id === chat.id ? 'active' : ''}`}
-                  onClick={() => setActiveChat(chat)}
-                  role="listitem"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setActiveChat(chat);
-                    }
-                  }}
-                  aria-selected={activeChat?.id === chat.id}
-                >
-                  <div className="chat-avatar" aria-hidden="true">
-                    {getInitials(chat.phoneNumber)}
+              chats.map((chat) => {
+                const unread = getUnreadCount(chat);
+                const lastMsgTime = formatChatTime(
+                  chat.messages[chat.messages.length - 1]?.timestamp
+                );
+
+                return (
+                  <div
+                    key={chat.id}
+                    className={`chat-item ${activeChat?.id === chat.id ? 'active' : ''}`}
+                    onClick={() => handleChatClick(chat)}
+                    role="listitem"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleChatClick(chat);
+                      }
+                    }}
+                    aria-selected={activeChat?.id === chat.id}
+                  >
+                    <div className="chat-avatar" aria-hidden="true">
+                      {getInitials(chat.phoneNumber)}
+                    </div>
+                    <div className="chat-info">
+                      <div className="chat-item-top">
+                        <span className="chat-name">+{chat.phoneNumber}</span>
+                        {lastMsgTime && (
+                          <span className="chat-time">{lastMsgTime}</span>
+                        )}
+                      </div>
+                      <div className="chat-item-bottom">
+                        <span className="chat-preview">{getLastMessage(chat)}</span>
+                        {unread > 0 && (
+                          <span className="unread-badge" aria-label={`${unread} unread messages`}>
+                            {unread > 99 ? '99+' : unread}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <div className="chat-info">
-                    <span className="chat-name">{formatPhoneNumber(chat.phoneNumber)}</span>
-                    <span className="chat-preview">{getLastMessage(chat)}</span>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
-      )}
-
-      {showNewChat && (
-        <NewChatModal onClose={() => setShowNewChat(false)} />
       )}
     </div>
   );

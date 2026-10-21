@@ -33,24 +33,35 @@ export function ChatProvider({ children, onMount }) {
 
   const setActiveChat = useCallback((chat) => {
     setActiveChatId(chat ? chat.id : null);
+    // Mark all messages as read by bumping lastReadAt to now
+    if (chat) {
+      setChats((prevChats) => {
+        const updatedChats = prevChats.map((c) =>
+          c.id === chat.id ? { ...c, lastReadAt: new Date().toISOString() } : c
+        );
+        persistChats(updatedChats);
+        return updatedChats;
+      });
+    }
   }, []);
 
   const createChat = useCallback((phoneNumber) => {
     const cleanPhone = phoneNumber.replace(/\D/g, '');
 
     setChats((prevChats) => {
-      // Reuse existing chat if phone number already exists
       const existingChat = prevChats.find((chat) => chat.phoneNumber === cleanPhone);
       if (existingChat) {
         setActiveChatId(existingChat.id);
         return prevChats;
       }
 
+      const now = new Date().toISOString();
       const newChat = {
         id: Date.now().toString(),
         phoneNumber: cleanPhone,
         messages: [],
-        createdAt: new Date().toISOString(),
+        createdAt: now,
+        lastReadAt: now, // created now → nothing unread yet
       };
 
       const updatedChats = [newChat, ...prevChats];
@@ -85,12 +96,17 @@ export function ChatProvider({ children, onMount }) {
             : chat
         );
       } else {
+        // New sender: lastReadAt stays at createdAt so the message shows as unread
+        const now = new Date().toISOString();
         const newChat = {
           id: Date.now().toString(),
           phoneNumber,
           messages: [message],
-          createdAt: new Date().toISOString(),
+          createdAt: now,
+          lastReadAt: now, // message.timestamp will be >= now → unread count = 1
         };
+        // Use a slightly earlier lastReadAt so the incoming message counts as unread
+        newChat.lastReadAt = new Date(Date.now() - 1000).toISOString();
         updatedChats = [newChat, ...prevChats];
       }
 

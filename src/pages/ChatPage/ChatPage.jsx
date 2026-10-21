@@ -4,23 +4,37 @@ import useMessagePolling from '../../hooks/useMessagePolling';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 import EmptyChat from '../../components/EmptyChat/EmptyChat';
+import CallsEmpty from '../../pages/CallsPage/CallsEmpty';
+import NewChatModal from '../../components/NewChatModal/NewChatModal';
 import './ChatPage.scss';
 
 function ChatPage() {
   const { activeChat } = useChat();
-  // 'chats' | 'contacts' — drives both the nav highlight and the sidebar panel
   const [currentView, setCurrentView] = useState('chats');
+  const [showNewChat, setShowNewChat] = useState(false);
 
-  // Polling runs here at page level — always active while logged in,
-  // regardless of which view is open or whether a chat is selected.
   useMessagePolling();
+
+  function renderMain() {
+    if (currentView === 'calls') return <CallsEmpty />;
+    if (activeChat) return <ChatWindow />;
+    return <EmptyChat onNewChat={() => setShowNewChat(true)} />;
+  }
 
   return (
     <div className="chat-page">
-      <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
+      <Sidebar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        onNewChat={() => setShowNewChat(true)}
+      />
       <main className="chat-main">
-        {activeChat ? <ChatWindow /> : <EmptyChat />}
+        {renderMain()}
       </main>
+
+      {showNewChat && (
+        <NewChatModal onClose={() => setShowNewChat(false)} />
+      )}
     </div>
   );
 }

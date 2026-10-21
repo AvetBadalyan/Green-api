@@ -6,25 +6,29 @@
   align-items: center;
   justify-content: center;
   background-color: $chat-bg;
-  // MAX-style glow: blue-purple radial glow in center/bottom
+  // Stronger MAX-style purple-blue glow — matches the bloom behind empty states
   background-image:
-    radial-gradient(ellipse 70% 50% at 50% 65%, rgba(80, 40, 160, 0.25) 0%, rgba(24, 119, 242, 0.08) 50%, transparent 75%),
-    radial-gradient(ellipse 40% 30% at 50% 55%, rgba(24, 119, 242, 0.1) 0%, transparent 60%);
+    radial-gradient(ellipse 60% 40% at 50% 60%, rgba(0, 100, 255, 0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 55% at 50% 70%, rgba(100, 40, 200, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 50% 55%, rgba(0, 122, 255, 0.12) 0%, transparent 55%);
 }
 
 .empty-chat-content {
   text-align: center;
   color: $text-secondary;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
 
   .empty-icon {
-    width: 68px;
-    height: 68px;
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto $spacing-lg;
 
     svg {
       color: rgba(255, 255, 255, 0.5);
@@ -35,11 +39,54 @@
     font-size: 20px;
     font-weight: 500;
     color: $text-primary;
-    margin-bottom: $spacing-sm;
+    margin: 0;
   }
 
   p {
     font-size: 14px;
     color: $text-secondary;
+    margin: 0;
+  }
+}
+
+// MAX primary button — exact match to computed styles from web.max.ru
+.add-chats-btn {
+  margin-top: $spacing-sm;
+  // Layout
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // Size — matches MAX button--medium
+  height: 52px;
+  min-width: 56px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: none;
+  // Color
+  background-color: $primary-accent;
+  color: #ffffff;
+  cursor: pointer;
+  // Typography — matches MAX --font-action-large
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  font-family: inherit;
+  // Interaction
+  transition: background-color $transition-fast;
+  position: relative;
+
+  &:hover {
+    background-color: $primary-accent-dark;
+  }
+
+  &:active {
+    background-color: #005fcc;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-accent;
+    outline-offset: 3px;
   }
 }

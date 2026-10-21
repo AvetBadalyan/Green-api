@@ -1,0 +1,82 @@
+@use '../../styles/variables.scss' as *;
+
+.calls-panel {
+  width: 260px;
+  background-color: $sidebar-bg;
+  border-right: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  @include mobile {
+    width: 100%;
+    height: auto;
+    max-height: calc(70vh - 52px);
+    border-right: none;
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+.calls-panel-header {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md;
+  border-bottom: 1px solid $border-color;
+  flex-shrink: 0;
+
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: $text-primary;
+  }
+}
+
+// Empty state fills main area — shown in right panel when Calls is selected
+.calls-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $chat-bg;
+  // Purple-blue glow — same bloom as MAX Calls empty state
+  background-image:
+    radial-gradient(ellipse 55% 40% at 50% 60%, rgba(90, 30, 200, 0.25) 0%, transparent 65%),
+    radial-gradient(ellipse 75% 55% at 50% 70%, rgba(0, 80, 200, 0.15) 0%, transparent 70%);
+}
+
+.calls-empty-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+
+  .calls-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      color: rgba(255, 255, 255, 0.45);
+    }
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: $text-secondary;
+    margin: 0;
+    max-width: 220px;
+    line-height: 1.5;
+  }
+}

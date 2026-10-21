@@ -35,9 +35,16 @@ function MessageList({ messages }) {
         >
           <div className="message-content">
             <p className="message-text">{message.text}</p>
-            <time className="message-time" dateTime={message.timestamp}>
-              {formatTime(message.timestamp)}
-            </time>
+            <div className="message-meta">
+              <time className="message-time" dateTime={message.timestamp}>
+                {formatTime(message.timestamp)}
+              </time>
+              {message.type === 'outgoing' && (
+                <svg className="message-checkmark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-label="Sent" role="img">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              )}
+            </div>
           </div>
         </div>
       ))}
