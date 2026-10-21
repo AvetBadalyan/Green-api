@@ -1,53 +1,24 @@
 @use '../../styles/variables.scss' as *;
 
-.contacts-panel {
-  width: 317px;
-  min-width: 317px;
-  background-color: $sidebar-bg;
-  border-right: 1px solid $border-color;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    height: auto;
-    max-height: calc(70vh - 52px);
-    border-right: none;
-    border-bottom: 1px solid $border-color;
-  }
-}
-
-.contacts-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $spacing-md;
-  border-bottom: 1px solid $border-color;
-  flex-shrink: 0;
-
-  h1 {
-    font-size: 18px;
-    font-weight: 600;
-    color: $text-primary;
-  }
-}
+// ContactsPanel-specific styles only.
+// Shared panel structure (width, bg, header, search bar) lives in SidePanel.scss.
 
 .refresh-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
   background: transparent;
+  border: none;
   color: $text-secondary;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color $transition-fast, background-color $transition-fast;
-  flex-shrink: 0;
+  padding: 4px;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: color $transition-fast;
 
-  &:hover:not(:disabled) {
-    color: $text-primary;
-    background-color: rgba(255, 255, 255, 0.06);
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      color: $text-primary;
+    }
   }
 
   &:disabled {
@@ -64,51 +35,7 @@
   to { transform: rotate(360deg); }
 }
 
-.contacts-search {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  margin: $spacing-sm $spacing-md;
-  padding: $spacing-sm $spacing-md;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: $radius-md;
-  color: $text-muted;
-  flex-shrink: 0;
-
-  svg {
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-
-  input {
-    flex: 1;
-    background: transparent;
-    border: none;
-    color: $text-primary;
-    font-size: 14px;
-    min-width: 0;
-
-    &::placeholder {
-      color: $text-muted;
-    }
-
-    // Remove the default search cancel button
-    &::-webkit-search-cancel-button {
-      filter: invert(0.6);
-    }
-  }
-}
-
-.contacts-list {
-  flex: 1;
-  overflow-y: auto;
-
-  @media (max-width: 768px) {
-    max-height: 200px;
-  }
-}
-
-// Loading / error / empty states
+// Status states: loading / error / empty
 .contacts-status {
   display: flex;
   flex-direction: column;
@@ -123,36 +50,36 @@
     color: $error-color-soft;
   }
 
-  p {
-    line-height: 1.5;
-  }
+  p { line-height: 1.5; }
 }
 
 .spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid $border-color;
+  border: 2px solid rgba(255, 255, 255, 0.1);
   border-top-color: $primary-accent;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
 .retry-btn {
-  margin-top: $spacing-xs;
   padding: $spacing-xs $spacing-md;
   background: transparent;
   border: 1px solid $error-border;
   border-radius: $radius-md;
   color: $error-color-soft;
   font-size: 13px;
-  transition: all $transition-fast;
+  cursor: pointer;
+  transition: background-color $transition-fast;
 
-  &:hover {
-    background-color: $error-bg;
+  @media (hover: hover) {
+    &:hover {
+      background-color: $error-bg;
+    }
   }
 }
 
-// Individual contact row — button so it gets keyboard focus for free
+// Contact list item
 .contact-item {
   display: flex;
   align-items: center;
@@ -160,13 +87,15 @@
   width: 100%;
   padding: $spacing-sm $spacing-md;
   background: transparent;
+  border: none;
   text-align: left;
-  border-radius: 0;
   cursor: pointer;
   transition: background-color $transition-fast;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.04);
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.04);
+    }
   }
 
   &:focus-visible {
@@ -188,12 +117,6 @@
   font-size: 14px;
   flex-shrink: 0;
   line-height: 1;
-
-  @media (max-width: 768px) {
-    width: 36px;
-    height: 36px;
-    font-size: 12px;
-  }
 }
 
 .contact-info {

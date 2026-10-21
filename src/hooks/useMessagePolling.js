@@ -45,7 +45,7 @@ export default function useMessagePolling() {
 
           if (senderPhone && textData?.textMessage) {
             handleIncomingMessage(senderPhone, {
-              id: body.idMessage || Date.now().toString(),
+              id: body.idMessage || `in-${crypto.randomUUID?.() ?? Date.now()}`,
               text: textData.textMessage,
               type: 'incoming',
               timestamp: new Date().toISOString(),

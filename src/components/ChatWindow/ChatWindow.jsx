@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { sendMessage } from '../../services/api';
 import MessageList from '../MessageList/MessageList';
+import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import './ChatWindow.scss';
 
 function ChatWindow() {
@@ -24,7 +25,7 @@ function ChatWindow() {
       const result = await sendMessage(credentials, activeChat.phoneNumber, inputText.trim());
 
       addMessage(activeChat.id, {
-        id: result?.idMessage || Date.now().toString(),
+        id: result?.idMessage || `local-${crypto.randomUUID?.() ?? Date.now()}`,
         text: inputText.trim(),
         type: 'outgoing',
         timestamp: new Date().toISOString(),
@@ -42,11 +43,15 @@ function ChatWindow() {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <div className="chat-avatar">
-          {activeChat.phoneNumber.slice(-2)}
-        </div>
+        <ChatAvatar
+          phoneNumber={activeChat.phoneNumber}
+          name={activeChat.name}
+          size={36}
+        />
         <div className="chat-header-info">
-          <span className="chat-name">+{activeChat.phoneNumber}</span>
+          <span className="chat-name">
+            {activeChat.name || `+${activeChat.phoneNumber}`}
+          </span>
         </div>
       </div>
 

@@ -2,9 +2,8 @@ import { useReducer, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { getContacts } from '../../services/api';
+import SidePanel from '../SidePanel/SidePanel';
 import './ContactsPanel.scss';
-
-// ── helpers ──────────────────────────────────────────────────────────────────
 
 function getInitials(contact) {
   if (contact.name) {
@@ -14,58 +13,62 @@ function getInitials(contact) {
     }
     return contact.name.slice(0, 2).toUpperCase();
   }
-  const phone = contact.id.replace('@c.us', '');
-  return phone.slice(-2);
+  return contact.id.replace('@c.us', '').slice(-2);
 }
 
 function formatPhone(id) {
   return `+${id.replace('@c.us', '')}`;
 }
 
-// ── reducer ───────────────────────────────────────────────────────────────────
-
 const INITIAL_STATE = { contacts: [], loading: true, error: '' };
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_START':
-      return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
-      return { loading: false, error: '', contacts: action.contacts };
-    case 'FETCH_ERROR':
-      return { ...state, loading: false, error: action.error };
-    default:
-      return state;
+    case 'FETCH_START':  return { ...state, loading: true, error: '' };
+    case 'FETCH_SUCCESS': return { loading: false, error: '', contacts: action.contacts };
+    case 'FETCH_ERROR':  return { ...state, loading: false, error: action.error };
+    default: return state;
   }
 }
-
-// ── component ─────────────────────────────────────────────────────────────────
 
 function ContactsPanel({ setCurrentView }) {
   const { credentials } = useAuth();
   const { createChat } = useChat();
 
   const [{ contacts, loading, error }, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const [searchValue, dispatchSearch] = useReducer(
-    (_prev, next) => next,
-    ''
-  );
+  const [searchValue, dispatchSearch] = useReducer((_prev, next) => next, '');
 
   const fetchContacts = useCallback(async () => {
     dispatch({ type: 'FETCH_START' });
-    try {
-      const data = await getContacts(credentials);
-      const users = (data ?? [])
-        .filter((c) => c.type === 'user')
-        .sort((a, b) => {
-          const nameA = (a.name || formatPhone(a.id)).toLowerCase();
-          const nameB = (b.name || formatPhone(b.id)).toLowerCase();
-          return nameA.localeCompare(nameB);
-        });
-      dispatch({ type: 'FETCH_SUCCESS', contacts: users });
-    } catch {
-      dispatch({ type: 'FETCH_ERROR', error: 'Could not load contacts. Check your connection and try again.' });
+
+    // Retry up to 3 times with backoff — handles transient rate limits
+    const MAX_ATTEMPTS = 3;
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        const data = await getContacts(credentials);
+        const users = (data ?? [])
+          .filter((c) => c.type === 'user' && c.id !== '0@c.us')
+          .sort((a, b) => {
+            // Named contacts first, then by name/number alphabetically
+            const nameA = (a.name || '').toLowerCase();
+            const nameB = (b.name || '').toLowerCase();
+            if (nameA && !nameB) return -1;
+            if (!nameA && nameB) return 1;
+            const keyA = nameA || formatPhone(a.id);
+            const keyB = nameB || formatPhone(b.id);
+            return keyA.localeCompare(keyB);
+          });
+        dispatch({ type: 'FETCH_SUCCESS', contacts: users });
+        return;
+      } catch {
+        if (attempt < MAX_ATTEMPTS) {
+          // Wait longer each attempt (0.5s, 1s) before retrying
+          await new Promise((r) => setTimeout(r, attempt * 500));
+        }
+      }
     }
+
+    dispatch({ type: 'FETCH_ERROR', error: 'Could not load contacts. Check your connection and try again.' });
   }, [credentials]);
 
   useEffect(() => {
@@ -73,24 +76,20 @@ function ContactsPanel({ setCurrentView }) {
   }, [fetchContacts]);
 
   const handleContactClick = (contact) => {
-    const phone = contact.id.replace('@c.us', '');
-    createChat(phone);
-    setCurrentView('chats');
+    createChat(contact.id.replace('@c.us', ''));
+    setCurrentView('all');
   };
 
   const filtered = contacts.filter((c) => {
     if (!searchValue.trim()) return true;
     const q = searchValue.toLowerCase();
-    return (
-      (c.name || '').toLowerCase().includes(q) ||
-      c.id.includes(q)
-    );
+    return (c.name || '').toLowerCase().includes(q) || c.id.includes(q);
   });
 
   return (
-    <div className="contacts-panel">
-      <div className="contacts-panel-header">
-        <h1>Contacts</h1>
+    <SidePanel
+      title="Contacts"
+      actions={
         <button
           className="refresh-btn"
           onClick={fetchContacts}
@@ -99,12 +98,8 @@ function ContactsPanel({ setCurrentView }) {
           disabled={loading}
         >
           <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
+            width="16" height="16" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" strokeWidth="2"
             aria-hidden="true"
             className={loading ? 'spinning' : ''}
           >
@@ -113,13 +108,8 @@ function ContactsPanel({ setCurrentView }) {
             <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
           </svg>
         </button>
-      </div>
-
-      <div className="contacts-search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
+      }
+      search={
         <input
           type="search"
           placeholder="Search contacts"
@@ -127,9 +117,9 @@ function ContactsPanel({ setCurrentView }) {
           onChange={(e) => dispatchSearch(e.target.value)}
           aria-label="Search contacts"
         />
-      </div>
-
-      <div className="contacts-list" role="list" aria-live="polite" aria-busy={loading}>
+      }
+    >
+      <div role="list" aria-live="polite" aria-busy={loading}>
         {loading && (
           <div className="contacts-status">
             <div className="spinner" aria-hidden="true" />
@@ -163,21 +153,15 @@ function ContactsPanel({ setCurrentView }) {
             role="listitem"
             title={`Start chat with ${contact.name || formatPhone(contact.id)}`}
           >
-            <div className="contact-avatar" aria-hidden="true">
-              {getInitials(contact)}
-            </div>
+            <div className="contact-avatar" aria-hidden="true">{getInitials(contact)}</div>
             <div className="contact-info">
-              <span className="contact-name">
-                {contact.name || formatPhone(contact.id)}
-              </span>
-              {contact.name && (
-                <span className="contact-phone">{formatPhone(contact.id)}</span>
-              )}
+              <span className="contact-name">{contact.name || formatPhone(contact.id)}</span>
+              {contact.name && <span className="contact-phone">{formatPhone(contact.id)}</span>}
             </div>
           </button>
         ))}
       </div>
-    </div>
+    </SidePanel>
   );
 }
 
