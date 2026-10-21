@@ -1,3 +1,4 @@
+import ConnectionStatus from '../ConnectionStatus/ConnectionStatus';
 import './SidePanel.scss';
 
 /**
@@ -9,7 +10,10 @@ function SidePanel({ title, actions, search, children }) {
   return (
     <div className="side-panel">
       <div className="side-panel-header">
-        <h1>{title}</h1>
+        <div className="side-panel-title-row">
+          <h1>{title}</h1>
+          <ConnectionStatus />
+        </div>
         {actions && <div className="side-panel-actions">{actions}</div>}
       </div>
 

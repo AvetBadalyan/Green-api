@@ -115,6 +115,18 @@ export function ChatProvider({ children, onMount }) {
     });
   }, []);
 
+  const removeMessage = useCallback((chatId, messageId) => {
+    setChats((prev) => {
+      const updated = prev.map((c) =>
+        c.id === chatId
+          ? { ...c, messages: c.messages.filter((m) => m.id !== messageId) }
+          : c
+      );
+      persistChats(updated);
+      return updated;
+    });
+  }, []);
+
   const receiveMessage = useCallback((phoneNumber, message) => {
     setChats((prev) => {
       const existing = prev.find((c) => c.phoneNumber === phoneNumber);
@@ -279,6 +291,7 @@ export function ChatProvider({ children, onMount }) {
       markChatReadById,
       createChat,
       addMessage,
+      removeMessage,
       receiveMessage,
       deleteChat,
       resetChats,
@@ -286,7 +299,7 @@ export function ChatProvider({ children, onMount }) {
       mergeHistory,
     }),
     [chats, activeChat, setActiveChat, markChatReadById, createChat, addMessage,
-     receiveMessage, deleteChat, resetChats, syncApiChats, mergeHistory]
+     removeMessage, receiveMessage, deleteChat, resetChats, syncApiChats, mergeHistory]
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

@@ -1,13 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import { useChat } from '../../context/ChatContext';
+import { useAuth } from '../../context/AuthContext';
+import { checkWhatsapp } from '../../services/api';
 import './NewChatModal.scss';
 
 const MIN_PHONE_LENGTH = 11; // digits incl. country code
 
 function NewChatModal({ onClose }) {
+  const { credentials } = useAuth();
   const { createChat } = useChat();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [error, setError] = useState('');
+  const [checking, setChecking] = useState(false);
 
   const modalRef = useRef(null);
   const phoneInputRef = useRef(null);
@@ -37,9 +41,10 @@ function NewChatModal({ onClose }) {
   const cleanPhone = phoneNumber.replace(/\D/g, '');
   const isValid = cleanPhone.length >= MIN_PHONE_LENGTH;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
     if (!cleanPhone) {
       setError('Please enter a phone number');
       return;
@@ -48,8 +53,25 @@ function NewChatModal({ onClose }) {
       setError(`Include country code — at least ${MIN_PHONE_LENGTH} digits`);
       return;
     }
-    createChat(phoneNumber);
-    onClose();
+
+    // Validate phone exists on WhatsApp
+    setChecking(true);
+    try {
+      const result = await checkWhatsapp(credentials, cleanPhone);
+      if (!result.existsWhatsapp) {
+        setError('This number is not registered on WhatsApp');
+        return;
+      }
+      createChat(cleanPhone);
+      onClose();
+    } catch (err) {
+      console.error('CheckWhatsapp error:', err);
+      // If API fails, still create chat (graceful fallback)
+      createChat(cleanPhone);
+      onClose();
+    } finally {
+      setChecking(false);
+    }
   };
 
   const handleBackdropClick = (e) => {
@@ -97,9 +119,9 @@ function NewChatModal({ onClose }) {
           <button
             type="submit"
             className="find-btn"
-            disabled={!isValid}
+            disabled={!isValid || checking}
           >
-            Find in MAX
+            {checking ? 'Checking…' : 'Find in MAX'}
           </button>
         </form>
       </div>

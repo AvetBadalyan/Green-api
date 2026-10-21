@@ -4,13 +4,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  // MAX-style: dark navy with very subtle space pattern effect
-  background-color: $chat-bg;
-  background-image:
-    radial-gradient(ellipse 60% 40% at 15% 80%, rgba(24, 119, 242, 0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 50% at 85% 20%, rgba(100, 50, 200, 0.05) 0%, transparent 60%);
+  background-color: transparent; // ChatBackground handles this now
 
-  // Mobile: adjust height to account for bottom nav
   @media (max-width: 768px) {
     height: auto;
     flex: 1;
@@ -87,68 +82,135 @@
   }
 }
 
-.chat-input-area {
+// ─── MAX-style input bar ─────────────────────────────────────────────────────
+// The input bar spans full width but the form inside is centered with max-width
+
+.chat-input-bar {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 8px 16px 16px;
+  background-color: transparent;
+}
+
+.chat-input-container {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-sm $spacing-md;
-  background-color: $header-bg;
-  border-top: 1px solid $border-color;
-  flex-shrink: 0;
+  gap: 4px;
+  width: 100%;
+  max-width: 708px; // MAX exact width
+  height: 48px;
 
   @media (max-width: 768px) {
-    padding: $spacing-sm $spacing-md $spacing-md;
+    max-width: 100%;
+  }
+}
+
+// Ghost icon buttons (attachment, sticker, video, mic)
+.input-icon-btn {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color $transition-fast, background-color $transition-fast;
+  flex-shrink: 0;
+
+  svg {
+    width: 24px;
+    height: 24px;
   }
 
-  input {
-    flex: 1;
-    padding: $spacing-sm $spacing-md;
-    background-color: rgba(255, 255, 255, 0.06);
-    border: 1px solid $border-color;
-    border-radius: $radius-xl;
-    color: $text-primary;
-    font-size: 14px;
-    height: 40px;
-    transition: border-color $transition-fast;
-
-    &::placeholder {
-      color: $text-muted;
-    }
-
-    &:focus {
-      border-color: rgba($primary-accent, 0.5);
-    }
-
-    &:disabled {
-      opacity: 0.5;
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(255, 255, 255, 0.06);
     }
   }
 
-  .send-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: $primary-accent;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color $transition-fast;
-    flex-shrink: 0;
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
 
-    @media (hover: hover) {
-      &:hover:not(:disabled) {
-        background-color: $primary-accent-hover;
-      }
-    }
+// Text input wrapper — MAX: 560px inner width, rounded, dark bg
+.input-field-wrap {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  transition: background-color $transition-fast;
 
-    &:disabled {
-      background-color: rgba($primary-accent, 0.3);
-    }
+  &:focus-within {
+    background-color: rgba(255, 255, 255, 0.09);
+  }
+}
 
-    .loading {
-      font-size: 14px;
-      letter-spacing: 1px;
+.input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: $text-primary;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.15px;
+  min-width: 0;
+  height: 20px;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+// Send button — blue circle, 32×32
+.send-btn {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: $primary-accent;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+  flex-shrink: 0;
+  padding: 0;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      background-color: $primary-accent-hover;
     }
+  }
+
+  &:disabled {
+    background-color: rgba($primary-accent, 0.4);
+    cursor: not-allowed;
   }
 }

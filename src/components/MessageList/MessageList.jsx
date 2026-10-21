@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './MessageList.scss';
 
-function MessageList({ messages }) {
+function MessageList({ messages, onDeleteMessage }) {
   const listRef = useRef(null);
+  const [contextMenu, setContextMenu] = useState(null);
 
   // Auto-scroll to bottom whenever new messages arrive
   useEffect(() => {
@@ -11,10 +12,41 @@ function MessageList({ messages }) {
     }
   }, [messages]);
 
+  // Close context menu on click outside or Escape
+  useEffect(() => {
+    if (!contextMenu) return;
+    const handleClick = () => setContextMenu(null);
+    const handleKeyDown = (e) => { if (e.key === 'Escape') setContextMenu(null); };
+    document.addEventListener('click', handleClick);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('click', handleClick);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [contextMenu]);
+
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
     if (isNaN(date)) return '';
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const handleContextMenu = (e, message) => {
+    // Only allow delete for outgoing messages
+    if (message.type !== 'outgoing') return;
+    e.preventDefault();
+    setContextMenu({
+      x: e.clientX,
+      y: e.clientY,
+      messageId: message.id,
+    });
+  };
+
+  const handleDelete = () => {
+    if (contextMenu && onDeleteMessage) {
+      onDeleteMessage(contextMenu.messageId);
+    }
+    setContextMenu(null);
   };
 
   if (!messages || messages.length === 0) {
@@ -32,6 +64,7 @@ function MessageList({ messages }) {
         <div
           key={message.id}
           className={`message ${message.type === 'incoming' ? 'incoming' : 'outgoing'}`}
+          onContextMenu={(e) => handleContextMenu(e, message)}
         >
           <div className="message-content">
             <p className="message-text">{message.text}</p>
@@ -40,15 +73,82 @@ function MessageList({ messages }) {
                 {formatTime(message.timestamp)}
               </time>
               {message.type === 'outgoing' && (
-                <svg className="message-checkmark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-label="Sent" role="img">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+                <MessageCheckmark status={message.status} />
               )}
             </div>
           </div>
         </div>
       ))}
+
+      {/* Context menu for delete */}
+      {contextMenu && (
+        <div
+          className="message-context-menu"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+        >
+          <button onClick={handleDelete}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
+            Delete
+          </button>
+        </div>
+      )}
     </div>
+  );
+}
+
+/**
+ * Single tick = sent
+ * Double tick = delivered
+ * Double tick blue = read
+ */
+function MessageCheckmark({ status }) {
+  // Default to 'sent' if no status
+  const actualStatus = status || 'sent';
+
+  if (actualStatus === 'read') {
+    // Double tick, blue
+    return (
+      <svg className="message-checkmark read" width="16" height="14" viewBox="0 0 16 11" fill="none" aria-label="Read">
+        <path
+          d="M11.5 1L5.5 7L3 4.5M14.5 1L8.5 7"
+          stroke="#34b7f1"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  if (actualStatus === 'delivered') {
+    // Double tick, gray
+    return (
+      <svg className="message-checkmark delivered" width="16" height="14" viewBox="0 0 16 11" fill="none" aria-label="Delivered">
+        <path
+          d="M11.5 1L5.5 7L3 4.5M14.5 1L8.5 7"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  // Single tick = sent
+  return (
+    <svg className="message-checkmark sent" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-label="Sent">
+      <polyline
+        points="20 6 9 17 4 12"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 

@@ -32,6 +32,14 @@
   }
 }
 
+// Title with connection status dot
+.side-panel-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
 .side-panel-actions {
   display: flex;
   align-items: center;

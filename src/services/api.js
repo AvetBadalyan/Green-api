@@ -20,6 +20,17 @@ export const getSettings = async (credentials) => {
   return response.data;
 };
 
+/**
+ * Get instance connection state.
+ * Returns: { stateInstance: 'authorized' | 'notAuthorized' | 'sleepMode' | ... }
+ */
+export const getStateInstance = async (credentials) => {
+  const { idInstance, apiTokenInstance } = credentials;
+  const api = createApiInstance(idInstance);
+  const response = await api.get(`/getStateInstance/${apiTokenInstance}`);
+  return response.data;
+};
+
 // ─── Sending ─────────────────────────────────────────────────────────────────
 
 /** Send a text message to a WhatsApp number. */
@@ -30,6 +41,17 @@ export const sendMessage = async (credentials, phoneNumber, message) => {
     chatId: `${phoneNumber}@c.us`,
     message,
   });
+  return response.data;
+};
+
+/**
+ * Send typing status to indicate user is typing.
+ * @param {string} chatId - "phone@c.us" or "groupid@g.us"
+ */
+export const sendTyping = async (credentials, chatId) => {
+  const { idInstance, apiTokenInstance } = credentials;
+  const api = createApiInstance(idInstance);
+  const response = await api.post(`/sendTyping/${apiTokenInstance}`, { chatId });
   return response.data;
 };
 
@@ -72,6 +94,35 @@ export const getContacts = async (credentials) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
   const response = await api.get(`/getContacts/${apiTokenInstance}`);
+  return response.data;
+};
+
+/**
+ * Check if a phone number is registered on WhatsApp.
+ * @param {string} phoneNumber - Phone number without @ suffix
+ * @returns {{ existsWhatsapp: boolean, numberIsFull: boolean }}
+ */
+export const checkWhatsapp = async (credentials, phoneNumber) => {
+  const { idInstance, apiTokenInstance } = credentials;
+  const api = createApiInstance(idInstance);
+  const response = await api.post(`/checkWhatsapp/${apiTokenInstance}`, {
+    phoneNumber,
+  });
+  return response.data;
+};
+
+/**
+ * Delete a message from a chat.
+ * @param {string} chatId - "phone@c.us" or "groupid@g.us"
+ * @param {string} idMessage - Message ID to delete
+ */
+export const deleteMessage = async (credentials, chatId, idMessage) => {
+  const { idInstance, apiTokenInstance } = credentials;
+  const api = createApiInstance(idInstance);
+  const response = await api.post(`/deleteMessage/${apiTokenInstance}`, {
+    chatId,
+    idMessage,
+  });
   return response.data;
 };
 
