@@ -66,3 +66,19 @@ export const getSettings = async (credentials) => {
   const response = await api.get(`/getSettings/${apiTokenInstance}`);
   return response.data;
 };
+
+/**
+ * Get the contact list for this WhatsApp instance.
+ * Returns an array of { id, name, type } objects.
+ * - id: phone number in the format "79001234567@c.us"
+ * - name: display name (may be empty)
+ * - type: "user" | "group"
+ * Docs: https://green-api.com/en/docs/api/contacts/GetContacts/
+ */
+export const getContacts = async (credentials) => {
+  const { idInstance, apiTokenInstance } = credentials;
+  const api = createApiInstance(idInstance);
+
+  const response = await api.get(`/getContacts/${apiTokenInstance}`);
+  return response.data;
+};
