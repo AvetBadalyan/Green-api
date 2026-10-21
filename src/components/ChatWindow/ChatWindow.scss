@@ -11,7 +11,7 @@
     radial-gradient(ellipse 40% 50% at 85% 20%, rgba(100, 50, 200, 0.05) 0%, transparent 60%);
 
   // Mobile: adjust height to account for bottom nav
-  @include mobile {
+  @media (max-width: 768px) {
     height: auto;
     flex: 1;
     min-height: 0;
@@ -28,7 +28,7 @@
   height: 56px;
   flex-shrink: 0;
 
-  @include mobile {
+  @media (max-width: 768px) {
     padding: $spacing-sm $spacing-md;
     height: 48px;
   }
@@ -45,7 +45,7 @@
     font-weight: 600;
     font-size: 13px;
 
-    @include mobile {
+    @media (max-width: 768px) {
       width: 32px;
       height: 32px;
       font-size: 11px;
@@ -62,7 +62,7 @@
     color: $text-primary;
     display: block;
 
-    @include mobile {
+    @media (max-width: 768px) {
       font-size: 14px;
     }
   }
@@ -96,7 +96,7 @@
   border-top: 1px solid $border-color;
   flex-shrink: 0;
 
-  @include mobile {
+  @media (max-width: 768px) {
     padding: $spacing-sm $spacing-md $spacing-md;
   }
 

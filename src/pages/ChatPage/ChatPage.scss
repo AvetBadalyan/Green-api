@@ -6,7 +6,7 @@
   overflow: hidden;
   background-color: $chat-bg;
   // Mobile: stack sidebar above chat
-  @include mobile {
+  @media (max-width: 768px) {
     flex-direction: column;
   }
 }
@@ -19,7 +19,7 @@
   min-width: 0;
 
   // Mobile: take remaining height
-  @include mobile {
+  @media (max-width: 768px) {
     flex: 1;
     min-height: 0;
   }

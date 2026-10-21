@@ -8,7 +8,7 @@
   flex-direction: column;
   height: 100vh;
 
-  @include mobile {
+  @media (max-width: 768px) {
     width: 100%;
     height: auto;
     max-height: calc(70vh - 52px);
@@ -102,7 +102,7 @@
   flex: 1;
   overflow-y: auto;
 
-  @include mobile {
+  @media (max-width: 768px) {
     max-height: 200px;
   }
 }
@@ -188,7 +188,7 @@
   flex-shrink: 0;
   line-height: 1;
 
-  @include mobile {
+  @media (max-width: 768px) {
     width: 36px;
     height: 36px;
     font-size: 12px;

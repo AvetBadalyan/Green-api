@@ -8,7 +8,7 @@
   flex-direction: column;
   height: 100vh;
 
-  @include mobile {
+  @media (max-width: 768px) {
     width: 100%;
     height: auto;
     max-height: calc(70vh - 52px);

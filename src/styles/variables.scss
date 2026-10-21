@@ -2,8 +2,9 @@
 // Extracted from mobile app and web screenshots
 
 $primary-accent: #007aff;        // MAX exact blue — matches --text-themed / button-primary
-$primary-accent-hover: #479fff;  // MAX hover — lighter blue (rgb 71 159 255)
+$primary-accent-hover: #479fff;  // MAX hover — lighter blue rgb(71, 159, 255)
 $primary-accent-dark: #0062cc;   // Pressed / active state
+$primary-accent-light: rgba(0, 122, 255, 0.15); // Transparent blue for active bg
 
 $nav-bg: #111122;                // Leftmost icon nav - dark navy
 $sidebar-bg: #111122;            // Chat list panel - same dark navy
@@ -12,7 +13,7 @@ $header-bg: #111122;             // Header/footer bars
 
 $text-primary: #ffffff;          // White text
 $text-secondary: #888899;        // Muted gray-purple text
-$text-muted: #8888a8;            // Lighter muted for WCAG AA compliance (4.5:1 on dark bg)
+$text-muted: #8888a8;            // Lighter muted for WCAG AA compliance
 
 $border-color: #1e1e35;          // Subtle border between panels
 
@@ -22,11 +23,11 @@ $error-color-soft: #ff6b6b;
 $error-bg: rgba(255, 82, 82, 0.08);
 $error-border: rgba(255, 82, 82, 0.25);
 
-// Message bubbles - purple-gray like MAX messages
+// Message bubbles
 $message-outgoing: #2d2d52;      // Sent messages - medium purple
 $message-incoming: #1e1e38;      // Received messages - darker purple
 
-// Avatar gradients - purple gradient like MAX profile icons
+// Avatar gradients
 $avatar-gradient-start: #6b3fa0;
 $avatar-gradient-end: #3d2080;
 
@@ -47,21 +48,5 @@ $radius-xl: 18px;
 $transition-fast: 0.15s ease;
 $transition-normal: 0.25s ease;
 
-// Responsive breakpoints
-$breakpoint-mobile: 480px;
-$breakpoint-tablet: 768px;
-$breakpoint-desktop: 1024px;
-
-// Responsive mixin
-@mixin mobile {
-  @media (max-width: $breakpoint-tablet) {
-    @content;
-  }
-}
-
-@mixin tablet-up {
-  @media (min-width: $breakpoint-tablet + 1) {
-    @content;
-  }
-}
-$primary-accent-light: rgba(0, 122, 255, 0.15); // Transparent blue for active bg
+// Mobile breakpoint — use directly: @media (max-width: 768px) { ... }
+$breakpoint-mobile: 768px;

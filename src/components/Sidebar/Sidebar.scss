@@ -6,7 +6,7 @@
   flex-shrink: 0;
 
   // Mobile: horizontal layout at bottom
-  @include mobile {
+  @media (max-width: 768px) {
     height: auto;
     flex-direction: column-reverse;
     position: fixed;
@@ -30,7 +30,7 @@
   padding: $spacing-md 0;
 
   // Mobile: horizontal bar at bottom
-  @include mobile {
+  @media (max-width: 768px) {
     width: 100%;
     height: 52px;
     flex-direction: row;
@@ -47,7 +47,7 @@
     justify-content: center;
     color: $primary-accent;
 
-    @include mobile {
+    @media (max-width: 768px) {
       display: none;
     }
   }
@@ -59,7 +59,7 @@
     gap: 2px;
     flex: 1;
 
-    @include mobile {
+    @media (max-width: 768px) {
       flex-direction: row;
       gap: $spacing-md;
       flex: none;
@@ -70,7 +70,7 @@
     margin-top: auto;
     padding-bottom: $spacing-sm;
 
-    @include mobile {
+    @media (max-width: 768px) {
       margin-top: 0;
       margin-left: auto;
       padding-bottom: 0;
@@ -120,7 +120,7 @@
   height: 100vh;
 
   // Mobile: full width, collapsible
-  @include mobile {
+  @media (max-width: 768px) {
     width: 100%;
     height: auto;
     max-height: calc(70vh - 52px);
@@ -188,7 +188,7 @@
   flex: 1;
   overflow-y: auto;
 
-  @include mobile {
+  @media (max-width: 768px) {
     max-height: 200px;
   }
 }
@@ -240,7 +240,7 @@
   font-size: 14px;
   flex-shrink: 0;
 
-  @include mobile {
+  @media (max-width: 768px) {
     width: 36px;
     height: 36px;
     font-size: 12px;
