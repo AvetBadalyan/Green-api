@@ -124,7 +124,7 @@
   margin-top: $spacing-sm;
 
   &:hover:not(:disabled) {
-    background-color: $primary-accent-dark;
+    background-color: $primary-accent-hover;
   }
 
   &:disabled {

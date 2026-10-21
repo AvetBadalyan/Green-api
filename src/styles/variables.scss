@@ -2,8 +2,8 @@
 // Extracted from mobile app and web screenshots
 
 $primary-accent: #007aff;        // MAX exact blue — matches --text-themed / button-primary
-$primary-accent-dark: #0062cc;   // Darker blue for hover states
-$primary-accent-light: rgba(0, 122, 255, 0.15); // Transparent blue for active bg
+$primary-accent-hover: #479fff;  // MAX hover — lighter blue (rgb 71 159 255)
+$primary-accent-dark: #0062cc;   // Pressed / active state
 
 $nav-bg: #111122;                // Leftmost icon nav - dark navy
 $sidebar-bg: #111122;            // Chat list panel - same dark navy
@@ -64,3 +64,4 @@ $breakpoint-desktop: 1024px;
     @content;
   }
 }
+$primary-accent-light: rgba(0, 122, 255, 0.15); // Transparent blue for active bg

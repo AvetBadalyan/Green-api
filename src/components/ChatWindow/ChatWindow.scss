@@ -137,7 +137,7 @@
     flex-shrink: 0;
 
     &:hover:not(:disabled) {
-      background-color: $primary-accent-dark;
+      background-color: $primary-accent-hover;
     }
 
     &:disabled {
