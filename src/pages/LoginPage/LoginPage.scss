@@ -1,27 +1,81 @@
 @use '../../styles/variables.scss' as *;
 
 .login-page {
+  position: relative;      // positioning context for ChatBackground
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: $chat-bg;
-  background-image: radial-gradient(ellipse 80% 60% at 50% 70%, rgba(80, 40, 160, 0.2) 0%, transparent 70%);
   padding: $spacing-md;
+  overflow: hidden;
 }
 
+// Card sits above the decorative space-pattern background
+.login-page > .login-container {
+  z-index: 1;
+}
+
+// MAX login card: 580px wide, 28px radius, subtle border + soft elevation,
+// frosted backdrop. We size generously but keep the form comfortable inside.
 .login-container {
-  background-color: $sidebar-bg;
-  border-radius: $radius-lg;
-  padding: $spacing-xl;
+  position: relative;
+  background-color: $sidebar-bg;      // MAX card bg #17181c
+  border-radius: 28px;
+  border: 1px solid $surface-hover;   // very subtle hairline (6% white)
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 24px 0px;
+  backdrop-filter: blur(25px);
+  padding: 48px 56px;
   width: 100%;
-  max-width: 400px;
-  border: 1px solid $border-color;
+  max-width: 580px;
+  text-align: center;
+  overflow: hidden;
+
+  // MAX signature: a soft purple-blue glow radiating from the top-center,
+  // like a 180° half-circle fading downward into the card.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 240px;
+    background: radial-gradient(
+      ellipse 60% 100% at 50% 0%,
+      rgba(80, 91, 199, 0.4) 0%,
+      rgba(120, 70, 180, 0.2) 40%,
+      transparent 75%
+    );
+    pointer-events: none;
+  }
+
+  // Keep content above the glow
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 32px 24px;
+    border-radius: 20px;
+  }
+
+  // Small phones: tighten padding further so the form isn't cramped by margins
+  @media (max-width: 480px) {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
 }
 
 .login-header {
   text-align: center;
   margin-bottom: $spacing-xl;
+
+  @media (max-width: 480px) {
+    margin-bottom: $spacing-lg;
+  }
 
   .logo {
     display: flex;
@@ -34,7 +88,7 @@
       width: 44px;
       height: 44px;
       background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
-      color: white;
+      color: $text-primary;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -66,7 +120,16 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
+  gap: 24px;                          // MAX form row-gap
+  // MAX input/button are ~336px; center the form column within the wide card
+  max-width: 336px;
+  margin: 0 auto;
+  width: 100%;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
 }
 
 .form-group {
@@ -76,26 +139,27 @@
 
   label {
     font-size: 13px;
-    color: $text-secondary;
+    color: $text-tertiary;              // MAX label color (rgba white 0.64)
     font-weight: 500;
   }
 
   input {
-    padding: $spacing-sm $spacing-md;
-    background-color: $surface-hover;
-    border: 1px solid $border-color;
-    border-radius: $radius-md;
+    padding: 0 12px;
+    background-color: $surface-field;   // MAX --background-tertiary (rgba white 0.09)
+    border: 1px solid transparent;
+    border-radius: 16px;                // MAX input radius
     color: $text-primary;
-    font-size: 15px;
-    height: 44px;
-    transition: border-color $transition-fast;
+    font-size: 15px;                    // MAX input font-size
+    height: 52px;                       // MAX input height
+    transition: border-color $transition-fast, background-color $transition-fast;
 
     &::placeholder {
-      color: $text-muted;
+      color: $text-tertiary;
     }
 
     &:focus {
-      border-color: rgba($primary-accent, 0.6);
+      border-color: $primary-accent;
+      background-color: $surface-hover-strong;
     }
 
     &:disabled {
@@ -114,12 +178,15 @@
 }
 
 .login-button {
-  height: 44px;
+  height: 60px;                        // MAX Continue button height
   background-color: $primary-accent;
-  color: white;
-  font-size: 15px;
+  color: $text-primary;
+  font-size: 17px;                     // MAX button font-size
   font-weight: 500;
-  border-radius: $radius-md;
+  letter-spacing: 0.15px;
+  border: none;
+  border-radius: 20px;                 // MAX button radius
+  cursor: pointer;
   transition: background-color $transition-fast;
   margin-top: $spacing-sm;
 
@@ -130,7 +197,9 @@
   }
 
   &:disabled {
-    background-color: rgba($primary-accent, 0.4);
+    background-color: $button-disabled;  // MAX --states-button-primary-disabled (#ffffff1f)
+    color: $text-tertiary;
+    cursor: not-allowed;
   }
 }
 
@@ -143,7 +212,27 @@
     font-size: 13px;
 
     a {
-      color: $primary-accent;
+      color: $text-primary;        // white link
+      cursor: pointer;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;     // no underline on hover, just pointer
+      }
+    }
+  }
+
+  // MAX-style legal line — muted, smaller, links are emphasised not colored
+  .login-legal {
+    color: $text-tertiary;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 336px;
+    margin: 0 auto $spacing-md;
+
+    a {
+      color: $text-secondary;
+      font-weight: 500;
 
       &:hover {
         text-decoration: underline;

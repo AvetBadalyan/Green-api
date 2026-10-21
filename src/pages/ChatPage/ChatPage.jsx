@@ -70,8 +70,12 @@ function ChatPage() {
     if (activeChatId) markChatReadById(activeChatId);
   }, [activeChatId, activeMsgCount, markChatReadById]);
 
+  // On narrow screens we show one pane at a time: the sidebar, or the open chat.
+  // A chat is "open" when activeChat is set, or when the Calls empty view is showing.
+  const chatPaneActive = Boolean(activeChat) || currentView === 'calls';
+
   return (
-    <div className="chat-page">
+    <div className={`chat-page${chatPaneActive ? ' chat-page--chat-open' : ''}`}>
       <Sidebar
         currentView={currentView}
         setCurrentView={setCurrentView}

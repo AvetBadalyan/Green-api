@@ -6,6 +6,12 @@
   display: flex;
   height: 100vh;
   flex-shrink: 0;
+
+  // On mobile the wrapper fills the screen; the side-panel stretches to fill
+  // the space left of the 77px icon nav (see SidePanel.scss).
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 }
 
 // ─── Left nav: 77px — matches MAX grid "navigation" column ───────────────────
@@ -121,7 +127,7 @@
   height: 16px;
   border-radius: 8px;
   background-color: $primary-accent;
-  color: white;
+  color: $text-primary;
   font-size: 10px;
   font-weight: 600;
   display: flex;
@@ -164,7 +170,7 @@
   height: 32px;
   border-radius: 18px;
   background-color: $primary-accent;
-  color: white;
+  color: $text-primary;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -225,19 +231,7 @@
   }
 }
 
-.chat-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  flex-shrink: 0;
-}
+// Avatar sizing/appearance lives in ChatAvatar.scss; the size prop drives it.
 
 .chat-info {
   flex: 1;
@@ -293,7 +287,7 @@
   height: 18px;
   border-radius: 9px;
   background-color: $primary-accent;
-  color: white;
+  color: $text-primary;
   font-size: 11px;
   font-weight: 600;
   display: flex;

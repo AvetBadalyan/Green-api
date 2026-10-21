@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { getSettings } from '../../services/api';
+import ChatBackground from '../../components/ChatBackground/ChatBackground';
 import './LoginPage.scss';
 
 function LoginPage() {
@@ -37,6 +38,8 @@ function LoginPage() {
 
   return (
     <div className="login-page">
+      {/* Same space-pattern background as the logged-in chat area */}
+      <ChatBackground />
       <div className="login-container">
         <div className="login-header">
           <div className="logo">
@@ -84,6 +87,16 @@ function LoginPage() {
         </form>
 
         <div className="login-footer">
+          <p className="login-legal">
+            By signing in, you agree to the{' '}
+            <a href="https://green-api.com/en/terms/" target="_blank" rel="noopener noreferrer">
+              Terms of Service
+            </a>{' '}
+            and{' '}
+            <a href="https://green-api.com/en/policy/" target="_blank" rel="noopener noreferrer">
+              Privacy Policy
+            </a>
+          </p>
           <p>
             No credentials?{' '}
             <a href="https://console.green-api.com/" target="_blank" rel="noopener noreferrer">

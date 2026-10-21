@@ -33,6 +33,7 @@ $divider: #ffffff1f;             // MAX --divider-primary — separators (0x1f =
 $surface-hover-strong: #ffffff14; // hover fill (0x14 = 8%)
 $surface-hover: #ffffff0f;       // subtle hover/border (0x0f = 6%)
 $surface-hover-soft: #ffffff0a;  // very subtle row hover (0x0a = 4%)
+$button-disabled: #ffffff1f;     // MAX --states-button-primary-disabled (0x1f = 12% white)
 
 $border-color: #1e1e35;          // Subtle border between panels
 
@@ -43,6 +44,14 @@ $error-bg: #ff525214;            // 0x14 = 8% red tint
 $error-border: #ff525240;        // 0x40 = 25% red border
 $positive: #2bc644;              // MAX --text-positive / --icon-positive
 $tick-read: #34b7f1;             // Read receipt blue (double-blue check)
+
+// Connection-status indicator dot
+$status-online: #4ade80;         // green  — authorized/connected
+$status-pending: #facc15;        // yellow — connecting/sleep mode
+$status-offline: #f87171;        // red    — disconnected/error
+
+// Elevation — popover/menu drop shadow
+$shadow-popover: 0 8px 24px rgba(0, 0, 0, 0.4);
 
 // Message bubbles
 $message-outgoing: #2d2d52;      // Sent messages - medium purple
@@ -69,5 +78,6 @@ $radius-xl: 18px;
 $transition-fast: 0.15s ease;
 $transition-normal: 0.25s ease;
 
-// Mobile breakpoint — use directly: @media (max-width: 768px) { ... }
-$breakpoint-mobile: 768px;
+// Breakpoints — use directly: @media (max-width: 768px) { ... }
+$breakpoint-mobile: 768px;  // tablet / small laptop → single-pane mobile layout
+$breakpoint-small: 480px;   // small phones → tighter spacing

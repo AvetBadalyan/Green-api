@@ -11,7 +11,7 @@ const TYPING_DEBOUNCE_MS = 2000;
 
 function ChatWindow() {
   const { credentials } = useAuth();
-  const { activeChat, addMessage, removeMessage } = useChat();
+  const { activeChat, addMessage, removeMessage, setActiveChat } = useChat();
   const [inputText, setInputText] = useState('');
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
@@ -89,14 +89,28 @@ function ChatWindow() {
   return (
     <div className="chat-window">
       <div className="chat-header">
+        {/* Back button — always visible (matches MAX web) */}
+        <button
+          className="chat-back-btn"
+          onClick={() => setActiveChat(null)}
+          aria-label="Back to chats"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+        </button>
         <ChatAvatar
           phoneNumber={activeChat.phoneNumber}
           name={activeChat.name}
-          size={36}
+          size={40}
         />
         <div className="chat-header-info">
           <span className="chat-name">
             {activeChat.name || `+${activeChat.phoneNumber}`}
+          </span>
+          <span className="chat-subtitle">
+            {activeChat.isGroup ? 'Group chat' : 'Personal chat'}
           </span>
         </div>
       </div>

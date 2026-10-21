@@ -28,27 +28,37 @@
     height: 48px;
   }
 
-  .chat-avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
+  // Back arrow — always visible (matches MAX web.max.ru)
+  .chat-back-btn {
     display: flex;
+    background: transparent;
+    border: none;
+    color: $icon-secondary;
+    cursor: pointer;
+    padding: 4px;
+    margin-right: 4px;
     align-items: center;
     justify-content: center;
-    color: $text-primary;
-    font-weight: 600;
-    font-size: 13px;
+    flex-shrink: 0;
+    transition: color $transition-fast;
 
-    @media (max-width: 768px) {
-      width: 32px;
-      height: 32px;
-      font-size: 11px;
+    svg { display: block; }
+
+    @media (hover: hover) {
+      &:hover {
+        color: $text-primary;
+      }
     }
   }
 
+  // Avatar sizing/appearance lives in ChatAvatar.scss; the size prop drives it.
+
   .chat-header-info {
     flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .chat-name {
@@ -56,9 +66,26 @@
     font-weight: 500;
     color: $text-primary;
     display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     @media (max-width: 768px) {
       font-size: 14px;
+    }
+  }
+
+  .chat-subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    color: $text-secondary;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
     }
   }
 }
@@ -220,7 +247,7 @@
   height: 32px;
   border-radius: 50%;
   background-color: $primary-accent;
-  color: #ffffff;
+  color: $text-primary;
   border: none;
   display: flex;
   align-items: center;
