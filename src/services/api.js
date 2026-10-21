@@ -3,12 +3,58 @@ import axios from 'axios';
 const API_BASE_URL = 'https://api.green-api.com';
 const REQUEST_TIMEOUT_MS = 15000;
 
-const createApiInstance = (idInstance) =>
-  axios.create({
+// GREEN-API throttles requests (429). When that happens we retry a couple of
+// times with exponential backoff instead of hammering the endpoint.
+const MAX_RETRIES = 2;
+const BASE_BACKOFF_MS = 1000;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// In-flight request deduplication — if the same logical request is already
+// pending (e.g. React Strict Mode double-mount), return the existing promise
+// instead of firing a second HTTP call.
+const _inflight = new Map();
+const withDedup = (key, fn) => {
+  if (_inflight.has(key)) return _inflight.get(key);
+  const p = fn().finally(() => _inflight.delete(key));
+  _inflight.set(key, p);
+  return p;
+};
+
+const createApiInstance = (idInstance) => {
+  const instance = axios.create({
     baseURL: `${API_BASE_URL}/waInstance${idInstance}`,
     headers: { 'Content-Type': 'application/json' },
     timeout: REQUEST_TIMEOUT_MS,
   });
+
+  // Response interceptor: on 429, wait (respecting Retry-After if present) and retry.
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      const config = error.config;
+      const status = error.response?.status;
+
+      if (status === 429 && config && !config.__isRetryRequest) {
+        config.__retryCount = (config.__retryCount || 0) + 1;
+
+        if (config.__retryCount <= MAX_RETRIES) {
+          const retryAfterHeader = Number(error.response?.headers?.['retry-after']);
+          const backoff = Number.isFinite(retryAfterHeader) && retryAfterHeader > 0
+            ? retryAfterHeader * 1000
+            : BASE_BACKOFF_MS * 2 ** (config.__retryCount - 1);
+
+          await sleep(backoff);
+          return instance(config);
+        }
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
+};
 
 // ─── Account ─────────────────────────────────────────────────────────────────
 
@@ -23,12 +69,15 @@ export const getSettings = async (credentials) => {
 /**
  * Get instance connection state.
  * Returns: { stateInstance: 'authorized' | 'notAuthorized' | 'sleepMode' | ... }
+ * Deduplicated: concurrent calls share one HTTP request (handles Strict Mode double-invoke).
  */
-export const getStateInstance = async (credentials) => {
+export const getStateInstance = (credentials) => {
   const { idInstance, apiTokenInstance } = credentials;
-  const api = createApiInstance(idInstance);
-  const response = await api.get(`/getStateInstance/${apiTokenInstance}`);
-  return response.data;
+  return withDedup(`getStateInstance:${idInstance}`, async () => {
+    const api = createApiInstance(idInstance);
+    const response = await api.get(`/getStateInstance/${apiTokenInstance}`);
+    return response.data;
+  });
 };
 
 // ─── Sending ─────────────────────────────────────────────────────────────────
@@ -85,12 +134,15 @@ export const deleteNotification = async (credentials, receiptId) => {
 /**
  * Get the full list of chats for this account.
  * Returns: [{ id, name, type: 'user'|'group', unreadCount, archive }]
+ * Deduplicated: concurrent calls share one HTTP request (handles Strict Mode double-invoke).
  */
-export const getChats = async (credentials) => {
+export const getChats = (credentials) => {
   const { idInstance, apiTokenInstance } = credentials;
-  const api = createApiInstance(idInstance);
-  const response = await api.get(`/getChats/${apiTokenInstance}`);
-  return response.data;
+  return withDedup(`getChats:${idInstance}`, async () => {
+    const api = createApiInstance(idInstance);
+    const response = await api.get(`/getChats/${apiTokenInstance}`);
+    return response.data;
+  });
 };
 
 /**

@@ -3,23 +3,28 @@ import { receiveNotification, deleteNotification } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
 
-const POLL_INTERVAL_MS = 5000;
+const POLL_INTERVAL_MS = 5000;       // normal cadence
+const MAX_POLL_INTERVAL_MS = 30000;  // cap when backing off on rate-limit
 
 // Statuses that should advance the message tick UI
 const TICK_STATUSES = new Set(['sent', 'delivered', 'read']);
 
 /**
- * Polls the GREEN-API notification queue on a fixed interval.
+ * Polls the GREEN-API notification queue.
  * Handles:
  *   - incomingMessageReceived  → adds incoming message to the right chat
  *   - outgoingMessageStatus    → advances tick status (sent → delivered → read)
  * All other notification types are consumed and deleted to keep the queue clear.
+ *
+ * Uses a self-scheduling timeout (not setInterval) so the delay can grow when
+ * GREEN-API rate-limits us (429) and shrink back to normal once it recovers.
  */
 export default function useMessagePolling() {
   const { credentials } = useAuth();
   const { receiveMessage, updateMessageStatus } = useChat();
-  const pollingRef = useRef(null);
   const isPollingRef = useRef(false);
+  const timerRef = useRef(null);
+  const delayRef = useRef(POLL_INTERVAL_MS);
 
   const handleIncomingMessage = useCallback(
     (senderPhone, message) => receiveMessage(senderPhone, message),
@@ -34,54 +39,68 @@ export default function useMessagePolling() {
   useEffect(() => {
     if (!credentials) return;
 
+    let cancelled = false;
+
+    const scheduleNext = () => {
+      if (cancelled) return;
+      timerRef.current = setTimeout(pollOnce, delayRef.current);
+    };
+
     const pollOnce = async () => {
-      if (isPollingRef.current) return;
+      if (isPollingRef.current) { scheduleNext(); return; }
       isPollingRef.current = true;
 
       try {
         const notification = await receiveNotification(credentials);
-        if (!notification) return;
 
-        const { receiptId, body } = notification;
+        // Success → reset to normal cadence
+        delayRef.current = POLL_INTERVAL_MS;
 
-        if (body?.typeWebhook === 'incomingMessageReceived') {
-          const senderPhone = body.senderData?.sender?.replace(/@c\.us$/, '').replace(/@g\.us$/, '');
-          const textData = body.messageData?.textMessageData;
+        if (notification) {
+          const { receiptId, body } = notification;
 
-          if (senderPhone && textData?.textMessage) {
-            handleIncomingMessage(senderPhone, {
-              id: body.idMessage || `in-${crypto.randomUUID?.() ?? Date.now()}`,
-              text: textData.textMessage,
-              type: 'incoming',
-              // Use webhook's actual send time, not wall-clock arrival time
-              timestamp: body.timestamp
-                ? new Date(body.timestamp * 1000).toISOString()
-                : new Date().toISOString(),
-            });
+          if (body?.typeWebhook === 'incomingMessageReceived') {
+            const senderPhone = body.senderData?.sender?.replace(/@c\.us$/, '').replace(/@g\.us$/, '');
+            const textData = body.messageData?.textMessageData;
+
+            if (senderPhone && textData?.textMessage) {
+              handleIncomingMessage(senderPhone, {
+                id: body.idMessage || `in-${crypto.randomUUID?.() ?? Date.now()}`,
+                text: textData.textMessage,
+                type: 'incoming',
+                timestamp: body.timestamp
+                  ? new Date(body.timestamp * 1000).toISOString()
+                  : new Date().toISOString(),
+              });
+            }
+
+          } else if (body?.typeWebhook === 'outgoingMessageStatus') {
+            const { chatId, idMessage, status } = body;
+            if (chatId && idMessage && TICK_STATUSES.has(status)) {
+              handleOutgoingStatus(chatId, idMessage, status);
+            }
           }
 
-        } else if (body?.typeWebhook === 'outgoingMessageStatus') {
-          // GREEN-API sends ONE webhook type for all delivery transitions.
-          // status: 'sent' | 'delivered' | 'read' | 'failed' | 'noAccount' | etc.
-          const { chatId, idMessage, status } = body;
-          if (chatId && idMessage && TICK_STATUSES.has(status)) {
-            handleOutgoingStatus(chatId, idMessage, status);
-          }
+          await deleteNotification(credentials, receiptId);
         }
-        // All other types (outgoingAPIMessageReceived, stateInstanceChanged,
-        // incomingCall, deviceInfo, etc.) are silently consumed to clear the queue.
-
-        await deleteNotification(credentials, receiptId);
       } catch (err) {
-        console.error('Polling error:', err);
+        // On rate-limit, grow the delay (capped) so we stop hammering.
+        if (err?.response?.status === 429) {
+          delayRef.current = Math.min(delayRef.current * 2, MAX_POLL_INTERVAL_MS);
+        } else {
+          console.error('Polling error:', err);
+        }
       } finally {
         isPollingRef.current = false;
+        scheduleNext();
       }
     };
 
     pollOnce();
-    pollingRef.current = setInterval(pollOnce, POLL_INTERVAL_MS);
 
-    return () => clearInterval(pollingRef.current);
+    return () => {
+      cancelled = true;
+      clearTimeout(timerRef.current);
+    };
   }, [credentials, handleIncomingMessage, handleOutgoingStatus]);
 }

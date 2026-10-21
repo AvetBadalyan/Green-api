@@ -6,8 +6,8 @@
   right: 0;
   z-index: 50;
   min-width: 200px;
-  background-color: #25262d;          // MAX --background-card / secondary
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: $card-bg;          // MAX --background-card / secondary
+  border: 1px solid $surface-hover-strong;
   border-radius: 12px;
   padding: 6px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -36,12 +36,12 @@
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    color: rgba(255, 255, 255, 0.7);
+    color: $icon-secondary;
   }
 
   @media (hover: hover) {
     &:hover {
-      background-color: rgba(255, 255, 255, 0.07);
+      background-color: $surface-field;
     }
   }
 

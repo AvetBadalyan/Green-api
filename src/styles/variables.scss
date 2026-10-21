@@ -1,27 +1,48 @@
 // MAX (web.max.ru) exact color palette
 // Extracted from mobile app and web screenshots
 
+// Convention: all colors are hex. Opaque colors are 6-digit (#rrggbb),
+// translucent colors are 8-digit (#rrggbbaa) — matching MAX's authored tokens
+// byte-for-byte so they diff cleanly against the real web.max.ru DevTools values.
+// NOTE: $primary-accent stays 6-digit so Sass rgba($primary-accent, N) still works.
+
 $primary-accent: #007aff;        // MAX exact blue — matches --text-themed / button-primary
 $primary-accent-hover: #479fff;  // MAX hover — lighter blue rgb(71, 159, 255)
 $primary-accent-dark: #0062cc;   // Pressed / active state
-$primary-accent-light: rgba(0, 122, 255, 0.15); // Transparent blue for active bg
+$primary-accent-light: #007aff26; // Transparent blue for active bg (0x26 = 15%)
 
 $nav-bg: #0f0f12;                // MAX --background-surface (left nav column)
 $sidebar-bg: #17181c;            // MAX --background-primary (chat list panel)
 $chat-bg: #17181c;               // Main chat area background
 $header-bg: #17181c;             // Chat header/footer bars
+$card-bg: #25262d;               // MAX --background-card / --background-secondary (menus, popovers)
 
 $text-primary: #ffffff;          // White text
 $text-secondary: #888899;        // Muted gray-purple text
 $text-muted: #8888a8;            // Lighter muted for WCAG AA compliance
+
+// MAX exact token values (space-dark theme) — hex-with-alpha straight from DevTools
+$text-tertiary: #ffffffa3;       // MAX --text-tertiary  (a3 = 64% white) — placeholders, muted labels
+$icon-secondary: #ffffffad;      // MAX --icon-secondary (ad = 68% white) — icon hover
+$icon-tertiary: #ffffff85;       // MAX --icon-tertiary  (85 = 52% white) — inactive icons, nav, close btn
+
+// Surface overlays & hovers (hex-with-alpha, matching MAX tokens where named)
+$overlay: #0d0d0da3;             // MAX --background-overlay — modal backdrop
+$surface-field: #ffffff17;       // MAX --background-tertiary — input/search fields (0x17 = 9%)
+$divider: #ffffff1f;             // MAX --divider-primary — separators (0x1f = 12%)
+$surface-hover-strong: #ffffff14; // hover fill (0x14 = 8%)
+$surface-hover: #ffffff0f;       // subtle hover/border (0x0f = 6%)
+$surface-hover-soft: #ffffff0a;  // very subtle row hover (0x0a = 4%)
 
 $border-color: #1e1e35;          // Subtle border between panels
 
 // Semantic colors
 $error-color: #ff5252;
 $error-color-soft: #ff6b6b;
-$error-bg: rgba(255, 82, 82, 0.08);
-$error-border: rgba(255, 82, 82, 0.25);
+$error-bg: #ff525214;            // 0x14 = 8% red tint
+$error-border: #ff525240;        // 0x40 = 25% red border
+$positive: #2bc644;              // MAX --text-positive / --icon-positive
+$tick-read: #34b7f1;             // Read receipt blue (double-blue check)
 
 // Message bubbles
 $message-outgoing: #2d2d52;      // Sent messages - medium purple

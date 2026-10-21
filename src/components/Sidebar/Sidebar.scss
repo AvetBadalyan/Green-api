@@ -13,8 +13,8 @@
 .icon-nav {
   width: 77px;
   min-width: 77px;
-  background-color: #17181c;  // same as panel — MAX navigation bg matches aside
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: $sidebar-bg;  // same as panel — MAX navigation bg matches aside
+  border-right: 1px solid $surface-hover;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -34,7 +34,7 @@
 // Thin separator line between top folders and bottom group
 .nav-separator {
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.09);
+  background-color: $divider;
   margin: 0 8px;
   flex-shrink: 0;
 }
@@ -61,7 +61,7 @@
 // ─── Nav item button ─────────────────────────────────────────────────────────
 // Exact values from DevTools:
 // width: 68px, height: 58px, padding: 8px 2px, row-gap: 2px
-// color inactive: rgba(255,255,255,0.52), active: #fff
+// color inactive: #ffffff85 (--icon-tertiary), active: #ffffff (--text-primary)
 
 .nav-item {
   width: 100%;          // fills container minus 4px padding on each side = ~69px ≈ 68px
@@ -75,14 +75,14 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  // Inactive: color-mix(in srgb, white 52%, transparent)
-  color: rgba(255, 255, 255, 0.52);
+  // Inactive: MAX --icon-tertiary
+  color: $icon-tertiary;
   text-align: center;
   transition: color $transition-fast;
 
   @media (hover: hover) {
     &:hover {
-      color: rgba(255, 255, 255, 0.8);
+      color: $icon-secondary;
     }
   }
 
@@ -93,7 +93,7 @@
 
   // Active: full white — .button--active { color: var(--text-primary); opacity: 1; }
   &--active {
-    color: #ffffff;
+    color: $text-primary;
   }
 }
 
@@ -216,7 +216,7 @@
 
   @media (hover: hover) {
     &:hover {
-      background-color: rgba(255, 255, 255, 0.04);
+      background-color: $surface-hover-soft;
     }
   }
 

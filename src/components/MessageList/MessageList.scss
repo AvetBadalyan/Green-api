@@ -77,20 +77,20 @@
 }
 
 .message-checkmark {
-  color: rgba(255, 255, 255, 0.55);
+  color: $icon-tertiary;
   display: block;
   flex-shrink: 0;
 
   &.read {
-    color: #34b7f1; // WhatsApp blue ticks
+    color: $tick-read; // read receipt blue ticks
   }
 
   &.delivered {
-    color: rgba(255, 255, 255, 0.55);
+    color: $icon-tertiary;
   }
 
   &.sent {
-    color: rgba(255, 255, 255, 0.4);
+    color: $text-tertiary;
   }
 }
 
@@ -99,8 +99,8 @@
   position: fixed;
   z-index: 200;
   min-width: 140px;
-  background-color: #25262d;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: $card-bg;
+  border: 1px solid $surface-hover-strong;
   border-radius: 8px;
   padding: 4px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -121,13 +121,13 @@
     transition: background-color $transition-fast;
 
     svg {
-      color: rgba(255, 255, 255, 0.7);
+      color: $icon-secondary;
       flex-shrink: 0;
     }
 
     @media (hover: hover) {
       &:hover {
-        background-color: rgba(255, 255, 255, 0.07);
+        background-color: $surface-field;
       }
     }
   }
