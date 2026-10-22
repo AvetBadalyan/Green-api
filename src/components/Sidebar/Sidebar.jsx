@@ -29,6 +29,43 @@ function getUnreadCount(chat) {
   ).length;
 }
 
+// Small tick mark for chat list (next to time)
+// List tick — same convention as the message bubble (MessageList):
+//   sent → single gray tick, delivered → double gray, read → double blue.
+function ChatTick({ status }) {
+  const isDouble = status === 'delivered' || status === 'read'; // shape
+  const isRead = status === 'read';                              // blue only when read
+
+  return (
+    <svg
+      className={`chat-tick${isRead ? ' chat-tick--read' : ''}`}
+      width="16"
+      height="16"
+      viewBox="0 0 16 11"
+      fill="none"
+      aria-hidden="true"
+    >
+      {isDouble ? (
+        <path
+          d="M11.5 1L5.5 7L3 4.5M14.5 1L8.5 7"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      ) : (
+        <path
+          d="M14 1L6 9L2 5"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      )}
+    </svg>
+  );
+}
+
 // Sidebar navigation icons (solid/filled style)
 const icons = {
   // Filled chat bubble (All chats)
@@ -235,16 +272,23 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                     aria-label={`Chat with ${displayName}`}
                     aria-pressed={activeChat?.id === chat.id}
                   >
-                    <ChatAvatar
-                      phoneNumber={chat.phoneNumber}
-                      name={chat.name}
-                      isGroup={chat.isGroup}
-                      size={56}
-                    />
+                    <div className="chat-avatar-wrap">
+                      <ChatAvatar
+                        phoneNumber={chat.phoneNumber}
+                        name={chat.name}
+                        isGroup={chat.isGroup}
+                        size={56}
+                      />
+                    </div>
                     <div className="chat-info">
                       <div className="chat-item-top">
                         <span className="chat-name">{displayName}</span>
-                        {lastMsgTime && <span className="chat-time">{lastMsgTime}</span>}
+                        <span className="chat-time">
+                          {chat.messages.length > 0 && chat.messages[chat.messages.length - 1]?.type === 'outgoing' && (
+                            <ChatTick status={chat.messages[chat.messages.length - 1]?.status} />
+                          )}
+                          {lastMsgTime && <span>{lastMsgTime}</span>}
+                        </span>
                       </div>
                       <div className="chat-item-bottom">
                         <span className="chat-preview">{getLastMessage(chat)}</span>

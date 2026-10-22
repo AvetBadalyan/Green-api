@@ -38,6 +38,7 @@ $error-bg: #ff525214;            // 0x14 = 8% red tint
 $error-border: #ff525240;        // 0x40 = 25% red border
 $positive: #2bc644;              // MAX --text-positive / --icon-positive
 $tick-read: #34b7f1;             // Read receipt blue (double-blue check)
+$tick-meta: #ffffffe0;           // MAX message tick/meta — rgba(255,255,255,0.88) (e0 = 88% white)
 
 // Connection-status indicator dot
 $status-online: #4ade80;         // green  — authorized/connected
@@ -47,9 +48,21 @@ $status-offline: #f87171;        // red    — disconnected/error
 // Elevation — popover/menu drop shadow
 $shadow-popover: 0 8px 24px rgba(0, 0, 0, 0.4);
 
-// Message bubbles
-$message-outgoing: #2d2d52;      // Sent messages - medium purple
-$message-incoming: #1e1e38;      // Received messages - darker purple
+// Message bubbles — MAX uses a 239deg gradient for both directions.
+// Outgoing: purple→blue (--bubbles-background-bubble-gradient-step-1/2/3, outgoing theme)
+$bubble-gradient-outgoing: linear-gradient(
+  239deg,
+  #8849b4 0%,   // rgb(136, 73, 180)
+  #735acd 50%,  // rgb(115, 90, 205)
+  #5d6ae5 100%  // rgb(93, 106, 229)
+);
+// Incoming: dark slate (same gradient tokens, incoming theme)
+$bubble-gradient-incoming: linear-gradient(
+  239deg,
+  #3b3f5e 0%,   // rgb(59, 63, 94)
+  #373a4e 50%,  // rgb(55, 58, 78)
+  #32343d 100%  // rgb(50, 52, 61)
+);
 
 // Avatar gradients
 $avatar-gradient-start: #6b3fa0;

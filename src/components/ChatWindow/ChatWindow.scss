@@ -16,42 +16,47 @@
 .chat-header {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
-  padding: $spacing-sm $spacing-lg;
+  gap: 0;                          // MAX: no gap — avatar has its own margin-right
+  // Height is computed, not hardcoded. With box-sizing: border-box the box is
+  // padding (12+12) + tallest child (40px control) + border (1px) = 65px, matching MAX.
+  padding: 12px 16px;
   background-color: $header-bg;
-  border-bottom: 1px solid $border-color;
-  height: 56px;
+  border-bottom: 1px solid $surface-hover;
   flex-shrink: 0;
 
   @media (max-width: 768px) {
     padding: $spacing-sm $spacing-md;
-    height: 48px;
   }
 
-  // Back arrow — always visible (matches MAX web.max.ru)
+  // Back arrow — 40×40 touch target matching MAX's button--small--ghost
   .chat-back-btn {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: none;
     color: $icon-secondary;
     cursor: pointer;
-    padding: 4px;
-    margin-right: 4px;
-    align-items: center;
-    justify-content: center;
+    padding: 0;            // MAX: no padding — icon is 24×24 centered in 40×40
+    margin-right: 0;
     flex-shrink: 0;
     transition: color $transition-fast;
 
     svg { display: block; }
 
     @media (hover: hover) {
-      &:hover {
-        color: $text-primary;
-      }
+      &:hover { color: $text-primary; }
     }
   }
 
-  // Avatar sizing/appearance lives in ChatAvatar.scss; the size prop drives it.
+  // Avatar — 8px gap from back button, 12px gap to title (matches MAX profile button padding)
+  .chat-avatar {
+    margin-left: 8px;
+    margin-right: 12px;
+  }
 
   .chat-header-info {
     flex: 1;
@@ -62,8 +67,10 @@
   }
 
   .chat-name {
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 16px;       // MAX confirmed: 16px (was 15px)
+    font-weight: 600;      // MAX confirmed: 600 (was 500)
+    letter-spacing: 0.15px;
+    line-height: 20px;     // line-height defines the row box; no explicit height needed
     color: $text-primary;
     display: block;
     white-space: nowrap;
@@ -78,6 +85,7 @@
   .chat-subtitle {
     font-size: 13px;
     font-weight: 400;
+    line-height: 16px;     // line-height defines the row box; no explicit height needed
     color: $text-secondary;
     display: block;
     white-space: nowrap;
@@ -87,6 +95,26 @@
     @media (max-width: 768px) {
       font-size: 12px;
     }
+  }
+
+  // Search icon — 40×40 touch target matching MAX's actions button
+  .chat-header-search-btn {
+    margin-left: auto;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: $icon-tertiary;
+    padding: 0;
+    flex-shrink: 0;
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    svg { display: block; }
   }
 }
 
@@ -127,7 +155,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 708px;
+  max-width: 740px;   // MAX: outer composer is 740px (708px input + icon buttons)
   min-height: 48px;
 
   // THE card — solid dark with elevation, matching MAX's .composer exactly
@@ -215,7 +243,7 @@
   -webkit-appearance: none;
   appearance: none;
   color: $text-primary;
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  // font-family inherits the body stack (global.scss: input { font-family: inherit })
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;

@@ -21,12 +21,17 @@
   }
 }
 
-// Header — h1 matches MAX aside header: 24px / 600 / 28px
+// Header — matches MAX aside header h2: 24px / 600 / 28px.
+// padding 16px + 32px button + 1px border = 65px, matching the chat header's
+// total height (12px padding + 40px control + 1px visible border) so the two
+// panes line up. MAX shows no divider here, so the border is transparent —
+// it exists only to reserve the same 1px the chat header's visible border takes.
 .side-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 16px 12px;  // 12px gap below title — matches MAX
+  padding: 16px;
+  border-bottom: 1px solid transparent;
   flex-shrink: 0;
 
   h1 {
@@ -57,7 +62,7 @@
 
 // Search bar — matches MAX compact input: height 36px, --background-tertiary, radius 12px
 .side-panel-search {
-  padding: 0 16px 8px;
+  padding: 0 16px 8px;  // 16px sides matches MAX .info div padding-left
   flex-shrink: 0;
 }
 

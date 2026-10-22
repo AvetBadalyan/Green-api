@@ -8,6 +8,14 @@
   flex-direction: column;
   gap: $spacing-xs;
 
+  // MAX: messages sit at the bottom and grow upward. margin-top:auto on the
+  // first message pushes the stack down when short, but (unlike
+  // justify-content:flex-end) still lets you scroll up to the top when the
+  // list overflows — avoiding the flexbox+overflow clipping bug.
+  .message:first-child {
+    margin-top: auto;
+  }
+
   &.empty {
     align-items: center;
     justify-content: center;
@@ -31,14 +39,17 @@
 
 .message {
   display: flex;
-  max-width: 60%;
+  max-width: min(490px, 75%);   // MAX: long bubbles cap at ~490px; % keeps it sane on narrow panes
 
+  // MAX: 16px on three corners, 6px on the "tail" corner nearest the sender's
+  // edge. Outgoing (right-aligned) → tight top-right; incoming → tight top-left.
+  // Order: top-left top-right bottom-right bottom-left.
   &.outgoing {
     align-self: flex-end;
 
     .message-content {
-      background-color: $message-outgoing;
-      border-radius: $radius-xl $radius-xl 4px $radius-xl;
+      background: $bubble-gradient-outgoing;  // MAX: 239deg purple→blue gradient
+      border-radius: 16px 6px 16px 16px;
     }
   }
 
@@ -46,51 +57,55 @@
     align-self: flex-start;
 
     .message-content {
-      background-color: $message-incoming;
-      border-radius: $radius-xl $radius-xl $radius-xl 4px;
+      background: $bubble-gradient-incoming;  // MAX: 239deg dark-slate gradient
+      border-radius: 6px 16px 16px 16px;
     }
   }
 }
 
 .message-content {
-  padding: $spacing-sm $spacing-md;
+  padding: 8px 10px 10px;   // MAX exact: 8px top, 10px sides, 10px bottom
 }
 
 .message-text {
-  font-size: 14px;
+  font-size: 16px;          // MAX confirmed: 16px (was 14px)
   color: $text-primary;
-  line-height: 1.45;
-  word-wrap: break-word;
-  margin-bottom: 3px;
+  line-height: 20px;        // MAX confirmed: 20px
+  overflow-wrap: break-word;
+  word-break: break-word;
+  margin-bottom: 2px;
 }
 
 .message-meta {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
+  gap: 6px;                 // MAX: 6px column-gap between time and tick
 }
 
 .message-time {
   font-size: 11px;
-  color: $text-secondary;
+  line-height: 14px;        // MAX confirmed: 14px
+  letter-spacing: 0.3px;    // MAX confirmed: 0.3px
+  color: $text-tertiary;    // MAX: rgba(255,255,255,0.64)
+  user-select: none;
 }
 
 .message-checkmark {
-  color: $icon-tertiary;
+  color: $tick-meta;        // MAX: rgba(255,255,255,0.88) for sent/delivered
   display: block;
   flex-shrink: 0;
 
   &.read {
-    color: $tick-read; // read receipt blue ticks
+    color: $primary-accent;  // MAX confirmed: rgb(0,122,255) = #007aff
   }
 
   &.delivered {
-    color: $icon-tertiary;
+    color: $tick-meta;
   }
 
   &.sent {
-    color: $text-tertiary;
+    color: $tick-meta;
   }
 }
 

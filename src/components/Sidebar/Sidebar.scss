@@ -10,10 +10,10 @@
   }
 }
 
-// Left navigation column — 56px matches web.max.ru's icon-only strip
+// Left navigation column — 77px confirmed from MAX DevTools
 .icon-nav {
-  width: 56px;
-  min-width: 56px;
+  width: 77px;
+  min-width: 77px;
   background-color: $sidebar-bg;
   border-right: 1px solid $surface-hover;
   display: flex;
@@ -26,14 +26,14 @@
   display: flex;
   flex-direction: column;
   row-gap: 8px;
-  padding: 12px 0 8px;   // tighter top/bottom to match MAX
+  padding: 24px 4px 12px; // 24px top: 16px base + 8px visual gap before first item (matches MAX)
   overflow: hidden;
 }
 
 .nav-separator {
   height: 1px;
   background-color: $divider;
-  margin: 0 6px;
+  margin: 0 8px;
   flex-shrink: 0;
 }
 
@@ -42,26 +42,25 @@
   flex-direction: column;
   flex-grow: 1;
   row-gap: 8px;
-  padding: 0;
-  margin-top: 8px;
+  padding: 0 4px;
+  margin-top: 12px;
   overflow: hidden;
 }
 
-// Logout button pinned to the bottom
 .nav-logout-slot {
   margin-top: auto;
-  padding-bottom: 12px;
+  padding-bottom: 16px;
 }
 
 .nav-item {
   width: 100%;
-  height: 56px;          // slightly shorter to match MAX's compact strip
+  height: 58px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   row-gap: 2px;
-  padding: 6px 2px;      // less vertical padding in the narrower column
+  padding: 8px 2px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -119,11 +118,11 @@
 }
 
 .nav-item__label {
-  width: 48px;           // fits within the 56px column
-  font-size: 10px;       // MAX uses smaller labels on the narrow strip
+  width: 64px;
+  font-size: 11px;
   font-weight: 400;
-  line-height: 14px;
-  letter-spacing: 0.2px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -190,10 +189,12 @@
   display: flex;
   align-items: center;
   gap: 12px;           // MAX: avatar margin-right 12px
-  padding: 9px $spacing-md;  // MAX exact: 9px top/bottom, 16px sides
+  padding: 9px $spacing-md;  // MAX confirmed: 9px top/bottom, 16px sides
   cursor: pointer;
   width: 100%;
   text-align: left;
+  background: transparent;
+  border: none;
   transition: background-color $transition-fast;
 
   @media (hover: hover) {
@@ -205,6 +206,17 @@
   &--active {
     background-color: $primary-accent-light;
   }
+}
+
+// 64px slot mirrors MAX's ring-wrapper div — so 9px + 64px + 9px = 82px naturally
+// Avatar photo (56px) centers inside it: 4px buffer all around
+.chat-avatar-wrap {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chat-info {
@@ -219,8 +231,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-xs;
-  height: 20px;        // MAX title row height
+  gap: $spacing-xs;    // height comes naturally from the 20px line-height children
 }
 
 .chat-item-bottom {
@@ -228,38 +239,56 @@
   align-items: flex-start;   // preview is 2 lines; badge aligns to top
   justify-content: space-between;
   gap: $spacing-xs;
+  margin-top: 2px;
 }
 
 .chat-name {
-  font-size: 15px;       // MAX: 15px
+  font-size: 15px;
   font-weight: 500;
-  line-height: 20px;
-  height: 20px;
-  letter-spacing: 0.15px; // MAX exact value
+  line-height: 20px;     // line-height defines the single-line row box
+  letter-spacing: 0.15px;
   color: $text-primary;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+// Time + tick row — MAX 16px line-height
 .chat-time {
-  font-size: 11px;
-  color: $text-muted;
+  font-size: 13px;
+  font-weight: 400;
+  color: $text-tertiary;
   flex-shrink: 0;
   white-space: nowrap;
+  display: flex;
+  align-items: center;   // vertically centers tick + time; no explicit height needed
+  gap: 4px;
+  line-height: 16px;     // MAX time span line-height
+}
+
+// Tick mark next to time in chat list — same colors as the message bubble ticks
+.chat-tick {
+  color: $icon-tertiary;  // gray for sent/delivered
+  flex-shrink: 0;
+  line-height: 0;
+  display: block;
+
+  &--read {
+    color: $tick-read;  // blue only when read (matches MessageList read tick)
+  }
 }
 
 .chat-preview {
-  font-size: 15px;       // MAX: 15px (was 12px)
+  font-size: 15px;
   font-weight: 400;
   line-height: 20px;
   letter-spacing: 0.15px;
-  color: $text-tertiary; // MAX: rgba(255,255,255,0.64)
-  padding-top: 2px;      // MAX exact value
+  color: $text-tertiary;
+  padding-top: 2px;      // MAX confirmed: 2px
   word-break: break-word;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2; // MAX: 2-line preview
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   flex: 1;
   min-width: 0;
