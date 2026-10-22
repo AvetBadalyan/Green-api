@@ -6,6 +6,24 @@ A React-based chat application for sending and receiving messages via MAX messen
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)
 ![GREEN-API](https://img.shields.io/badge/GREEN--API-MAX-00C853)
 
+## Screenshots
+
+### Desktop
+
+| Login | Chat List |
+|-------|-----------|
+| ![Login Desktop](screenshots/01-login-desktop.png) | ![Chat List](screenshots/03-chat-list-desktop.png) |
+
+| Chat Window | Contacts |
+|-------------|----------|
+| ![Chat Window](screenshots/04-chat-window-desktop.png) | ![Contacts](screenshots/06-contacts-desktop.png) |
+
+### Mobile
+
+| Login | Chat Window |
+|-------|-------------|
+| ![Login Mobile](screenshots/02-login-mobile.png) | ![Chat Mobile](screenshots/05-chat-window-mobile.png) |
+
 ## Features
 
 - 🔐 Secure authentication with GREEN-API credentials
@@ -14,15 +32,9 @@ A React-based chat application for sending and receiving messages via MAX messen
 - 💾 Persistent chat history (localStorage)
 - 🔄 Real-time message polling with HTTP API
 - 🎨 MAX-style dark theme matching web.max.ru
-
-## Demo
-
-The application replicates the look and feel of the official MAX web client:
-
-- **Left navigation** — folder tabs (All, New), Contacts, Calls
-- **Chat list panel** — search, chat items with avatars and timestamps
-- **Chat window** — message bubbles, typing indicator, message input bar
-- **Responsive** — collapses to single-pane on mobile with back navigation
+- ✅ Message delivery status (sent → delivered → read)
+- 👥 Contacts list with search
+- 📞 Call history view
 
 ## Tech Stack
 
@@ -30,8 +42,8 @@ The application replicates the look and feel of the official MAX web client:
 |------------|---------|
 | React 19 | UI library |
 | Vite 8 | Build tool & dev server |
-| SCSS | Styling (variables, mixins) |
-| Axios | HTTP client |
+| SCSS | Styling (variables, BEM) |
+| Axios | HTTP client with retry logic |
 | GREEN-API | MAX messaging service |
 
 ## Getting Started
@@ -136,7 +148,9 @@ This app uses the [GREEN-API HTTP API](https://green-api.com/docs/api/) for MAX:
 | `GetChats` | Fetch existing chat list |
 | `GetChatHistory` | Load message history for a chat |
 | `ReadChat` | Mark messages as read |
-| `SetTyping` | Send typing indicator |
+| `SendTyping` | Send typing indicator |
+| `GetContacts` | Fetch contact list |
+| `CheckWhatsapp` | Verify phone number exists |
 
 ## Scripts
 
