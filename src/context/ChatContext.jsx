@@ -154,6 +154,8 @@ export function ChatProvider({ children, onMount }) {
       const existing = prev.find((c) => c.phoneNumber === phoneNumber);
       let updated;
       if (existing) {
+        // Deduplicate: skip if this message ID is already in the chat
+        if (existing.messages.some((m) => m.id === message.id)) return prev;
         updated = prev.map((c) =>
           c.id === existing.id
             ? { ...c, messages: [...c.messages, message] }
@@ -245,12 +247,20 @@ export function ChatProvider({ children, onMount }) {
       const chat = prev.find((c) => c.phoneNumber === phoneNumber);
       if (!chat) return prev;
 
-      // Normalise API messages (text only) into our message shape
+      // Normalise API messages (text only) into our message shape.
+      // GREEN-API returns typeMessage 'textMessage' for plain text and
+      // 'extendedTextMessage' for anything with a link, quote, or reply.
+      // Both shapes carry the human-readable text in the top-level textMessage
+      // field; extendedTextMessage also has extendedTextMessage.text as a
+      // fallback when textMessage is absent.
       const apiNormalised = apiMessages
-        .filter((m) => m.typeMessage === 'textMessage' && m.textMessage)
+        .filter((m) =>
+          (m.typeMessage === 'textMessage' || m.typeMessage === 'extendedTextMessage') &&
+          (m.textMessage || m.extendedTextMessage?.text)
+        )
         .map((m) => ({
           id: m.idMessage,
-          text: m.textMessage,
+          text: m.textMessage || m.extendedTextMessage?.text,
           type: m.type === 'incoming' ? 'incoming' : 'outgoing',
           timestamp: new Date(m.timestamp * 1000).toISOString(),
           // Historical outgoing messages have been delivered at minimum

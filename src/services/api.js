@@ -218,7 +218,7 @@ export const getAvatar = async (credentials, chatId) => {
 export const readChat = async (credentials, chatId) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
-  const response = await api.post(`/readChat/${apiTokenInstance}`, { chatId });
+  const response = await api.post(`/readChat/${apiTokenInstance}`, { chatId, all: true });
   return response.data;
 };
 

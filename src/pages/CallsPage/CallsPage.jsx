@@ -118,9 +118,8 @@ function CallsPage() {
               className="call-item"
               onClick={() => handleCallClick(call)}
               title={`Start chat with +${call.phone}`}
-              role="listitem"
             >
-              <ChatAvatar phoneNumber={call.phone} size={44} />
+              <ChatAvatar phoneNumber={call.phone} size={56} />
               <div className="call-info">
                 <span className="call-number">+{call.phone}</span>
                 <span className={`call-status call-status--${call.status}`}>

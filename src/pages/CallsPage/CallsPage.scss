@@ -51,9 +51,9 @@
 .call-item {
   display: flex;
   align-items: center;
-  gap: $spacing-sm;
+  gap: 12px;           // matches chat list
   width: 100%;
-  padding: $spacing-sm $spacing-md;
+  padding: 9px $spacing-md;  // same as chat items
   background: transparent;
   border: none;
   text-align: left;

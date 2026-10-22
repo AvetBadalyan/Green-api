@@ -40,7 +40,7 @@ function LoginPage() {
     <div className="login-page">
       {/* Same space-pattern background as the logged-in chat area */}
       <ChatBackground />
-      <div className="login-container">
+      <main className="login-container">
         <div className="login-header">
           <div className="logo">
             <div className="logo-icon">G</div>
@@ -108,7 +108,7 @@ function LoginPage() {
             </a>
           </p>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

@@ -102,6 +102,7 @@ function ChatWindow() {
         <ChatAvatar
           phoneNumber={activeChat.phoneNumber}
           name={activeChat.name}
+          isGroup={activeChat.isGroup}
           size={40}
         />
         <div className="chat-header-info">
@@ -149,6 +150,7 @@ function ChatWindow() {
               value={inputText}
               onChange={handleInputChange}
               placeholder="Message"
+              aria-label="Message"
               disabled={sending}
               autoComplete="off"
               className="input-field"

@@ -72,6 +72,6 @@ $radius-xl: 18px;
 $transition-fast: 0.15s ease;
 $transition-normal: 0.25s ease;
 
-// Breakpoints
-$breakpoint-mobile: 768px;
-$breakpoint-small: 480px;
+// Breakpoints (used in media queries across components)
+$breakpoint-mobile: 768px;  // Sidebar collapse, single-pane mobile layout
+$breakpoint-small: 480px;   // Login card tighter padding

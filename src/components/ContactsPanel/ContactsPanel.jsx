@@ -3,18 +3,8 @@ import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { getContacts } from '../../services/api';
 import SidePanel from '../SidePanel/SidePanel';
+import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import './ContactsPanel.scss';
-
-function getInitials(contact) {
-  if (contact.name) {
-    const parts = contact.name.trim().split(/\s+/);
-    if (parts.length >= 2) {
-      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
-    }
-    return contact.name.slice(0, 2).toUpperCase();
-  }
-  return contact.id.replace('@c.us', '').slice(-2);
-}
 
 function formatPhone(id) {
   return `+${id.replace('@c.us', '')}`;
@@ -151,9 +141,12 @@ function ContactsPanel({ setCurrentView }) {
             className="contact-item"
             onClick={() => handleContactClick(contact)}
             title={`Start chat with ${contact.name || formatPhone(contact.id)}`}
-            role="listitem"
           >
-            <div className="contact-avatar" aria-hidden="true">{getInitials(contact)}</div>
+            <ChatAvatar
+              phoneNumber={contact.id.replace(/@[cg]\.us$/, '')}
+              name={contact.name}
+              size={56}
+            />
             <div className="contact-info">
               <span className="contact-name">{contact.name || formatPhone(contact.id)}</span>
               {contact.name && <span className="contact-phone">{formatPhone(contact.id)}</span>}

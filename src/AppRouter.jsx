@@ -1,13 +1,23 @@
+import { lazy, Suspense } from 'react';
 import { useAuth } from './context/AuthContext';
 import LoginPage from './pages/LoginPage/LoginPage';
-import ChatPage from './pages/ChatPage/ChatPage';
+
+// Lazy-load the authenticated shell so the login page only ships its own code.
+// ChatPage + Sidebar + ChatWindow + all hooks load after the user authenticates.
+const ChatPage = lazy(() => import('./pages/ChatPage/ChatPage'));
 
 function AppRouter() {
   const { isAuthenticated } = useAuth();
 
   return (
     <div className="app">
-      {isAuthenticated ? <ChatPage /> : <LoginPage />}
+      {isAuthenticated
+        ? (
+          <Suspense fallback={null}>
+            <ChatPage />
+          </Suspense>
+        )
+        : <LoginPage />}
     </div>
   );
 }

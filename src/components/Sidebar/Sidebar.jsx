@@ -8,8 +8,6 @@ import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import NewChatMenu from '../NewChatMenu/NewChatMenu';
 import './Sidebar.scss';
 
-const PREVIEW_MAX_LENGTH = 40;
-
 function formatChatTime(timestamp) {
   if (!timestamp) return '';
   const date = new Date(timestamp);
@@ -90,12 +88,10 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const getLastMessage = (chat) => {
-    if (chat.messages.length === 0) return 'No messages yet';
+    if (chat.messages.length === 0) return '';
     const last = chat.messages[chat.messages.length - 1];
-    const text = last?.text ?? '(attachment)';
-    return text.length > PREVIEW_MAX_LENGTH
-      ? `${text.substring(0, PREVIEW_MAX_LENGTH)}...`
-      : text;
+    // Return raw text — CSS -webkit-line-clamp handles 2-line overflow
+    return last?.text ?? '';
   };
 
   const handleChatClick = (chat) => {
@@ -232,23 +228,18 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                 const displayName = chat.name || `+${chat.phoneNumber}`;
 
                 return (
-                  <div
+                  <button
                     key={chat.id}
                     className={`chat-item${activeChat?.id === chat.id ? ' chat-item--active' : ''}`}
                     onClick={() => handleChatClick(chat)}
-                    role="listitem"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        handleChatClick(chat);
-                      }
-                    }}
+                    aria-label={`Chat with ${displayName}`}
+                    aria-pressed={activeChat?.id === chat.id}
                   >
                     <ChatAvatar
                       phoneNumber={chat.phoneNumber}
                       name={chat.name}
-                      size={44}
+                      isGroup={chat.isGroup}
+                      size={56}
                     />
                     <div className="chat-info">
                       <div className="chat-item-top">
@@ -264,7 +255,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </button>
                 );
               })
             )}
