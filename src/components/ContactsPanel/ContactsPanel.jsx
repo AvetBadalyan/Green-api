@@ -75,8 +75,8 @@ function ContactsPanel({ setCurrentView }) {
 
   const filtered = contacts.filter((c) => {
     if (!searchValue.trim()) return true;
-    const q = searchValue.toLowerCase();
-    return (c.name || '').toLowerCase().includes(q) || c.id.includes(q);
+    const query = searchValue.toLowerCase();
+    return (c.name || '').toLowerCase().includes(query) || c.id.includes(query);
   });
 
   return (

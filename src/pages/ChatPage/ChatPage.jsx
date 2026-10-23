@@ -77,9 +77,9 @@ function ChatPage() {
 
   return (
     <div className={`chat-page${chatPaneActive ? ' chat-page--chat-open' : ''}`}>
-      {/* Visually-hidden h1 gives screen readers a page landmark — */}
-      {/* the SidePanel/ChatWindow headers are h2 so this anchors the hierarchy. */}
-      <h1 className="sr-only">GREEN-API MAX Chat</h1>
+      {/* Screen-reader-only h1: the visible panel/chat headers are h2, so this */}
+      {/* gives the page a top-level heading without changing the visual design. */}
+      <h1 className="visually-hidden">GREEN-API MAX Chat</h1>
       <Sidebar
         currentView={currentView}
         setCurrentView={setCurrentView}
