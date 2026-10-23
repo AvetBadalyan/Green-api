@@ -38,8 +38,8 @@ function getUnreadCount(chat) {
 // List tick — same convention as the message bubble (MessageList):
 //   sent → single gray tick, delivered → double gray, read → double blue.
 function ChatTick({ status }) {
-  const hasDoubleTick = status === 'delivered' || status === 'read';
-  const isRead = status === 'read';
+  const isDouble = status === 'delivered' || status === 'read'; // shape
+  const isRead = status === 'read';                              // blue only when read
 
   return (
     <svg
@@ -50,7 +50,7 @@ function ChatTick({ status }) {
       fill="none"
       aria-hidden="true"
     >
-      {hasDoubleTick ? (
+      {isDouble ? (
         <path
           d="M11.5 1L5.5 7L3 4.5M14.5 1L8.5 7"
           stroke="currentColor"
@@ -128,9 +128,9 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
         })
         .filter((c) => {
           if (!searchQuery.trim()) return true;
-          const query = searchQuery.toLowerCase();
+          const q = searchQuery.toLowerCase();
           return (
-            (c.name || '').toLowerCase().includes(query) ||
+            (c.name || '').toLowerCase().includes(q) ||
             c.phoneNumber.includes(searchQuery.replace(/\D/g, ''))
           );
         })

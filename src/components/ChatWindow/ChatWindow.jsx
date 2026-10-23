@@ -63,7 +63,7 @@ function ChatWindow() {
         text: inputText.trim(),
         type: 'outgoing',
         timestamp: new Date().toISOString(),
-        status: 'sent',
+        status: 'sent', // sent → delivered → read
       });
 
       setInputText('');

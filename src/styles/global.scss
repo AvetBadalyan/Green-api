@@ -217,9 +217,9 @@ textarea:focus-visible,
   }
 }
 
-// Visually hidden, but still read by screen readers. Use for headings and
-// labels that give assistive tech structure without appearing on screen.
-.visually-hidden {
+// ─── Screen-reader-only — visually hidden but reachable by assistive tech ────
+// Use for h1 on authenticated pages, skip links, and off-screen labels.
+.sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
