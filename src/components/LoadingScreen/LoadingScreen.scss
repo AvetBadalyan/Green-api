@@ -14,9 +14,6 @@
   border: 0.3rem solid $surface-field;
   border-top-color: $primary-accent;
   border-radius: $radius-full;
+  // Uses the shared `spin` keyframe defined in global.scss
   animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }

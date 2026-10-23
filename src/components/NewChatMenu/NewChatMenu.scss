@@ -19,7 +19,7 @@
 .new-chat-menu__item {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: $spacing-row;
   width: 100%;
   padding: 1rem 1.2rem;
   border-radius: $radius-md;

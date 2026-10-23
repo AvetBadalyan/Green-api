@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
 import { DEDUP_WINDOW_MS, STORAGE_KEYS } from '../constants';
+import { chatIdToPhone } from '../utils/chatId';
 
 const ChatContext = createContext(null);
 const CHATS_STORAGE_KEY = STORAGE_KEYS.CHATS;
@@ -29,16 +30,6 @@ function uniqueId(prefix = 'id') {
   }
   idCounter += 1;
   return `${prefix}-${Date.now()}-${idCounter}`;
-}
-
-/** Extract the phone/group ID from a GREEN-API chatId (removes @c.us / @g.us). */
-export function chatIdToPhone(chatId) {
-  return chatId.replace(/@c\.us$/, '').replace(/@g\.us$/, '');
-}
-
-/** Build a GREEN-API chatId from a phone/group number. */
-export function phoneToChatId(phoneNumber, isGroup = false) {
-  return `${phoneNumber}@${isGroup ? 'g' : 'c'}.us`;
 }
 
 export function ChatProvider({ children, onMount }) {
@@ -180,15 +171,6 @@ export function ChatProvider({ children, onMount }) {
     });
   }, []);
 
-  const deleteChat = useCallback((chatId) => {
-    setChats((prev) => {
-      const updated = prev.filter((c) => c.id !== chatId);
-      persistChats(updated);
-      return updated;
-    });
-    setActiveChatId((prev) => (prev === chatId ? null : prev));
-  }, []);
-
   /**
    * Sync chats from getChats API. Adds new chats, updates names on existing ones.
    * Called once on login; silently fails so the app still works without it.
@@ -322,19 +304,22 @@ export function ChatProvider({ children, onMount }) {
       removeMessage,
       updateMessageStatus,
       receiveMessage,
-      deleteChat,
       resetChats,
       syncApiChats,
       mergeHistory,
     }),
     [chats, activeChat, setActiveChat, markChatReadById, createChat, addMessage,
-     removeMessage, updateMessageStatus, receiveMessage, deleteChat, resetChats,
+     removeMessage, updateMessageStatus, receiveMessage, resetChats,
      syncApiChats, mergeHistory]
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }
 
+// Co-located with its provider by convention. The fast-refresh rule only warns
+// because this non-component export shares a file with ChatProvider; it has no
+// runtime impact, so the hook stays here next to the context it consumes.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useChat() {
   const ctx = useContext(ChatContext);
   if (!ctx) throw new Error('useChat must be used within a ChatProvider');

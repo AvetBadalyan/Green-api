@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useChat, phoneToChatId } from '../../context/ChatContext';
+import { useChat } from '../../context/ChatContext';
+import { phoneToChatId } from '../../utils/chatId';
 import { sendMessage, sendTyping, deleteMessage } from '../../services/api';
 import { TYPING_DEBOUNCE_MS } from '../../constants';
 import MessageList from '../MessageList/MessageList';
@@ -105,9 +106,9 @@ function ChatWindow() {
           size={40}
         />
         <div className="chat-header-info">
-          <span className="chat-name">
+          <h2 className="chat-name">
             {activeChat.name || `+${activeChat.phoneNumber}`}
-          </span>
+          </h2>
           <span className="chat-subtitle">
             {activeChat.isGroup ? 'Group chat' : 'Personal chat'}
           </span>

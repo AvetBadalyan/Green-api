@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { useChat, phoneToChatId } from '../../context/ChatContext';
+import { useChat } from '../../context/ChatContext';
+import { phoneToChatId } from '../../utils/chatId';
 import useMessagePolling from '../../hooks/useMessagePolling';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
@@ -76,12 +77,15 @@ function ChatPage() {
 
   return (
     <div className={`chat-page${chatPaneActive ? ' chat-page--chat-open' : ''}`}>
+      {/* Visually-hidden h1 gives screen readers a page landmark — */}
+      {/* the SidePanel/ChatWindow headers are h2 so this anchors the hierarchy. */}
+      <h1 className="sr-only">GREEN-API MAX Chat</h1>
       <Sidebar
         currentView={currentView}
         setCurrentView={setCurrentView}
         onNewChat={() => setShowNewChat(true)}
       />
-      <main className="chat-main">
+      <main className="chat-main" aria-label="Conversation">
         {/* Background is always present behind everything */}
         <ChatBackground />
         <div className="chat-main__content">

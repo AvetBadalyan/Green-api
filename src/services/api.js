@@ -86,7 +86,7 @@ export const getStateInstance = (credentials) => {
 // ─── Sending ─────────────────────────────────────────────────────────────────
 
 /**
- * Send a text message to a WhatsApp chat.
+ * Send a text message to a chat.
  * @param {string} chatId - pre-built chatId, e.g. "79001234567@c.us" or "group@g.us"
  */
 export const sendMessage = async (credentials, chatId, message) => {
@@ -210,11 +210,19 @@ export const getChatHistory = async (credentials, chatId, count = CHAT_HISTORY_C
 /**
  * Get the avatar URL for a chat or contact.
  * Returns: { urlAvatar, available }
+ *
+ * GREEN-API returns HTTP 466 when a contact is not registered on the platform.
+ * validateStatus treats 466 as a non-error so the browser console stays clean
+ * and the avatarCache `.then` handler gracefully resolves to null (no avatar).
  */
 export const getAvatar = async (credentials, chatId) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
-  const response = await api.post(`/getAvatar/${apiTokenInstance}`, { chatId });
+  const response = await api.post(
+    `/getAvatar/${apiTokenInstance}`,
+    { chatId },
+    { validateStatus: (status) => status === 200 || status === 466 }
+  );
   return response.data;
 };
 
@@ -224,7 +232,7 @@ export const getAvatar = async (credentials, chatId) => {
 export const readChat = async (credentials, chatId) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
-  const response = await api.post(`/readChat/${apiTokenInstance}`, { chatId, all: true });
+  const response = await api.post(`/readChat/${apiTokenInstance}`, { chatId });
   return response.data;
 };
 

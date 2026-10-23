@@ -120,7 +120,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;                        // MAX form row-gap
+  gap: $spacing-lg;                   // 24px — MAX form row-gap
   // MAX input/button are ~336px; center the form column within the wide card
   max-width: 33.6rem;
   margin: 0 auto;
@@ -128,7 +128,7 @@
   text-align: left;
 
   @media (max-width: 768px) {
-    gap: 1.6rem;
+    gap: $spacing-md;
   }
 }
 

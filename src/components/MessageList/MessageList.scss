@@ -78,7 +78,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.6rem;                   // 6px — MAX specific spacing, no token match
+  gap: $spacing-xs-plus;         // MAX-specific meta spacing
 }
 
 .message-time {
@@ -113,7 +113,7 @@
   button {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: $spacing-compact;
     width: 100%;
     padding: 1rem 1.2rem;   // 10px 12px — tighter than standard, MAX-matched
     border-radius: 0.6rem;  // 6px — tighter than $radius-md, MAX-matched

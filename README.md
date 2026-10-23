@@ -2,6 +2,8 @@
 
 A React-based chat application for sending and receiving messages via MAX messenger using the GREEN-API service. The UI design matches [web.max.ru](https://web.max.ru/) — the official MAX web client.
 
+> **Note on the API:** This app targets the GREEN-API service. MAX instances share the same HTTP API surface as GREEN-API's WhatsApp instances (same method names and `chatId` format), so some internal function names and API paths reference WhatsApp conventions. All user-facing functionality is MAX messaging.
+
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)
 ![GREEN-API](https://img.shields.io/badge/GREEN--API-MAX-00C853)

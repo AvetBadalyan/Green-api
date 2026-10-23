@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import ContactsPanel from '../ContactsPanel/ContactsPanel';
@@ -103,6 +103,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
   const { chats, activeChat, setActiveChat } = useChat();
   const [searchQuery, setSearchQuery] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
+  const newChatBtnRef = useRef(null);
 
   const getLastMessage = (chat) => {
     if (chat.messages.length === 0) return '';
@@ -196,6 +197,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
           actions={
             <div className="new-chat-wrap">
               <button
+                ref={newChatBtnRef}
                 className="new-chat-btn"
                 onClick={() => setMenuOpen((o) => !o)}
                 title="New Chat"
@@ -209,6 +211,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                 <NewChatMenu
                   onSearchByNumber={onNewChat}
                   onClose={() => setMenuOpen(false)}
+                  triggerRef={newChatBtnRef}
                 />
               )}
             </div>

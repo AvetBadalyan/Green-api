@@ -62,7 +62,7 @@ function NewChatModal({ onClose }) {
     try {
       const result = await checkWhatsapp(credentials, cleanPhone);
       if (!result.existsWhatsapp) {
-        setError('This number is not registered on WhatsApp');
+        setError('This number is not registered on MAX');
         return;
       }
       createChat(cleanPhone);
@@ -108,10 +108,11 @@ function NewChatModal({ onClose }) {
               placeholder="79001234567"
               autoComplete="tel"
               aria-label="Phone number with country code"
+              aria-describedby="phone-hint"
             />
           </div>
 
-          <p className="phone-hint">Enter the full number including country code</p>
+          <p id="phone-hint" className="phone-hint">Enter the full number including country code</p>
 
           {error && <p className="error-message" role="alert">{error}</p>}
 

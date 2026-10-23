@@ -1,3 +1,7 @@
+/**
+ * Barrel export for all SVG icon components.
+ * Usage: import { IconSearch, IconBack } from '../icons';
+ */
 export { default as IconSearch }        from './IconSearch';
 export { default as IconBack }          from './IconBack';
 export { default as IconAttach }        from './IconAttach';

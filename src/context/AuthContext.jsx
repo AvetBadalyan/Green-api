@@ -45,6 +45,10 @@ export function AuthProvider({ children, onLogout }) {
   );
 }
 
+// Co-located with its provider by convention. The fast-refresh rule only warns
+// because this non-component export shares a file with AuthProvider; it has no
+// runtime impact, so the hook stays here next to the context it consumes.
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

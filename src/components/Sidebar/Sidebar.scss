@@ -148,10 +148,20 @@
   justify-content: center;
   transition: background-color $transition-fast;
   flex-shrink: 0;
+  // Anchor for the transparent hit-area extension below
+  position: relative;
 
   svg {
     width: 2rem;
     height: 2rem;
+  }
+
+  // Extend the interactive area to 44×44 px (WCAG 2.5.5) without changing
+  // the visual 32×32 blue circle. (−0.6rem × 2 + 3.2rem = 4.4rem = 44 px)
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -0.6rem;
   }
 
   @media (hover: hover) {
@@ -179,7 +189,7 @@
 .chat-item {
   display: flex;
   align-items: center;
-  gap: 1.2rem;           // MAX: avatar margin-right 12px
+  gap: $spacing-row;            // MAX: avatar margin-right 12px
   padding: 0.9rem $spacing-md;  // MAX confirmed: 9px top/bottom, 16px sides
   cursor: pointer;
   width: 100%;

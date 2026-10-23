@@ -7,7 +7,7 @@ import SidePanel from '../../components/SidePanel/SidePanel';
 import ChatAvatar from '../../components/ChatAvatar/ChatAvatar';
 import { EmptyStateIcon } from '../../components/EmptyState/EmptyState';
 import { IconPhoneFilled } from '../../icons';
-import { chatIdToPhone } from '../../context/ChatContext';
+import { chatIdToPhone } from '../../utils/chatId';
 import './CallsPage.scss';
 
 const INITIAL = { calls: [], loading: true, error: '' };

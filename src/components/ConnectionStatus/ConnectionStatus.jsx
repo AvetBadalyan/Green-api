@@ -2,7 +2,7 @@ import useConnectionStatus from '../../hooks/useConnectionStatus';
 import './ConnectionStatus.scss';
 
 /**
- * Small colored dot indicating the WhatsApp connection state.
+ * Small colored dot indicating the GREEN-API instance connection state.
  * Green = authorized (connected)
  * Yellow = sleepMode or loading
  * Red = notAuthorized or error

@@ -7,7 +7,7 @@ function SidePanel({ title, actions, search, children }) {
     <div className="side-panel">
       <div className="side-panel-header">
         <div className="side-panel-title-row">
-          <h1>{title}</h1>
+          <h2>{title}</h2>
           <ConnectionStatus />
         </div>
         {actions && <div className="side-panel-actions">{actions}</div>}
