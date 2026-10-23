@@ -16,12 +16,8 @@ import './ChatPage.scss';
 
 function ChatPage() {
   const { credentials } = useAuth();
-  const {
-    activeChat,
-    syncApiChats,
-    mergeHistory,
-    markChatReadById,
-  } = useChat();
+  const { activeChat, syncApiChats, mergeHistory, markChatReadById } =
+    useChat();
 
   // 'all' | 'new' | 'contacts' | 'calls'
   const [currentView, setCurrentView] = useState('all');
@@ -33,7 +29,9 @@ function ChatPage() {
   const activeChatId = activeChat?.id ?? null;
   const activePhone = activeChat?.phoneNumber ?? null;
   const activeIsGroup = activeChat?.isGroup ?? false;
-  const activeChatIdForApi = activePhone ? phoneToChatId(activePhone, activeIsGroup) : null;
+  const activeChatIdForApi = activePhone
+    ? phoneToChatId(activePhone, activeIsGroup)
+    : null;
 
   // Track which chats have had history loaded / been marked read (refs = no re-render)
   const historyLoadedRef = useRef(new Set());
@@ -62,7 +60,13 @@ function ChatPage() {
       readMarkedRef.current.add(activeChatId);
       readChat(credentials, activeChatIdForApi).catch(() => {});
     }
-  }, [activeChatId, activeChatIdForApi, activePhone, credentials, mergeHistory]);
+  }, [
+    activeChatId,
+    activeChatIdForApi,
+    activePhone,
+    credentials,
+    mergeHistory,
+  ]);
 
   // ── Keep the open chat marked read as new messages arrive via polling ─────
   const activeMsgCount = activeChat?.messages.length ?? 0;
@@ -76,7 +80,9 @@ function ChatPage() {
   const chatPaneActive = Boolean(activeChat);
 
   return (
-    <div className={`chat-page${chatPaneActive ? ' chat-page--chat-open' : ''}`}>
+    <div
+      className={`chat-page${chatPaneActive ? ' chat-page--chat-open' : ''}`}
+    >
       {/* Visually-hidden h1 anchors the heading hierarchy — panel/chat headers */}
       {/* are h2, so this gives the page structure without affecting the design. */}
       <h1 className="visually-hidden">GREEN-API MAX Chat</h1>
@@ -89,16 +95,15 @@ function ChatPage() {
         {/* Background is always present behind everything */}
         <ChatBackground />
         <div className="chat-main__content">
-          {activeChat
-            ? <ChatWindow />
-            : null /* Empty states (chats, calls, contacts) live in the side panel, matching MAX */
+          {
+            activeChat ? (
+              <ChatWindow />
+            ) : null /* Empty states (chats, calls, contacts) live in the side panel, matching MAX */
           }
         </div>
       </main>
 
-      {showNewChat && (
-        <NewChatModal onClose={() => setShowNewChat(false)} />
-      )}
+      {showNewChat && <NewChatModal onClose={() => setShowNewChat(false)} />}
     </div>
   );
 }

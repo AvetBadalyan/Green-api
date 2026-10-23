@@ -30,12 +30,13 @@ export default function useMessagePolling() {
 
   const handleIncomingMessage = useCallback(
     (senderPhone, message) => receiveMessage(senderPhone, message),
-    [receiveMessage]
+    [receiveMessage],
   );
 
   const handleOutgoingStatus = useCallback(
-    (webhookChatId, messageId, status) => updateMessageStatus(webhookChatId, messageId, status),
-    [updateMessageStatus]
+    (webhookChatId, messageId, status) =>
+      updateMessageStatus(webhookChatId, messageId, status),
+    [updateMessageStatus],
   );
 
   useEffect(() => {
@@ -49,7 +50,10 @@ export default function useMessagePolling() {
     };
 
     const pollOnce = async () => {
-      if (isPollingRef.current) { scheduleNext(); return; }
+      if (isPollingRef.current) {
+        scheduleNext();
+        return;
+      }
       isPollingRef.current = true;
 
       try {
@@ -62,7 +66,9 @@ export default function useMessagePolling() {
           const { receiptId, body } = notification;
 
           if (body?.typeWebhook === WEBHOOK_TYPES.INCOMING_MESSAGE) {
-            const senderPhone = body.senderData?.sender?.replace(/@c\.us$/, '').replace(/@g\.us$/, '');
+            const senderPhone = body.senderData?.sender
+              ?.replace(/@c\.us$/, '')
+              .replace(/@g\.us$/, '');
             const messageData = body.messageData;
             // Plain text arrives as textMessageData.textMessage;
             // messages with links, quotes or any "extended" format arrive as extendedTextMessageData.text
@@ -72,7 +78,8 @@ export default function useMessagePolling() {
 
             if (senderPhone && text) {
               handleIncomingMessage(senderPhone, {
-                id: body.idMessage || `in-${crypto.randomUUID?.() ?? Date.now()}`,
+                id:
+                  body.idMessage || `in-${crypto.randomUUID?.() ?? Date.now()}`,
                 text,
                 type: 'incoming',
                 timestamp: body.timestamp
@@ -80,7 +87,6 @@ export default function useMessagePolling() {
                   : new Date().toISOString(),
               });
             }
-
           } else if (body?.typeWebhook === WEBHOOK_TYPES.OUTGOING_STATUS) {
             const { chatId, idMessage, status } = body;
             if (chatId && idMessage && TICK_STATUSES.has(status)) {
@@ -93,7 +99,10 @@ export default function useMessagePolling() {
       } catch (err) {
         // On rate-limit, grow the delay (capped) so we stop hammering.
         if (err?.response?.status === 429) {
-          delayRef.current = Math.min(delayRef.current * 2, MESSAGE_POLL_MAX_INTERVAL_MS);
+          delayRef.current = Math.min(
+            delayRef.current * 2,
+            MESSAGE_POLL_MAX_INTERVAL_MS,
+          );
         } else {
           console.error('Polling error:', err);
         }

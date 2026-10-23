@@ -8,8 +8,12 @@ import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import NewChatMenu from '../NewChatMenu/NewChatMenu';
 import { EmptyStateIcon } from '../EmptyState/EmptyState';
 import {
-  IconChatsFilled, IconFolderFilled, IconContactsFilled,
-  IconPhoneFilled, IconLogoutFilled, IconPlus,
+  IconChatsFilled,
+  IconFolderFilled,
+  IconContactsFilled,
+  IconPhoneFilled,
+  IconLogoutFilled,
+  IconPlus,
 } from '../../icons';
 import './Sidebar.scss';
 
@@ -30,7 +34,7 @@ function formatChatTime(timestamp) {
 function getUnreadCount(chat) {
   if (!chat.lastReadAt) return 0;
   return chat.messages.filter(
-    (m) => m.type === 'incoming' && m.timestamp > chat.lastReadAt
+    (m) => m.type === 'incoming' && m.timestamp > chat.lastReadAt,
   ).length;
 }
 
@@ -73,11 +77,11 @@ function ChatTick({ status }) {
 
 // Sidebar navigation icons (solid/filled style)
 const icons = {
-  all:      <IconChatsFilled />,
-  new:      <IconFolderFilled />,
+  all: <IconChatsFilled />,
+  new: <IconFolderFilled />,
   contacts: <IconContactsFilled />,
-  calls:    <IconPhoneFilled />,
-  logout:   <IconLogoutFilled />,
+  calls: <IconPhoneFilled />,
+  logout: <IconLogoutFilled />,
 };
 
 function NavItem({ view, currentView, setCurrentView, label, icon, badge }) {
@@ -91,7 +95,9 @@ function NavItem({ view, currentView, setCurrentView, label, icon, badge }) {
     >
       <span className="nav-item__icon" aria-hidden="true">
         {icon}
-        {badge > 0 && <span className="nav-item__badge">{badge > 99 ? '99+' : badge}</span>}
+        {badge > 0 && (
+          <span className="nav-item__badge">{badge > 99 ? '99+' : badge}</span>
+        )}
       </span>
       <span className="nav-item__label">{label}</span>
     </button>
@@ -117,7 +123,10 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
     if (currentView === 'new') setCurrentView('all');
   };
 
-  const totalUnread = chats.reduce((sum, chat) => sum + getUnreadCount(chat), 0);
+  const totalUnread = chats.reduce(
+    (sum, chat) => sum + getUnreadCount(chat),
+    0,
+  );
 
   const isChatsView = currentView === 'all' || currentView === 'new';
   const visibleChats = isChatsView
@@ -138,9 +147,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
 
   return (
     <div className="sidebar-wrapper">
-
       <nav className="icon-nav" aria-label="Main navigation">
-
         <div className="nav-scroll">
           <NavItem
             view="all"
@@ -179,7 +186,9 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
 
           <div className="nav-logout-slot">
             <button className="nav-item" onClick={logout} aria-label="Logout">
-              <span className="nav-item__icon" aria-hidden="true">{icons.logout}</span>
+              <span className="nav-item__icon" aria-hidden="true">
+                {icons.logout}
+              </span>
               <span className="nav-item__label">Logout</span>
             </button>
           </div>
@@ -230,15 +239,21 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
             {visibleChats.length === 0 ? (
               <div className="panel-empty">
                 <EmptyStateIcon>
-                  {currentView === 'new'
-                    ? <IconFolderFilled size={32} />
-                    : <IconChatsFilled size={32} />}
+                  {currentView === 'new' ? (
+                    <IconFolderFilled size={32} />
+                  ) : (
+                    <IconChatsFilled size={32} />
+                  )}
                 </EmptyStateIcon>
                 {searchQuery ? (
-                  <p className="panel-empty__title">No chats match "{searchQuery}"</p>
+                  <p className="panel-empty__title">
+                    No chats match "{searchQuery}"
+                  </p>
                 ) : currentView === 'new' ? (
                   <>
-                    <p className="panel-empty__title">Folder doesn't contain chats yet</p>
+                    <p className="panel-empty__title">
+                      Folder doesn't contain chats yet
+                    </p>
                     <button
                       className="btn-primary"
                       onClick={() => setMenuOpen(true)}
@@ -249,7 +264,9 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                 ) : (
                   <div className="panel-empty__info">
                     <p className="panel-empty__title">No chats yet</p>
-                    <p className="panel-empty__subtitle">Click + to start a new conversation</p>
+                    <p className="panel-empty__subtitle">
+                      Click + to start a new conversation
+                    </p>
                   </div>
                 )}
               </div>
@@ -257,7 +274,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
               visibleChats.map((chat) => {
                 const unread = getUnreadCount(chat);
                 const lastMsgTime = formatChatTime(
-                  chat.messages[chat.messages.length - 1]?.timestamp
+                  chat.messages[chat.messages.length - 1]?.timestamp,
                 );
                 const displayName = chat.name || `+${chat.phoneNumber}`;
 
@@ -281,16 +298,28 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                       <div className="chat-item-top">
                         <span className="chat-name">{displayName}</span>
                         <span className="chat-time">
-                          {chat.messages.length > 0 && chat.messages[chat.messages.length - 1]?.type === 'outgoing' && (
-                            <ChatTick status={chat.messages[chat.messages.length - 1]?.status} />
-                          )}
+                          {chat.messages.length > 0 &&
+                            chat.messages[chat.messages.length - 1]?.type ===
+                              'outgoing' && (
+                              <ChatTick
+                                status={
+                                  chat.messages[chat.messages.length - 1]
+                                    ?.status
+                                }
+                              />
+                            )}
                           {lastMsgTime && <span>{lastMsgTime}</span>}
                         </span>
                       </div>
                       <div className="chat-item-bottom">
-                        <span className="chat-preview">{getLastMessage(chat)}</span>
+                        <span className="chat-preview">
+                          {getLastMessage(chat)}
+                        </span>
                         {unread > 0 && (
-                          <span className="unread-badge" aria-label={`${unread} unread`}>
+                          <span
+                            className="unread-badge"
+                            aria-label={`${unread} unread`}
+                          >
                             {unread > 99 ? '99+' : unread}
                           </span>
                         )}

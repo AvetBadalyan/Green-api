@@ -1,7 +1,7 @@
 @use '../../styles/variables.scss' as *;
 
 .login-page {
-  position: relative;      // positioning context for ChatBackground
+  position: relative; // positioning context for ChatBackground
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -20,9 +20,9 @@
 // frosted backdrop. We size generously but keep the form comfortable inside.
 .login-container {
   position: relative;
-  background-color: $sidebar-bg;      // MAX card bg #17181c
+  background-color: $sidebar-bg; // MAX card bg #17181c
   border-radius: 2.8rem;
-  border: 1px solid $surface-hover;   // very subtle hairline (6% white)
+  border: 1px solid $surface-hover; // very subtle hairline (6% white)
   box-shadow: rgba(0, 0, 0, 0.3) 0 0.4rem 2.4rem 0;
   backdrop-filter: blur(25px);
   padding: 4.8rem 5.6rem;
@@ -87,7 +87,11 @@
     .logo-icon {
       width: 4.4rem;
       height: 4.4rem;
-      background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
+      background: linear-gradient(
+        135deg,
+        $avatar-gradient-start,
+        $avatar-gradient-end
+      );
       color: $text-primary;
       border-radius: 50%;
       display: flex;
@@ -120,7 +124,7 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;                   // 24px — MAX form row-gap
+  gap: $spacing-lg; // 24px — MAX form row-gap
   // MAX input/button are ~336px; center the form column within the wide card
   max-width: 33.6rem;
   margin: 0 auto;
@@ -139,19 +143,21 @@
 
   label {
     font-size: $font-hint;
-    color: $text-tertiary;              // MAX label color (rgba white 0.64)
+    color: $text-tertiary; // MAX label color (rgba white 0.64)
     font-weight: 500;
   }
 
   input {
     padding: 0 1.2rem;
-    background-color: $surface-field;   // MAX --background-tertiary (rgba white 0.09)
+    background-color: $surface-field; // MAX --background-tertiary (rgba white 0.09)
     border: 1px solid transparent;
-    border-radius: $radius-xl;          // MAX input radius
+    border-radius: $radius-xl; // MAX input radius
     color: $text-primary;
-    font-size: $font-chat-name;         // MAX input font-size
-    height: 5.2rem;                     // MAX input height
-    transition: border-color $transition-fast, background-color $transition-fast;
+    font-size: $font-chat-name; // MAX input font-size
+    height: 5.2rem; // MAX input height
+    transition:
+      border-color $transition-fast,
+      background-color $transition-fast;
 
     &::placeholder {
       color: $text-tertiary;
@@ -172,7 +178,7 @@
 
 // Shares .btn-primary (global.scss); only login-specific overrides live here.
 .login-button {
-  height: 6rem;                        // MAX Continue button height — replaces btn-primary padding
+  height: 6rem; // MAX Continue button height — replaces btn-primary padding
   padding: 0;
   border-radius: $radius-2xl;
   margin-top: $spacing-sm;
@@ -199,7 +205,7 @@
     font-size: $font-hint;
 
     a {
-      color: $text-primary;        // white link
+      color: $text-primary; // white link
       cursor: pointer;
       text-decoration: none;
 

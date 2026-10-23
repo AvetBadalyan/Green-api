@@ -190,7 +190,7 @@
   display: flex;
   align-items: center;
   gap: $spacing-row;
-  padding: 0.9rem $spacing-md;  // MAX confirmed: 9px top/bottom, 16px sides
+  padding: 0.9rem $spacing-md; // MAX confirmed: 9px top/bottom, 16px sides
   cursor: pointer;
   width: 100%;
   text-align: left;
@@ -230,12 +230,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: $spacing-xs;    // height comes naturally from the 20px line-height children
+  gap: $spacing-xs; // height comes naturally from the 20px line-height children
 }
 
 .chat-item-bottom {
   display: flex;
-  align-items: flex-start;   // preview is 2 lines; badge aligns to top
+  align-items: flex-start; // preview is 2 lines; badge aligns to top
   justify-content: space-between;
   gap: $spacing-xs;
   margin-top: $spacing-2xs;
@@ -244,8 +244,8 @@
 .chat-name {
   font-size: $font-chat-name;
   font-weight: 500;
-  line-height: $line-height-base;         // line-height defines the single-line row box
-  letter-spacing: 0.15px;    // sub-pixel — kept in px
+  line-height: $line-height-base; // line-height defines the single-line row box
+  letter-spacing: 0.15px; // sub-pixel — kept in px
   color: $text-primary;
   white-space: nowrap;
   overflow: hidden;
@@ -260,20 +260,20 @@
   flex-shrink: 0;
   white-space: nowrap;
   display: flex;
-  align-items: center;   // vertically centers tick + time; no explicit height needed
+  align-items: center; // vertically centers tick + time; no explicit height needed
   gap: $spacing-xs;
-  line-height: $line-height-sm;   // MAX time span line-height
+  line-height: $line-height-sm; // MAX time span line-height
 }
 
 // Tick mark next to time in chat list — same colors as the message bubble ticks
 .chat-tick {
-  color: $icon-tertiary;  // gray for sent/delivered
+  color: $icon-tertiary; // gray for sent/delivered
   flex-shrink: 0;
   line-height: 0;
   display: block;
 
   &--read {
-    color: $tick-read;  // blue only when read (matches MessageList read tick)
+    color: $tick-read; // blue only when read (matches MessageList read tick)
   }
 }
 
@@ -283,7 +283,7 @@
   line-height: $line-height-base;
   letter-spacing: 0.15px; // sub-pixel — kept in px
   color: $text-tertiary;
-  padding-top: $spacing-2xs;    // MAX confirmed: 2px
+  padding-top: $spacing-2xs; // MAX confirmed: 2px
   word-break: break-word;
   overflow: hidden;
   display: -webkit-box;

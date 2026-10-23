@@ -15,15 +15,11 @@ function SidePanel({ title, actions, search, children }) {
 
       {search && (
         <div className="side-panel-search">
-          <div className="side-panel-search-box">
-            {search}
-          </div>
+          <div className="side-panel-search-box">{search}</div>
         </div>
       )}
 
-      <div className="side-panel-body">
-        {children}
-      </div>
+      <div className="side-panel-body">{children}</div>
     </div>
   );
 }

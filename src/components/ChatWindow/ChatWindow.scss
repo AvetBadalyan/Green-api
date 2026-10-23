@@ -16,7 +16,7 @@
 .chat-header {
   display: flex;
   align-items: center;
-  gap: 0;                          // MAX: no gap — avatar has its own margin-right
+  gap: 0; // MAX: no gap — avatar has its own margin-right
   // Height is computed, not hardcoded. With box-sizing: border-box the box is
   // padding (12+12) + tallest child (40px control) + border (1px) = 65px, matching MAX.
   padding: 1.2rem 1.6rem;
@@ -38,21 +38,25 @@
     justify-content: center;
     color: $icon-secondary;
     cursor: pointer;
-    padding: 0;            // MAX: no padding — icon is 24×24 centered in 40×40
+    padding: 0; // MAX: no padding — icon is 24×24 centered in 40×40
     flex-shrink: 0;
     transition: color $transition-fast;
 
-    svg { display: block; }
+    svg {
+      display: block;
+    }
 
     @media (hover: hover) {
-      &:hover { color: $text-primary; }
+      &:hover {
+        color: $text-primary;
+      }
     }
   }
 
   // Avatar — 8px gap from back button, 12px gap to title (matches MAX profile button padding)
   .chat-avatar {
     margin-left: $spacing-sm;
-    margin-right: 1.2rem;  // 12px — specific MAX spacing
+    margin-right: 1.2rem; // 12px — specific MAX spacing
   }
 
   .chat-header-info {
@@ -64,9 +68,9 @@
   }
 
   .chat-name {
-    font-size: $font-message;      // MAX confirmed: 16px
-    font-weight: 600;         // MAX confirmed: 600
-    letter-spacing: 0.15px;   // sub-pixel — kept in px
+    font-size: $font-message; // MAX confirmed: 16px
+    font-weight: 600; // MAX confirmed: 600
+    letter-spacing: 0.15px; // sub-pixel — kept in px
     line-height: $line-height-base; // line-height defines the row box; no explicit height needed
     color: $text-primary;
     display: block;
@@ -109,7 +113,9 @@
     cursor: not-allowed;
     opacity: 0.6;
 
-    svg { display: block; }
+    svg {
+      display: block;
+    }
   }
 }
 
@@ -149,11 +155,11 @@
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 74rem;   // MAX: outer composer is 740px (708px input + icon buttons)
+  max-width: 74rem; // MAX: outer composer is 740px (708px input + icon buttons)
   min-height: 4.8rem;
 
   // THE card — solid dark with elevation, matching MAX's .composer exactly
-  background-color: #17181c;  // --background-primary in space-dark
+  background-color: #17181c; // --background-primary in space-dark
   border-radius: $radius-xl;
   box-shadow:
     rgba(0, 0, 0, 0.3) 0 0.4rem 1.6rem 0,
@@ -180,7 +186,7 @@
   min-width: 4rem;
   height: 4rem;
   border-radius: $radius-full;
-  color: $icon-tertiary;   // MAX --icon-tertiary (#ffffff85)
+  color: $icon-tertiary; // MAX --icon-tertiary (#ffffff85)
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,7 +202,7 @@
 
   @media (hover: hover) {
     &:hover:not(:disabled) {
-      color: $icon-secondary;   // MAX --icon-secondary (#ffffffad)
+      color: $icon-secondary; // MAX --icon-secondary (#ffffffad)
     }
   }
 
@@ -246,8 +252,8 @@
   }
 
   &::placeholder {
-    color: $text-tertiary;  // MAX --text-tertiary (#ffffffa3)
-    opacity: 1;  // Firefox dims placeholders by default — override
+    color: $text-tertiary; // MAX --text-tertiary (#ffffffa3)
+    opacity: 1; // Firefox dims placeholders by default — override
   }
 
   &:disabled {

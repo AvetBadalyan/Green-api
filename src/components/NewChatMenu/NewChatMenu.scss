@@ -6,10 +6,10 @@
   right: 0;
   z-index: $z-dropdown;
   min-width: 20rem;
-  background-color: $card-bg;          // MAX --background-card / secondary
+  background-color: $card-bg; // MAX --background-card / secondary
   border: 1px solid $surface-hover-strong;
   border-radius: $radius-lg;
-  padding: 0.6rem;                     // 6px — MAX-matched tighter padding
+  padding: 0.6rem; // 6px — MAX-matched tighter padding
   box-shadow: $shadow-popover;
   display: flex;
   flex-direction: column;

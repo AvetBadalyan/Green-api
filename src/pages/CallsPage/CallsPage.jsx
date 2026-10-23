@@ -14,10 +14,14 @@ const INITIAL_STATE = { calls: [], loading: true, error: '' };
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_START':   return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS': return { loading: false, error: '', calls: action.calls };
-    case 'FETCH_ERROR':   return { ...state, loading: false, error: action.error };
-    default: return state;
+    case 'FETCH_START':
+      return { ...state, loading: true, error: '' };
+    case 'FETCH_SUCCESS':
+      return { loading: false, error: '', calls: action.calls };
+    case 'FETCH_ERROR':
+      return { ...state, loading: false, error: action.error };
+    default:
+      return state;
   }
 }
 
@@ -36,18 +40,26 @@ function formatCallTime(timestamp) {
 
 function callStatusLabel(status) {
   switch (status) {
-    case 'notAnswered': return 'No answer';
-    case 'missed':      return 'Missed';
-    case 'accepted':    return 'Answered';
-    case 'busy':        return 'Busy';
-    default:            return status || '';
+    case 'notAnswered':
+      return 'No answer';
+    case 'missed':
+      return 'Missed';
+    case 'accepted':
+      return 'Answered';
+    case 'busy':
+      return 'Busy';
+    default:
+      return status || '';
   }
 }
 
 function CallsPage() {
   const { credentials } = useAuth();
   const { createChat, setActiveChat, chats } = useChat();
-  const [{ calls, loading, error }, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const [{ calls, loading, error }, dispatch] = useReducer(
+    reducer,
+    INITIAL_STATE,
+  );
 
   const fetchCalls = useCallback(async () => {
     dispatch({ type: 'FETCH_START' });
@@ -63,15 +75,25 @@ function CallsPage() {
         ]);
 
         const normalised = [
-          ...(incoming ?? []).map((c) => ({ ...c, direction: 'incoming', phone: chatIdToPhone(c.from) })),
-          ...(outgoing ?? []).map((c) => ({ ...c, direction: 'outgoing', phone: chatIdToPhone(c.to) })),
+          ...(incoming ?? []).map((c) => ({
+            ...c,
+            direction: 'incoming',
+            phone: chatIdToPhone(c.from),
+          })),
+          ...(outgoing ?? []).map((c) => ({
+            ...c,
+            direction: 'outgoing',
+            phone: chatIdToPhone(c.to),
+          })),
         ].sort((a, b) => b.timestamp - a.timestamp);
 
         dispatch({ type: 'FETCH_SUCCESS', calls: normalised });
         return;
       } catch {
         if (attempt < MAX_ATTEMPTS) {
-          await new Promise((resolve) => setTimeout(resolve, attempt * RETRY_BASE_DELAY_MS));
+          await new Promise((resolve) =>
+            setTimeout(resolve, attempt * RETRY_BASE_DELAY_MS),
+          );
         }
       }
     }
@@ -79,7 +101,9 @@ function CallsPage() {
     dispatch({ type: 'FETCH_ERROR', error: 'Could not load call history.' });
   }, [credentials]);
 
-  useEffect(() => { fetchCalls(); }, [fetchCalls]);
+  useEffect(() => {
+    fetchCalls();
+  }, [fetchCalls]);
 
   const handleCallClick = (call) => {
     const existing = chats.find((c) => c.phoneNumber === call.phone);
@@ -102,7 +126,9 @@ function CallsPage() {
       {!loading && error && (
         <div className="panel-status panel-status--error" role="alert">
           <p>{error}</p>
-          <button onClick={fetchCalls} className="retry-btn">Retry</button>
+          <button onClick={fetchCalls} className="retry-btn">
+            Retry
+          </button>
         </div>
       )}
 
@@ -113,7 +139,9 @@ function CallsPage() {
           </EmptyStateIcon>
           <div className="panel-empty__info">
             <p className="panel-empty__title">Who would you like to call?</p>
-            <p className="panel-empty__subtitle">Your call history will be here</p>
+            <p className="panel-empty__subtitle">
+              Your call history will be here
+            </p>
           </div>
         </div>
       )}
@@ -135,7 +163,9 @@ function CallsPage() {
                   {callStatusLabel(call.status)}
                 </span>
               </div>
-              <span className="call-time">{formatCallTime(call.timestamp)}</span>
+              <span className="call-time">
+                {formatCallTime(call.timestamp)}
+              </span>
             </button>
           ))}
         </div>

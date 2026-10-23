@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useMemo, useCallback } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import { STORAGE_KEYS } from '../constants';
 
 const AuthContext = createContext(null);
@@ -13,12 +19,17 @@ export function AuthProvider({ children, onLogout }) {
     }
   });
 
-  const isAuthenticated = Boolean(credentials?.idInstance && credentials?.apiTokenInstance);
+  const isAuthenticated = Boolean(
+    credentials?.idInstance && credentials?.apiTokenInstance,
+  );
 
   const login = useCallback((idInstance, apiTokenInstance) => {
     const newCredentials = { idInstance, apiTokenInstance };
     setCredentials(newCredentials);
-    localStorage.setItem(STORAGE_KEYS.CREDENTIALS, JSON.stringify(newCredentials));
+    localStorage.setItem(
+      STORAGE_KEYS.CREDENTIALS,
+      JSON.stringify(newCredentials),
+    );
   }, []);
 
   const logout = useCallback(() => {
@@ -35,14 +46,10 @@ export function AuthProvider({ children, onLogout }) {
       login,
       logout,
     }),
-    [credentials, isAuthenticated, login, logout]
+    [credentials, isAuthenticated, login, logout],
   );
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 // Co-located with its provider by convention. The fast-refresh rule only warns

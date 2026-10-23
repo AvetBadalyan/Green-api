@@ -6,7 +6,8 @@ import './ChatAvatar.scss';
 function getInitials(name, phoneNumber) {
   if (name) {
     const parts = name.trim().split(/\s+/);
-    if (parts.length >= 2) return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+    if (parts.length >= 2)
+      return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
     if (name.length >= 2) return name.slice(0, 2).toUpperCase();
     return name[0].toUpperCase();
   }
@@ -35,7 +36,9 @@ function ChatAvatar({ phoneNumber, name = '', size = 56, isGroup = false }) {
     requestAvatar(credentials, chatId).then((url) => {
       if (!cancelled) setAvatarUrl(url);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [chatId, phoneNumber, credentials]);
 
   // md ≤ 48px (chat header, 40px), lg > 48px (lists, 56px)
@@ -57,7 +60,9 @@ function ChatAvatar({ phoneNumber, name = '', size = 56, isGroup = false }) {
           onError={() => setAvatarUrl(null)}
         />
       ) : (
-        <span className="chat-avatar__initials">{getInitials(name, phoneNumber)}</span>
+        <span className="chat-avatar__initials">
+          {getInitials(name, phoneNumber)}
+        </span>
       )}
     </div>
   );

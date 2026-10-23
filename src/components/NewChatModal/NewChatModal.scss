@@ -3,7 +3,7 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: $overlay;   // MAX --background-overlay (#0d0d0da3)
+  background-color: $overlay; // MAX --background-overlay (#0d0d0da3)
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@
   width: 42rem;
   max-width: 100%;
   background-color: $sidebar-bg;
-  border-radius: $radius-3xl;      // 32px — matches MAX
+  border-radius: $radius-3xl; // 32px — matches MAX
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -48,7 +48,9 @@
     transition: color $transition-fast;
 
     @media (hover: hover) {
-      &:hover { color: $text-primary; }
+      &:hover {
+        color: $text-primary;
+      }
     }
   }
 }
@@ -57,7 +59,7 @@
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: $spacing-base;              // 20px — matches MAX
+  gap: $spacing-base; // 20px — matches MAX
 }
 
 // Phone input with a leading "+" prefix
@@ -90,7 +92,9 @@
     line-height: $line-height-base;
     min-width: 0;
 
-    &::placeholder { color: $text-tertiary; }
+    &::placeholder {
+      color: $text-tertiary;
+    }
   }
 }
 
@@ -118,11 +122,13 @@
   transition: background-color $transition-fast;
 
   @media (hover: hover) {
-    &:hover:not(:disabled) { background-color: $primary-accent-hover; }
+    &:hover:not(:disabled) {
+      background-color: $primary-accent-hover;
+    }
   }
 
   &:disabled {
-    background-color: $button-disabled;  // gray, matches login page
+    background-color: $button-disabled; // gray, matches login page
     color: $text-tertiary;
     cursor: not-allowed;
   }

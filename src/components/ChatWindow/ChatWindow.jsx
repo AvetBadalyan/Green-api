@@ -7,8 +7,13 @@ import { TYPING_DEBOUNCE_MS } from '../../constants';
 import MessageList from '../MessageList/MessageList';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import {
-  IconBack, IconSearch, IconAttach, IconEmoji,
-  IconVideo, IconMic, IconSend,
+  IconBack,
+  IconSearch,
+  IconAttach,
+  IconEmoji,
+  IconVideo,
+  IconMic,
+  IconSend,
 } from '../../icons';
 import './ChatWindow.scss';
 
@@ -76,17 +81,20 @@ function ChatWindow() {
   };
 
   // Delete a message (called from MessageList context menu)
-  const handleDeleteMessage = useCallback(async (messageId) => {
-    if (!credentials || !activeChat) return;
-    const chatId = phoneToChatId(activeChat.phoneNumber, activeChat.isGroup);
-    try {
-      await deleteMessage(credentials, chatId, messageId);
-      removeMessage(activeChat.id, messageId);
-    } catch (err) {
-      console.error('Delete error:', err);
-      setError('Failed to delete message');
-    }
-  }, [credentials, activeChat, removeMessage]);
+  const handleDeleteMessage = useCallback(
+    async (messageId) => {
+      if (!credentials || !activeChat) return;
+      const chatId = phoneToChatId(activeChat.phoneNumber, activeChat.isGroup);
+      try {
+        await deleteMessage(credentials, chatId, messageId);
+        removeMessage(activeChat.id, messageId);
+      } catch (err) {
+        console.error('Delete error:', err);
+        setError('Failed to delete message');
+      }
+    },
+    [credentials, activeChat, removeMessage],
+  );
 
   return (
     <div className="chat-window">
@@ -133,7 +141,9 @@ function ChatWindow() {
       {error && (
         <div className="chat-error" role="alert">
           <span>{error}</span>
-          <button aria-label="Dismiss error" onClick={() => setError('')}>✕</button>
+          <button aria-label="Dismiss error" onClick={() => setError('')}>
+            ✕
+          </button>
         </div>
       )}
 

@@ -1,5 +1,9 @@
 import { getAvatar } from './api';
-import { AVATAR_MAX_CONCURRENT, AVATAR_QUEUE_DELAY_MS, STORAGE_KEYS } from '../constants';
+import {
+  AVATAR_MAX_CONCURRENT,
+  AVATAR_QUEUE_DELAY_MS,
+  STORAGE_KEYS,
+} from '../constants';
 
 // ─── Persistence ─────────────────────────────────────────────────────────────
 // sessionStorage keeps avatars alive across page refreshes within the same tab.
@@ -27,7 +31,9 @@ function saveToSession(chatId, url) {
 }
 
 function clearSession() {
-  try { sessionStorage.removeItem(STORAGE_KEYS.AVATARS); } catch {}
+  try {
+    sessionStorage.removeItem(STORAGE_KEYS.AVATARS);
+  } catch {}
 }
 
 // ─── In-memory cache ──────────────────────────────────────────────────────────
@@ -44,7 +50,10 @@ function drain() {
     const item = queue.shift();
 
     // May have been resolved while waiting in the queue
-    if (cache.has(item.chatId)) { item.resolve(cache.get(item.chatId)); continue; }
+    if (cache.has(item.chatId)) {
+      item.resolve(cache.get(item.chatId));
+      continue;
+    }
 
     activeFetchCount++;
     getAvatar(item.credentials, item.chatId)

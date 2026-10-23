@@ -13,15 +13,15 @@ function AppRouter() {
 
   return (
     <div className="app">
-      {isAuthenticated
-        ? (
-          <ErrorBoundary>
-            <Suspense fallback={<LoadingScreen />}>
-              <ChatPage />
-            </Suspense>
-          </ErrorBoundary>
-        )
-        : <LoginPage />}
+      {isAuthenticated ? (
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingScreen />}>
+            <ChatPage />
+          </Suspense>
+        </ErrorBoundary>
+      ) : (
+        <LoginPage />
+      )}
     </div>
   );
 }

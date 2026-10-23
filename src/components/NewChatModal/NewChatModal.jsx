@@ -19,17 +19,22 @@ function NewChatModal({ onClose }) {
   // Focus trap + Escape
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') { onClose(); return; }
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
       if (e.key === 'Tab' && modalRef.current) {
         const focusable = modalRef.current.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         );
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
         if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault(); last.focus();
+          e.preventDefault();
+          last.focus();
         } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault(); first.focus();
+          e.preventDefault();
+          first.focus();
         }
       }
     };
@@ -39,7 +44,9 @@ function NewChatModal({ onClose }) {
   }, [onClose]);
 
   const cleanPhone = phoneNumber.replace(/\D/g, '');
-  const isValid = cleanPhone.length >= MIN_PHONE_LENGTH && cleanPhone.length <= MAX_PHONE_LENGTH;
+  const isValid =
+    cleanPhone.length >= MIN_PHONE_LENGTH &&
+    cleanPhone.length <= MAX_PHONE_LENGTH;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +60,7 @@ function NewChatModal({ onClose }) {
       setError(
         cleanPhone.length < MIN_PHONE_LENGTH
           ? `Include country code — at least ${MIN_PHONE_LENGTH} digits`
-          : `Phone number too long — maximum ${MAX_PHONE_LENGTH} digits`
+          : `Phone number too long — maximum ${MAX_PHONE_LENGTH} digits`,
       );
       return;
     }
@@ -98,13 +105,18 @@ function NewChatModal({ onClose }) {
 
         <form className="modal-form" onSubmit={handleSubmit} noValidate>
           <div className="phone-field">
-            <span className="phone-prefix" aria-hidden="true">+</span>
+            <span className="phone-prefix" aria-hidden="true">
+              +
+            </span>
             <input
               ref={phoneInputRef}
               type="tel"
               inputMode="numeric"
               value={phoneNumber}
-              onChange={(e) => { setPhoneNumber(e.target.value); setError(''); }}
+              onChange={(e) => {
+                setPhoneNumber(e.target.value);
+                setError('');
+              }}
               placeholder="79001234567"
               autoComplete="tel"
               aria-label="Phone number with country code"
@@ -112,9 +124,15 @@ function NewChatModal({ onClose }) {
             />
           </div>
 
-          <p id="phone-hint" className="phone-hint">Enter the full number including country code</p>
+          <p id="phone-hint" className="phone-hint">
+            Enter the full number including country code
+          </p>
 
-          {error && <p className="error-message" role="alert">{error}</p>}
+          {error && (
+            <p className="error-message" role="alert">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"

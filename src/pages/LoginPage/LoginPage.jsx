@@ -23,13 +23,20 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      await getSettings({ idInstance: idInstance.trim(), apiTokenInstance: apiTokenInstance.trim() });
+      await getSettings({
+        idInstance: idInstance.trim(),
+        apiTokenInstance: apiTokenInstance.trim(),
+      });
       login(idInstance.trim(), apiTokenInstance.trim());
     } catch (err) {
       if (err.response?.status === 401 || err.response?.status === 403) {
-        setError('Invalid credentials. Please check your Instance ID and API Token.');
+        setError(
+          'Invalid credentials. Please check your Instance ID and API Token.',
+        );
       } else {
-        setError('Connection error. Please check your credentials and try again.');
+        setError(
+          'Connection error. Please check your credentials and try again.',
+        );
       }
     } finally {
       setLoading(false);
@@ -57,7 +64,10 @@ function LoginPage() {
               type="text"
               id="idInstance"
               value={idInstance}
-              onChange={(e) => { setIdInstance(e.target.value); setError(''); }}
+              onChange={(e) => {
+                setIdInstance(e.target.value);
+                setError('');
+              }}
               placeholder="e.g. 1101234567"
               autoComplete="username"
               required
@@ -73,7 +83,10 @@ function LoginPage() {
               type="password"
               id="apiTokenInstance"
               value={apiTokenInstance}
-              onChange={(e) => { setApiTokenInstance(e.target.value); setError(''); }}
+              onChange={(e) => {
+                setApiTokenInstance(e.target.value);
+                setError('');
+              }}
               placeholder="Your API token"
               autoComplete="current-password"
               required
@@ -83,9 +96,17 @@ function LoginPage() {
             />
           </div>
 
-          {error && <p id="login-error" className="error-message" role="alert">{error}</p>}
+          {error && (
+            <p id="login-error" className="error-message" role="alert">
+              {error}
+            </p>
+          )}
 
-          <button type="submit" className="btn-primary login-button" disabled={loading}>
+          <button
+            type="submit"
+            className="btn-primary login-button"
+            disabled={loading}
+          >
             {loading ? 'Connecting...' : 'Sign in'}
           </button>
         </form>
@@ -93,17 +114,29 @@ function LoginPage() {
         <div className="login-footer">
           <p className="login-legal">
             By signing in, you agree to the{' '}
-            <a href="https://green-api.com/en/terms/" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://green-api.com/en/terms/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Terms of Service
             </a>{' '}
             and{' '}
-            <a href="https://green-api.com/en/policy/" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://green-api.com/en/policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Privacy Policy
             </a>
           </p>
           <p>
             No credentials?{' '}
-            <a href="https://console.green-api.com/" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://console.green-api.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Get them at GREEN-API Console
             </a>
           </p>

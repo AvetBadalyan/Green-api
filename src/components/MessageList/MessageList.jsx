@@ -16,7 +16,9 @@ function MessageList({ messages, onDeleteMessage }) {
   useEffect(() => {
     if (!contextMenu) return;
     const handleClick = () => setContextMenu(null);
-    const handleKeyDown = (e) => { if (e.key === 'Escape') setContextMenu(null); };
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') setContextMenu(null);
+    };
     document.addEventListener('click', handleClick);
     document.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -108,7 +110,14 @@ function MessageCheckmark({ status }) {
   if (actualStatus === 'read') {
     // Double tick, blue
     return (
-      <svg className="message-checkmark read" width="16" height="14" viewBox="0 0 16 11" fill="none" aria-label="Read">
+      <svg
+        className="message-checkmark read"
+        width="16"
+        height="14"
+        viewBox="0 0 16 11"
+        fill="none"
+        aria-label="Read"
+      >
         <path
           d="M11.5 1L5.5 7L3 4.5M14.5 1L8.5 7"
           stroke="currentColor"
@@ -123,7 +132,14 @@ function MessageCheckmark({ status }) {
   if (actualStatus === 'delivered') {
     // Double tick, gray
     return (
-      <svg className="message-checkmark delivered" width="16" height="14" viewBox="0 0 16 11" fill="none" aria-label="Delivered">
+      <svg
+        className="message-checkmark delivered"
+        width="16"
+        height="14"
+        viewBox="0 0 16 11"
+        fill="none"
+        aria-label="Delivered"
+      >
         <path
           d="M11.5 1L5.5 7L3 4.5M14.5 1L8.5 7"
           stroke="currentColor"
@@ -137,7 +153,14 @@ function MessageCheckmark({ status }) {
 
   // Single tick = sent
   return (
-    <svg className="message-checkmark sent" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-label="Sent">
+    <svg
+      className="message-checkmark sent"
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-label="Sent"
+    >
       <polyline
         points="20 6 9 17 4 12"
         stroke="currentColor"

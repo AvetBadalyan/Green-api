@@ -42,10 +42,13 @@ const createApiInstance = (idInstance) => {
         config.__retryCount = (config.__retryCount || 0) + 1;
 
         if (config.__retryCount <= MAX_RETRIES) {
-          const retryAfterHeader = Number(error.response?.headers?.['retry-after']);
-          const backoff = Number.isFinite(retryAfterHeader) && retryAfterHeader > 0
-            ? retryAfterHeader * 1000
-            : BASE_BACKOFF_MS * 2 ** (config.__retryCount - 1);
+          const retryAfterHeader = Number(
+            error.response?.headers?.['retry-after'],
+          );
+          const backoff =
+            Number.isFinite(retryAfterHeader) && retryAfterHeader > 0
+              ? retryAfterHeader * 1000
+              : BASE_BACKOFF_MS * 2 ** (config.__retryCount - 1);
 
           await sleep(backoff);
           return instance(config);
@@ -53,7 +56,7 @@ const createApiInstance = (idInstance) => {
       }
 
       return Promise.reject(error);
-    }
+    },
   );
 
   return instance;
@@ -129,7 +132,9 @@ export const receiveNotification = async (credentials) => {
 export const deleteNotification = async (credentials, receiptId) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
-  const response = await api.delete(`/deleteNotification/${apiTokenInstance}/${receiptId}`);
+  const response = await api.delete(
+    `/deleteNotification/${apiTokenInstance}/${receiptId}`,
+  );
   return response.data;
 };
 
@@ -197,7 +202,11 @@ export const deleteMessage = async (credentials, chatId, idMessage) => {
  * @param {string} chatId  - "phone@c.us" or "groupid@g.us"
  * @param {number} count   - number of messages to return (default from constants)
  */
-export const getChatHistory = async (credentials, chatId, count = CHAT_HISTORY_COUNT) => {
+export const getChatHistory = async (
+  credentials,
+  chatId,
+  count = CHAT_HISTORY_COUNT,
+) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
   const response = await api.post(`/getChatHistory/${apiTokenInstance}`, {
@@ -221,7 +230,7 @@ export const getAvatar = async (credentials, chatId) => {
   const response = await api.post(
     `/getAvatar/${apiTokenInstance}`,
     { chatId },
-    { validateStatus: (status) => status === 200 || status === 466 }
+    { validateStatus: (status) => status === 200 || status === 466 },
   );
   return response.data;
 };
@@ -259,5 +268,3 @@ export const getLastOutgoingCalls = async (credentials) => {
   const response = await api.get(`/lastOutgoingCalls/${apiTokenInstance}`);
   return response.data;
 };
-
-

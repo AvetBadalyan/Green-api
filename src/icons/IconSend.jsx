@@ -1,8 +1,13 @@
 function IconSend({ size = 24, ...props }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24"
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
       fill="currentColor"
-      aria-hidden="true" {...props}>
+      aria-hidden="true"
+      {...props}
+    >
       <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
     </svg>
   );

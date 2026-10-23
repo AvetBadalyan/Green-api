@@ -39,14 +39,17 @@
 
 .message {
   display: flex;
-  max-width: min(49rem, 75%); // MAX: bubbles cap at ~490px; % keeps it sane on narrow panes
+  max-width: min(
+    49rem,
+    75%
+  ); // MAX: bubbles cap at ~490px; % keeps it sane on narrow panes
 
   &.outgoing {
     align-self: flex-end;
 
     .message-content {
       background: $bubble-gradient-outgoing; // MAX: 239deg purple→blue gradient
-      border-radius: 1.6rem;                 // MAX: uniform 16px on all corners
+      border-radius: 1.6rem; // MAX: uniform 16px on all corners
     }
   }
 
@@ -55,7 +58,7 @@
 
     .message-content {
       background: $bubble-gradient-incoming; // MAX: 239deg dark-slate gradient
-      border-radius: 1.6rem;                 // MAX: uniform 16px on all corners
+      border-radius: 1.6rem; // MAX: uniform 16px on all corners
     }
   }
 }
@@ -66,7 +69,7 @@
 }
 
 .message-text {
-  font-size: $font-message;           // MAX confirmed: 16px
+  font-size: $font-message; // MAX confirmed: 16px
   color: $text-primary;
   line-height: $line-height-base; // MAX confirmed: 20px
   overflow-wrap: break-word;
@@ -78,25 +81,31 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: $spacing-xs-plus;         // MAX-specific meta spacing
+  gap: $spacing-xs-plus; // MAX-specific meta spacing
 }
 
 .message-time {
   font-size: $font-timestamp;
   line-height: $line-height-tight; // MAX confirmed: 14px
-  letter-spacing: 0.3px;           // sub-pixel — kept in px
-  color: $text-tertiary;           // MAX: rgba(255,255,255,0.64)
+  letter-spacing: 0.3px; // sub-pixel — kept in px
+  color: $text-tertiary; // MAX: rgba(255,255,255,0.64)
   user-select: none;
 }
 
 .message-checkmark {
-  color: $tick-sent;         // MAX: rgba(255,255,255,0.88) for sent/delivered
+  color: $tick-sent; // MAX: rgba(255,255,255,0.88) for sent/delivered
   display: block;
   flex-shrink: 0;
 
-  &.read      { color: $primary-accent; } // MAX confirmed: rgb(0,122,255) = #007aff
-  &.delivered { color: $tick-sent; }
-  &.sent      { color: $tick-sent; }
+  &.read {
+    color: $primary-accent;
+  } // MAX confirmed: rgb(0,122,255) = #007aff
+  &.delivered {
+    color: $tick-sent;
+  }
+  &.sent {
+    color: $tick-sent;
+  }
 }
 
 // Context menu for message actions
@@ -115,8 +124,8 @@
     align-items: center;
     gap: $spacing-compact;
     width: 100%;
-    padding: 1rem 1.2rem;   // 10px 12px — tighter than standard, MAX-matched
-    border-radius: 0.6rem;  // 6px — tighter than $radius-md, MAX-matched
+    padding: 1rem 1.2rem; // 10px 12px — tighter than standard, MAX-matched
+    border-radius: 0.6rem; // 6px — tighter than $radius-md, MAX-matched
     color: $text-primary;
     font-size: $font-body;
     text-align: left;

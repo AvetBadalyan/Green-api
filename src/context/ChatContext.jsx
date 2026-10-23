@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+} from 'react';
 import { DEDUPLICATION_WINDOW_MS, STORAGE_KEYS } from '../constants';
 import { chatIdToPhone } from '../utils/chatId';
 
@@ -38,7 +45,7 @@ export function ChatProvider({ children, onMount }) {
 
   const activeChat = useMemo(
     () => chats.find((c) => c.id === activeChatId) ?? null,
-    [chats, activeChatId]
+    [chats, activeChatId],
   );
 
   const setActiveChat = useCallback((chat) => {
@@ -46,7 +53,7 @@ export function ChatProvider({ children, onMount }) {
     if (chat) {
       setChats((prev) => {
         const updated = prev.map((c) =>
-          c.id === chat.id ? { ...c, lastReadAt: new Date().toISOString() } : c
+          c.id === chat.id ? { ...c, lastReadAt: new Date().toISOString() } : c,
         );
         persistChats(updated);
         return updated;
@@ -62,11 +69,13 @@ export function ChatProvider({ children, onMount }) {
       if (!chat) return prev;
       // Only write if there's actually something newer than lastReadAt
       const hasUnread = chat.messages.some(
-        (m) => m.type === 'incoming' && (!chat.lastReadAt || m.timestamp > chat.lastReadAt)
+        (m) =>
+          m.type === 'incoming' &&
+          (!chat.lastReadAt || m.timestamp > chat.lastReadAt),
       );
       if (!hasUnread) return prev;
       const updated = prev.map((c) =>
-        c.id === chatId ? { ...c, lastReadAt: new Date().toISOString() } : c
+        c.id === chatId ? { ...c, lastReadAt: new Date().toISOString() } : c,
       );
       persistChats(updated);
       return updated;
@@ -77,7 +86,10 @@ export function ChatProvider({ children, onMount }) {
     const cleanPhone = phoneNumber.replace(/\D/g, '');
     setChats((prev) => {
       const existing = prev.find((c) => c.phoneNumber === cleanPhone);
-      if (existing) { setActiveChatId(existing.id); return prev; }
+      if (existing) {
+        setActiveChatId(existing.id);
+        return prev;
+      }
       const now = new Date().toISOString();
       const newChat = {
         id: uniqueId('chat'),
@@ -98,7 +110,7 @@ export function ChatProvider({ children, onMount }) {
   const addMessage = useCallback((chatId, message) => {
     setChats((prev) => {
       const updated = prev.map((c) =>
-        c.id === chatId ? { ...c, messages: [...c.messages, message] } : c
+        c.id === chatId ? { ...c, messages: [...c.messages, message] } : c,
       );
       persistChats(updated);
       return updated;
@@ -110,7 +122,7 @@ export function ChatProvider({ children, onMount }) {
       const updated = prev.map((c) =>
         c.id === chatId
           ? { ...c, messages: c.messages.filter((m) => m.id !== messageId) }
-          : c
+          : c,
       );
       persistChats(updated);
       return updated;
@@ -121,25 +133,28 @@ export function ChatProvider({ children, onMount }) {
    * Update the delivery/read status of a specific outgoing message.
    * webhookChatId comes from the outgoingMessageStatus webhook, e.g. "79001234567@c.us".
    */
-  const updateMessageStatus = useCallback((webhookChatId, messageId, status) => {
-    const phoneNumber = chatIdToPhone(webhookChatId);
-    setChats((prev) => {
-      const chat = prev.find((c) => c.phoneNumber === phoneNumber);
-      if (!chat) return prev;
-      const updated = prev.map((c) =>
-        c.id === chat.id
-          ? {
-              ...c,
-              messages: c.messages.map((m) =>
-                m.id === messageId ? { ...m, status } : m
-              ),
-            }
-          : c
-      );
-      persistChats(updated);
-      return updated;
-    });
-  }, []);
+  const updateMessageStatus = useCallback(
+    (webhookChatId, messageId, status) => {
+      const phoneNumber = chatIdToPhone(webhookChatId);
+      setChats((prev) => {
+        const chat = prev.find((c) => c.phoneNumber === phoneNumber);
+        if (!chat) return prev;
+        const updated = prev.map((c) =>
+          c.id === chat.id
+            ? {
+                ...c,
+                messages: c.messages.map((m) =>
+                  m.id === messageId ? { ...m, status } : m,
+                ),
+              }
+            : c,
+        );
+        persistChats(updated);
+        return updated;
+      });
+    },
+    [],
+  );
 
   const receiveMessage = useCallback((phoneNumber, message) => {
     setChats((prev) => {
@@ -150,7 +165,7 @@ export function ChatProvider({ children, onMount }) {
         updated = prev.map((c) =>
           c.id === existing.id
             ? { ...c, messages: [...c.messages, message] }
-            : c
+            : c,
         );
       } else {
         const now = new Date().toISOString();
@@ -185,7 +200,8 @@ export function ChatProvider({ children, onMount }) {
         const isUser = apiChat.id.endsWith('@c.us');
         if (!isGroup && !isUser) continue;
         // Skip system/broadcast numbers
-        if (apiChat.id === '0@c.us' || apiChat.id === 'status@broadcast') continue;
+        if (apiChat.id === '0@c.us' || apiChat.id === 'status@broadcast')
+          continue;
 
         const phone = chatIdToPhone(apiChat.id);
         const existingIdx = updated.findIndex((c) => c.phoneNumber === phone);
@@ -193,7 +209,7 @@ export function ChatProvider({ children, onMount }) {
         if (existingIdx >= 0) {
           if (apiChat.name && !updated[existingIdx].name) {
             updated = updated.map((c, i) =>
-              i === existingIdx ? { ...c, name: apiChat.name, isGroup } : c
+              i === existingIdx ? { ...c, name: apiChat.name, isGroup } : c,
             );
           }
         } else {
@@ -234,9 +250,11 @@ export function ChatProvider({ children, onMount }) {
       // field; extendedTextMessage also has extendedTextMessage.text as a
       // fallback when textMessage is absent.
       const apiNormalised = apiMessages
-        .filter((m) =>
-          (m.typeMessage === 'textMessage' || m.typeMessage === 'extendedTextMessage') &&
-          (m.textMessage || m.extendedTextMessage?.text)
+        .filter(
+          (m) =>
+            (m.typeMessage === 'textMessage' ||
+              m.typeMessage === 'extendedTextMessage') &&
+            (m.textMessage || m.extendedTextMessage?.text),
         )
         .map((m) => ({
           id: m.idMessage,
@@ -263,17 +281,18 @@ export function ChatProvider({ children, onMount }) {
           (api) =>
             api.text === m.text &&
             api.type === m.type &&
-            Math.abs(new Date(api.timestamp).getTime() - localTime) < DEDUPLICATION_WINDOW_MS
+            Math.abs(new Date(api.timestamp).getTime() - localTime) <
+              DEDUPLICATION_WINDOW_MS,
         );
         return !echo;
       });
 
       const merged = [...apiNormalised, ...localOnly].sort(
-        (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+        (a, b) => new Date(a.timestamp) - new Date(b.timestamp),
       );
 
       const updated = prev.map((c) =>
-        c.id === chat.id ? { ...c, messages: merged } : c
+        c.id === chat.id ? { ...c, messages: merged } : c,
       );
       persistChats(updated);
       return updated;
@@ -283,7 +302,9 @@ export function ChatProvider({ children, onMount }) {
   const resetChats = useCallback(() => {
     setChats([]);
     setActiveChatId(null);
-    try { localStorage.removeItem(CHATS_STORAGE_KEY); } catch {}
+    try {
+      localStorage.removeItem(CHATS_STORAGE_KEY);
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -305,9 +326,20 @@ export function ChatProvider({ children, onMount }) {
       syncApiChats,
       mergeHistory,
     }),
-    [chats, activeChat, setActiveChat, markChatReadById, createChat, addMessage,
-     removeMessage, updateMessageStatus, receiveMessage, resetChats,
-     syncApiChats, mergeHistory]
+    [
+      chats,
+      activeChat,
+      setActiveChat,
+      markChatReadById,
+      createChat,
+      addMessage,
+      removeMessage,
+      updateMessageStatus,
+      receiveMessage,
+      resetChats,
+      syncApiChats,
+      mergeHistory,
+    ],
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

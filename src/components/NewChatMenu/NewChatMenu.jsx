@@ -12,7 +12,9 @@ function NewChatMenu({ onSearchByNumber, onClose, triggerRef }) {
 
   // WAI-ARIA menu button pattern: move focus into the menu on mount
   useEffect(() => {
-    const items = menuRef.current?.querySelectorAll('[role="menuitem"]:not(:disabled)');
+    const items = menuRef.current?.querySelectorAll(
+      '[role="menuitem"]:not(:disabled)',
+    );
     if (items?.length > 0) items[0].focus();
   }, []);
 
@@ -34,13 +36,16 @@ function NewChatMenu({ onSearchByNumber, onClose, triggerRef }) {
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
         const items = Array.from(
-          menuRef.current?.querySelectorAll('[role="menuitem"]:not(:disabled)') ?? []
+          menuRef.current?.querySelectorAll(
+            '[role="menuitem"]:not(:disabled)',
+          ) ?? [],
         );
         if (items.length === 0) return;
         const currentIndex = items.indexOf(document.activeElement);
-        const next = e.key === 'ArrowDown'
-          ? (currentIndex + 1) % items.length
-          : (currentIndex - 1 + items.length) % items.length;
+        const next =
+          e.key === 'ArrowDown'
+            ? (currentIndex + 1) % items.length
+            : (currentIndex - 1 + items.length) % items.length;
         items[next].focus();
       }
     };
@@ -57,18 +62,31 @@ function NewChatMenu({ onSearchByNumber, onClose, triggerRef }) {
       <button
         className="new-chat-menu__item"
         role="menuitem"
-        onClick={() => { onSearchByNumber(); onClose(); }}
+        onClick={() => {
+          onSearchByNumber();
+          onClose();
+        }}
       >
         <IconSearch size={20} />
         Search by number
       </button>
 
-      <button className="new-chat-menu__item" role="menuitem" disabled title="Not available via GREEN-API">
+      <button
+        className="new-chat-menu__item"
+        role="menuitem"
+        disabled
+        title="Not available via GREEN-API"
+      >
         <IconGroup size={20} />
         Create group
       </button>
 
-      <button className="new-chat-menu__item" role="menuitem" disabled title="Not available via GREEN-API">
+      <button
+        className="new-chat-menu__item"
+        role="menuitem"
+        disabled
+        title="Not available via GREEN-API"
+      >
         <IconLink size={20} />
         Invite via link
       </button>

@@ -33,7 +33,10 @@ class ErrorBoundary extends Component {
             <div className="error-boundary__icon">⚠️</div>
             <h2>Something went wrong</h2>
             <p>The application encountered an unexpected error.</p>
-            <button onClick={this.handleRetry} className="error-boundary__retry">
+            <button
+              onClick={this.handleRetry}
+              className="error-boundary__retry"
+            >
               Try again
             </button>
           </div>

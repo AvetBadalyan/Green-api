@@ -16,18 +16,18 @@ $text-secondary: #888899;
 $text-muted: #8888a8;
 
 // MAX exact token values (space-dark theme) — hex-with-alpha straight from DevTools
-$text-tertiary: #ffffffa3;       // 64% white — placeholders, muted labels
-$icon-secondary: #ffffffad;      // 68% white — icon hover
-$icon-tertiary: #ffffff85;       // 52% white — inactive icons, nav, close btn
+$text-tertiary: #ffffffa3; // 64% white — placeholders, muted labels
+$icon-secondary: #ffffffad; // 68% white — icon hover
+$icon-tertiary: #ffffff85; // 52% white — inactive icons, nav, close btn
 
 // Surface overlays & hovers (hex-with-alpha, matching MAX tokens)
-$overlay: #0d0d0da3;             // modal backdrop
-$surface-field: #ffffff17;       // input/search fields (9%)
-$divider: #ffffff1f;             // separators (12%)
+$overlay: #0d0d0da3; // modal backdrop
+$surface-field: #ffffff17; // input/search fields (9%)
+$divider: #ffffff1f; // separators (12%)
 $surface-hover-strong: #ffffff14; // hover fill (8%)
-$surface-hover: #ffffff0f;       // subtle hover/border (6%)
-$surface-hover-soft: #ffffff0a;  // very subtle row hover (4%)
-$button-disabled: #ffffff1f;     // disabled button (12%)
+$surface-hover: #ffffff0f; // subtle hover/border (6%)
+$surface-hover-soft: #ffffff0a; // very subtle row hover (4%)
+$button-disabled: #ffffff1f; // disabled button (12%)
 
 $border-color: #1e1e35;
 
@@ -38,7 +38,7 @@ $error-bg: #ff525214;
 $error-border: #ff525240;
 $positive: #2bc644;
 $tick-read: #34b7f1;
-$tick-sent: #ffffffe0;           // 88% white — gray ticks for sent/delivered
+$tick-sent: #ffffffe0; // 88% white — gray ticks for sent/delivered
 
 // Connection-status indicator dot
 $status-online: #4ade80;
@@ -75,54 +75,54 @@ $empty-halo-4: #4612a2;
 // ─── Typography Scale ─────────────────────────────────────────────────────────
 // Semantic names based on usage. All sizes in rem where 1rem = 10px (html 62.5%).
 // Matched to web.max.ru design system.
-$font-badge: 1rem;         // 10px — badge counts
-$font-timestamp: 1.1rem;   // 11px — times, small labels
-$font-caption: 1.2rem;     // 12px — secondary info, phone numbers
-$font-hint: 1.3rem;        // 13px — hints, status text, form labels
-$font-body: 1.4rem;        // 14px — default body text, contact names
-$font-chat-name: 1.5rem;   // 15px — chat names, menu items
-$font-message: 1.6rem;     // 16px — messages, inputs (browser base)
-$font-button: 1.7rem;      // 17px — buttons
-$font-title: 2rem;         // 20px — modal/section titles
-$font-heading: 2.2rem;     // 22px — page headings
+$font-badge: 1rem; // 10px — badge counts
+$font-timestamp: 1.1rem; // 11px — times, small labels
+$font-caption: 1.2rem; // 12px — secondary info, phone numbers
+$font-hint: 1.3rem; // 13px — hints, status text, form labels
+$font-body: 1.4rem; // 14px — default body text, contact names
+$font-chat-name: 1.5rem; // 15px — chat names, menu items
+$font-message: 1.6rem; // 16px — messages, inputs (browser base)
+$font-button: 1.7rem; // 17px — buttons
+$font-title: 2rem; // 20px — modal/section titles
+$font-heading: 2.2rem; // 22px — page headings
 $font-panel-title: 2.4rem; // 24px — panel headers like "Chats"
-$font-icon-large: 4.8rem;  // 48px — large decorative icons
+$font-icon-large: 4.8rem; // 48px — large decorative icons
 
 // Line heights — typically font-size + 4px for readability
-$line-height-tight: 1.4rem;   // 14px
-$line-height-sm: 1.6rem;      // 16px
-$line-height-base: 2rem;      // 20px
-$line-height-lg: 2.4rem;      // 24px
-$line-height-xl: 2.8rem;      // 28px
+$line-height-tight: 1.4rem; // 14px
+$line-height-sm: 1.6rem; // 16px
+$line-height-base: 2rem; // 20px
+$line-height-lg: 2.4rem; // 24px
+$line-height-xl: 2.8rem; // 28px
 
 // ─── Spacing (1rem = 10px with 62.5% html base) ──────────────────────────────
-$spacing-2xs: 0.2rem;      // 2px — fine adjustments
-$spacing-xs: 0.4rem;       // 4px — tight gaps
-$spacing-xs-plus: 0.6rem;  // 6px — MAX-specific tight gaps (menus, meta)
-$spacing-sm: 0.8rem;       // 8px — small gaps
-$spacing-compact: 1rem;    // 10px — compact list/menu padding
-$spacing-row: 1.2rem;      // 12px — avatar margins, list/menu row gaps
-$spacing-md: 1.6rem;       // 16px — standard padding
-$spacing-base: 2rem;   // 20px — gaps, button horizontal padding
-$spacing-lg: 2.4rem;   // 24px — section spacing
-$spacing-xl: 3.2rem;   // 32px — large sections
-$spacing-2xl: 4.8rem;  // 48px — hero spacing
+$spacing-2xs: 0.2rem; // 2px — fine adjustments
+$spacing-xs: 0.4rem; // 4px — tight gaps
+$spacing-xs-plus: 0.6rem; // 6px — MAX-specific tight gaps (menus, meta)
+$spacing-sm: 0.8rem; // 8px — small gaps
+$spacing-compact: 1rem; // 10px — compact list/menu padding
+$spacing-row: 1.2rem; // 12px — avatar margins, list/menu row gaps
+$spacing-md: 1.6rem; // 16px — standard padding
+$spacing-base: 2rem; // 20px — gaps, button horizontal padding
+$spacing-lg: 2.4rem; // 24px — section spacing
+$spacing-xl: 3.2rem; // 32px — large sections
+$spacing-2xl: 4.8rem; // 48px — hero spacing
 
 // ─── Border radius ────────────────────────────────────────────────────────────
-$radius-sm: 0.4rem;   // 4px — small buttons, tags
-$radius-md: 0.8rem;   // 8px — context menus, dropdown items
-$radius-lg: 1.2rem;   // 12px — search bars, inputs, cards
-$radius-xl: 1.6rem;   // 16px — bubbles, composer, modals
-$radius-2xl: 2rem;    // 20px — large buttons, login card
-$radius-3xl: 3.2rem;  // 32px — modals (matches MAX)
-$radius-full: 50%;    // circles — avatars, status dots
+$radius-sm: 0.4rem; // 4px — small buttons, tags
+$radius-md: 0.8rem; // 8px — context menus, dropdown items
+$radius-lg: 1.2rem; // 12px — search bars, inputs, cards
+$radius-xl: 1.6rem; // 16px — bubbles, composer, modals
+$radius-2xl: 2rem; // 20px — large buttons, login card
+$radius-3xl: 3.2rem; // 32px — modals (matches MAX)
+$radius-full: 50%; // circles — avatars, status dots
 
 // ─── Z-Index scale ────────────────────────────────────────────────────────────
 // Layered from lowest to highest to avoid conflicts
-$z-base: 1;           // content above background
-$z-dropdown: 50;      // dropdowns, popovers
-$z-modal: 100;        // modal backdrops
-$z-popover: 200;      // context menus, tooltips (above modals)
+$z-base: 1; // content above background
+$z-dropdown: 50; // dropdowns, popovers
+$z-modal: 100; // modal backdrops
+$z-popover: 200; // context menus, tooltips (above modals)
 
 // ─── Transitions ─────────────────────────────────────────────────────────────
 $transition-fast: 0.15s ease;

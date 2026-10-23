@@ -12,22 +12,22 @@ A React-based chat application for sending and receiving messages via MAX messen
 
 ### Desktop
 
-| Login | Login (filled) |
-|-------|----------------|
+| Login                                              | Login (filled)                                           |
+| -------------------------------------------------- | -------------------------------------------------------- |
 | ![Login Desktop](screenshots/01-login-desktop.png) | ![Login Filled](screenshots/02-login-filled-desktop.png) |
 
-| Chat Page | New Chat Menu |
-|-----------|---------------|
+| Chat Page                                          | New Chat Menu                                              |
+| -------------------------------------------------- | ---------------------------------------------------------- |
 | ![Chat Page](screenshots/03-chat-page-desktop.png) | ![New Chat Menu](screenshots/04-new-chat-menu-desktop.png) |
 
-| Contacts | Calls |
-|----------|-------|
+| Contacts                                               | Calls                                           |
+| ------------------------------------------------------ | ----------------------------------------------- |
 | ![Contacts](screenshots/05-contacts-panel-desktop.png) | ![Calls](screenshots/06-calls-page-desktop.png) |
 
 ### Tablet & Mobile
 
-| Tablet | Mobile |
-|--------|--------|
+| Tablet                                         | Mobile                                         |
+| ---------------------------------------------- | ---------------------------------------------- |
 | ![Tablet](screenshots/07-chat-page-tablet.png) | ![Mobile](screenshots/08-chat-page-mobile.png) |
 
 ## Features
@@ -44,13 +44,13 @@ A React-based chat application for sending and receiving messages via MAX messen
 
 ## Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
-| React 19 | UI library |
-| Vite 8 | Build tool & dev server |
-| SCSS | Styling (variables, BEM) |
-| Axios | HTTP client with retry logic |
-| GREEN-API | MAX messaging service |
+| Technology | Purpose                      |
+| ---------- | ---------------------------- |
+| React 19   | UI library                   |
+| Vite 8     | Build tool & dev server      |
+| SCSS       | Styling (variables, BEM)     |
+| Axios      | HTTP client with retry logic |
+| GREEN-API  | MAX messaging service        |
 
 ## Getting Started
 
@@ -102,6 +102,7 @@ The production build will be in the `dist/` folder.
 ### Phone Number Format
 
 Enter phone numbers **without** the `+` symbol:
+
 - ✅ `79001234567` (Russia)
 - ✅ `37455123456` (Armenia)
 - ❌ `+79001234567` (don't include +)
@@ -150,27 +151,27 @@ src/
 
 This app uses the [GREEN-API HTTP API](https://green-api.com/docs/api/) for MAX:
 
-| Endpoint | Purpose |
-|----------|---------|
-| `SendMessage` | Send text messages |
-| `ReceiveNotification` | Long-poll for incoming events |
-| `DeleteNotification` | Acknowledge processed notifications |
-| `GetStateInstance` | Check connection status |
-| `GetChats` | Fetch existing chat list |
-| `GetChatHistory` | Load message history for a chat |
-| `ReadChat` | Mark messages as read |
-| `SendTyping` | Send typing indicator |
-| `GetContacts` | Fetch contact list |
-| `CheckWhatsapp` | Verify phone number exists |
+| Endpoint              | Purpose                             |
+| --------------------- | ----------------------------------- |
+| `SendMessage`         | Send text messages                  |
+| `ReceiveNotification` | Long-poll for incoming events       |
+| `DeleteNotification`  | Acknowledge processed notifications |
+| `GetStateInstance`    | Check connection status             |
+| `GetChats`            | Fetch existing chat list            |
+| `GetChatHistory`      | Load message history for a chat     |
+| `ReadChat`            | Mark messages as read               |
+| `SendTyping`          | Send typing indicator               |
+| `GetContacts`         | Fetch contact list                  |
+| `CheckWhatsapp`       | Verify phone number exists          |
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `npm run dev`     | Start development server |
+| `npm run build`   | Build for production     |
 | `npm run preview` | Preview production build |
-| `npm run lint` | Run oxlint |
+| `npm run lint`    | Run oxlint               |
 
 ## Browser Support
 
@@ -194,4 +195,4 @@ This app uses the [GREEN-API HTTP API](https://green-api.com/docs/api/) for MAX:
 
 ---
 
-*Created as a test assignment for GREEN-API — Frontend React Developer position*
+_Created as a test assignment for GREEN-API — Frontend React Developer position_

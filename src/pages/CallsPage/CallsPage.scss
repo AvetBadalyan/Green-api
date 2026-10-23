@@ -44,8 +44,13 @@
   font-size: $font-caption;
   color: $text-secondary;
 
-  &--missed, &--notAnswered { color: $error-color-soft; }
-  &--accepted               { color: $positive; }
+  &--missed,
+  &--notAnswered {
+    color: $error-color-soft;
+  }
+  &--accepted {
+    color: $positive;
+  }
 }
 
 .call-time {

@@ -2,7 +2,11 @@
 
 .chat-avatar {
   border-radius: 50%;
-  background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
+  background: linear-gradient(
+    135deg,
+    $avatar-gradient-start,
+    $avatar-gradient-end
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,8 +14,16 @@
   overflow: hidden;
 
   // Size variants
-  &--md { .chat-avatar__initials { font-size: $font-body; } }
-  &--lg { .chat-avatar__initials { font-size: $font-button; } }
+  &--md {
+    .chat-avatar__initials {
+      font-size: $font-body;
+    }
+  }
+  &--lg {
+    .chat-avatar__initials {
+      font-size: $font-button;
+    }
+  }
 
   &__img {
     width: 100%;
