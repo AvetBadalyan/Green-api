@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat, phoneToChatId } from '../../context/ChatContext';
 import { sendMessage, sendTyping, deleteMessage } from '../../services/api';
+import { TYPING_DEBOUNCE_MS } from '../../constants';
 import MessageList from '../MessageList/MessageList';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import {
@@ -9,9 +10,6 @@ import {
   IconVideo, IconMic, IconSend,
 } from '../../icons';
 import './ChatWindow.scss';
-
-// Debounce typing indicator to avoid spamming the API
-const TYPING_DEBOUNCE_MS = 2000;
 
 function ChatWindow() {
   const { credentials } = useAuth();

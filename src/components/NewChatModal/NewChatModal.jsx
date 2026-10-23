@@ -2,10 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { checkWhatsapp } from '../../services/api';
+import { MIN_PHONE_LENGTH, MAX_PHONE_LENGTH } from '../../constants';
 import { IconClose } from '../../icons';
 import './NewChatModal.scss';
-
-const MIN_PHONE_LENGTH = 11; // digits incl. country code
 
 function NewChatModal({ onClose }) {
   const { credentials } = useAuth();
@@ -40,7 +39,7 @@ function NewChatModal({ onClose }) {
   }, [onClose]);
 
   const cleanPhone = phoneNumber.replace(/\D/g, '');
-  const isValid = cleanPhone.length >= MIN_PHONE_LENGTH;
+  const isValid = cleanPhone.length >= MIN_PHONE_LENGTH && cleanPhone.length <= MAX_PHONE_LENGTH;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +50,11 @@ function NewChatModal({ onClose }) {
       return;
     }
     if (!isValid) {
-      setError(`Include country code — at least ${MIN_PHONE_LENGTH} digits`);
+      setError(
+        cleanPhone.length < MIN_PHONE_LENGTH
+          ? `Include country code — at least ${MIN_PHONE_LENGTH} digits`
+          : `Phone number too long — maximum ${MAX_PHONE_LENGTH} digits`
+      );
       return;
     }
 

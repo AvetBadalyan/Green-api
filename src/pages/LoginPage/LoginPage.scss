@@ -13,7 +13,7 @@
 
 // Card sits above the decorative space-pattern background
 .login-page > .login-container {
-  z-index: 1;
+  z-index: $z-base;
 }
 
 // MAX login card: 580px wide, 28px radius, subtle border + soft elevation,
@@ -53,7 +53,7 @@
   // Keep content above the glow
   > * {
     position: relative;
-    z-index: 1;
+    z-index: $z-base;
   }
 
   @media (max-width: 768px) {
@@ -94,18 +94,18 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 2rem;
+      font-size: $font-title;
     }
 
     .logo-text {
-      font-size: 2rem;
+      font-size: $font-title;
       font-weight: 600;
       color: $text-primary;
     }
   }
 
   h1 {
-    font-size: 2.2rem;
+    font-size: $font-heading;
     font-weight: 600;
     color: $text-primary;
     margin-bottom: $spacing-sm;
@@ -113,7 +113,7 @@
 
   p {
     color: $text-secondary;
-    font-size: 1.4rem;
+    font-size: $font-body;
   }
 }
 
@@ -138,7 +138,7 @@
   gap: $spacing-xs;
 
   label {
-    font-size: 1.3rem;
+    font-size: $font-hint;
     color: $text-tertiary;              // MAX label color (rgba white 0.64)
     font-weight: 500;
   }
@@ -147,9 +147,9 @@
     padding: 0 1.2rem;
     background-color: $surface-field;   // MAX --background-tertiary (rgba white 0.09)
     border: 1px solid transparent;
-    border-radius: 1.6rem;              // MAX input radius
+    border-radius: $radius-xl;          // MAX input radius
     color: $text-primary;
-    font-size: 1.5rem;                  // MAX input font-size
+    font-size: $font-chat-name;         // MAX input font-size
     height: 5.2rem;                     // MAX input height
     transition: border-color $transition-fast, background-color $transition-fast;
 
@@ -174,10 +174,10 @@
   height: 6rem;                        // MAX Continue button height
   background-color: $primary-accent;
   color: $text-primary;
-  font-size: 1.7rem;                   // MAX button font-size
+  font-size: $font-button;             // MAX button font-size
   font-weight: 500;
   letter-spacing: 0.15px;             // sub-pixel — kept in px
-  border-radius: 2rem;                // MAX button radius
+  border-radius: $radius-2xl;         // MAX button radius
   cursor: pointer;
   transition: background-color $transition-fast;
   margin-top: $spacing-sm;
@@ -200,7 +200,7 @@
 
   p {
     color: $text-secondary;
-    font-size: 1.3rem;
+    font-size: $font-hint;
 
     a {
       color: $text-primary;        // white link
@@ -216,7 +216,7 @@
   // MAX-style legal line — muted, smaller, links are emphasised not colored
   .login-legal {
     color: $text-tertiary;
-    font-size: 1.2rem;
+    font-size: $font-caption;
     line-height: 1.5;
     max-width: 33.6rem;
     margin: 0 auto $spacing-md;

@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { getStateInstance } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-
-// Connection state is low-priority decoration — poll infrequently to avoid
-// adding pressure to GREEN-API's rate limit.
-const POLL_INTERVAL_MS = 60_000; // 60 s
-// Delay the very first check so it doesn't fire in the same burst as getChats
-// and receiveNotification on mount (avoids 429 on startup).
-const INITIAL_DELAY_MS = 2_000;
+import {
+  CONNECTION_POLL_INTERVAL_MS,
+  CONNECTION_INITIAL_DELAY_MS,
+} from '../constants';
 
 /**
  * Polls the instance connection state.
@@ -44,8 +41,8 @@ export default function useConnectionStatus() {
     let interval;
     const initialTimer = setTimeout(() => {
       checkStatus();
-      interval = setInterval(checkStatus, POLL_INTERVAL_MS);
-    }, INITIAL_DELAY_MS);
+      interval = setInterval(checkStatus, CONNECTION_POLL_INTERVAL_MS);
+    }, CONNECTION_INITIAL_DELAY_MS);
 
     return () => {
       clearTimeout(initialTimer);

@@ -1,5 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { useAuth } from './context/AuthContext';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
+import LoadingScreen from './components/LoadingScreen/LoadingScreen';
 import LoginPage from './pages/LoginPage/LoginPage';
 
 // Lazy-load the authenticated shell so the login page only ships its own code.
@@ -13,9 +15,11 @@ function AppRouter() {
     <div className="app">
       {isAuthenticated
         ? (
-          <Suspense fallback={null}>
-            <ChatPage />
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingScreen />}>
+              <ChatPage />
+            </Suspense>
+          </ErrorBoundary>
         )
         : <LoginPage />}
     </div>

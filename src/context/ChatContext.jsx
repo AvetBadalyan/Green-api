@@ -1,7 +1,8 @@
 import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
+import { DEDUP_WINDOW_MS, STORAGE_KEYS } from '../constants';
 
 const ChatContext = createContext(null);
-const CHATS_STORAGE_KEY = 'greenapi_chats';
+const CHATS_STORAGE_KEY = STORAGE_KEYS.CHATS;
 
 function loadChatsFromStorage() {
   try {
@@ -274,7 +275,6 @@ export function ChatProvider({ children, onMount }) {
       // as a fallback by matching identical text within a 2-minute window (a
       // local optimistic send vs its server echo can differ in both id and the
       // exact second/minute they were recorded).
-      const DEDUP_WINDOW_MS = 2 * 60 * 1000;
       const seenIds = new Set(apiNormalised.map((m) => m.id));
 
       const localOnly = chat.messages.filter((m) => {

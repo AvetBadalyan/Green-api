@@ -16,11 +16,11 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: $spacing-2xs;
 }
 
 .call-number {
-  font-size: 1.4rem;
+  font-size: $font-body;
   font-weight: 500;
   color: $text-primary;
   white-space: nowrap;
@@ -29,7 +29,7 @@
 }
 
 .call-status {
-  font-size: 1.2rem;
+  font-size: $font-caption;
   color: $text-secondary;
 
   &--missed, &--notAnswered { color: $error-color-soft; }
@@ -37,7 +37,7 @@
 }
 
 .call-time {
-  font-size: 1.1rem;
+  font-size: $font-timestamp;
   color: $text-muted;
   flex-shrink: 0;
   white-space: nowrap;
@@ -75,14 +75,14 @@
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: $font-title;
     font-weight: 500;
     color: $text-primary;
     margin: 0;
   }
 
   p {
-    font-size: 1.4rem;
+    font-size: $font-body;
     color: $text-secondary;
     margin: 0;
     max-width: 22rem;

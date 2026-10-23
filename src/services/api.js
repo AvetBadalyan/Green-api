@@ -1,12 +1,15 @@
 import axios from 'axios';
-
-const API_BASE_URL = 'https://api.green-api.com';
-const REQUEST_TIMEOUT_MS = 15000;
+import {
+  API_BASE_URL,
+  REQUEST_TIMEOUT_MS,
+  MAX_RETRIES,
+  BASE_BACKOFF_MS,
+  CHAT_HISTORY_COUNT,
+  TYPING_INDICATOR_MS,
+} from '../constants';
 
 // GREEN-API throttles requests (429). When that happens we retry a couple of
 // times with exponential backoff instead of hammering the endpoint.
-const MAX_RETRIES = 2;
-const BASE_BACKOFF_MS = 1000;
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -98,7 +101,8 @@ export const sendMessage = async (credentials, chatId, message) => {
 
 /**
  * Send a typing notification to the recipient.
- * typingTime: how long to show the indicator (ms, 1000–20000). Defaults to 5s.
+ * GREEN-API typingTime: 1000–20000 ms (how long to show the indicator).
+ * Source: https://green-api.com/en/docs/api/sending/SendTyping/
  * @param {string} chatId - "phone@c.us" or "groupid@g.us"
  */
 export const sendTyping = async (credentials, chatId) => {
@@ -106,7 +110,7 @@ export const sendTyping = async (credentials, chatId) => {
   const api = createApiInstance(idInstance);
   const response = await api.post(`/sendTyping/${apiTokenInstance}`, {
     chatId,
-    typingTime: 5000,
+    typingTime: TYPING_INDICATOR_MS,
   });
   return response.data;
 };
@@ -188,10 +192,12 @@ export const deleteMessage = async (credentials, chatId, idMessage) => {
 
 /**
  * Get message history for a specific chat.
+ * GREEN-API count parameter specifies number of messages to return.
+ * Source: https://green-api.com/en/docs/api/journals/GetChatHistory/
  * @param {string} chatId  - "phone@c.us" or "groupid@g.us"
- * @param {number} count   - number of messages to return (default 50)
+ * @param {number} count   - number of messages to return (default from constants)
  */
-export const getChatHistory = async (credentials, chatId, count = 50) => {
+export const getChatHistory = async (credentials, chatId, count = CHAT_HISTORY_COUNT) => {
   const { idInstance, apiTokenInstance } = credentials;
   const api = createApiInstance(idInstance);
   const response = await api.post(`/getChatHistory/${apiTokenInstance}`, {

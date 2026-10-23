@@ -2,12 +2,19 @@ import { useEffect, useRef, useCallback } from 'react';
 import { receiveNotification, deleteNotification } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useChat } from '../context/ChatContext';
-
-const POLL_INTERVAL_MS = 5000;       // normal cadence
-const MAX_POLL_INTERVAL_MS = 30000;  // cap when backing off on rate-limit
+import {
+  MESSAGE_POLL_INTERVAL_MS,
+  MESSAGE_POLL_MAX_INTERVAL_MS,
+  MESSAGE_STATUSES,
+  WEBHOOK_TYPES,
+} from '../constants';
 
 // Statuses that should advance the message tick UI
-const TICK_STATUSES = new Set(['sent', 'delivered', 'read']);
+const TICK_STATUSES = new Set([
+  MESSAGE_STATUSES.SENT,
+  MESSAGE_STATUSES.DELIVERED,
+  MESSAGE_STATUSES.READ,
+]);
 
 /**
  * Polls the GREEN-API notification queue every 5 seconds.
@@ -19,7 +26,7 @@ export default function useMessagePolling() {
   const { receiveMessage, updateMessageStatus } = useChat();
   const isPollingRef = useRef(false);
   const timerRef = useRef(null);
-  const delayRef = useRef(POLL_INTERVAL_MS);
+  const delayRef = useRef(MESSAGE_POLL_INTERVAL_MS);
 
   const handleIncomingMessage = useCallback(
     (senderPhone, message) => receiveMessage(senderPhone, message),
@@ -49,12 +56,12 @@ export default function useMessagePolling() {
         const notification = await receiveNotification(credentials);
 
         // Success → reset to normal cadence
-        delayRef.current = POLL_INTERVAL_MS;
+        delayRef.current = MESSAGE_POLL_INTERVAL_MS;
 
         if (notification) {
           const { receiptId, body } = notification;
 
-          if (body?.typeWebhook === 'incomingMessageReceived') {
+          if (body?.typeWebhook === WEBHOOK_TYPES.INCOMING_MESSAGE) {
             const senderPhone = body.senderData?.sender?.replace(/@c\.us$/, '').replace(/@g\.us$/, '');
             const md = body.messageData;
             // Plain text arrives as textMessageData.textMessage;
@@ -74,7 +81,7 @@ export default function useMessagePolling() {
               });
             }
 
-          } else if (body?.typeWebhook === 'outgoingMessageStatus') {
+          } else if (body?.typeWebhook === WEBHOOK_TYPES.OUTGOING_STATUS) {
             const { chatId, idMessage, status } = body;
             if (chatId && idMessage && TICK_STATUSES.has(status)) {
               handleOutgoingStatus(chatId, idMessage, status);
@@ -86,7 +93,7 @@ export default function useMessagePolling() {
       } catch (err) {
         // On rate-limit, grow the delay (capped) so we stop hammering.
         if (err?.response?.status === 429) {
-          delayRef.current = Math.min(delayRef.current * 2, MAX_POLL_INTERVAL_MS);
+          delayRef.current = Math.min(delayRef.current * 2, MESSAGE_POLL_MAX_INTERVAL_MS);
         } else {
           console.error('Polling error:', err);
         }

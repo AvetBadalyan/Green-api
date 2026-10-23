@@ -23,7 +23,7 @@ body {
   color: $text-primary;
   min-height: 100vh;
   line-height: 1.5;
-  font-size: 1.6rem; // Restore body to 16px after html 62.5% scale
+  font-size: $font-message; // Restore body to 16px after html 62.5% scale
 }
 
 #root {
@@ -102,7 +102,7 @@ textarea:focus-visible,
   color: $error-color-soft;
   padding: $spacing-sm $spacing-md;
   border-radius: $radius-md;
-  font-size: 1.3rem;
+  font-size: $font-hint;
 }
 
 // Shared spin keyframe
@@ -129,7 +129,7 @@ textarea:focus-visible,
   padding: $spacing-xl $spacing-md;
   color: $text-secondary;
   text-align: center;
-  font-size: 1.4rem;
+  font-size: $font-body;
 
   &--error { color: $error-color-soft; }
 
@@ -142,7 +142,7 @@ textarea:focus-visible,
   border: 1px solid $error-border;
   border-radius: $radius-md;
   color: $error-color-soft;
-  font-size: 1.3rem;
+  font-size: $font-hint;
   cursor: pointer;
   transition: background-color $transition-fast;
 

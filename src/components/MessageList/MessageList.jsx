@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { IconTrash } from '../../icons';
+import { CONTEXT_MENU_MARGIN, CONTEXT_MENU_MARGIN_Y } from '../../constants';
 import './MessageList.scss';
 
 function MessageList({ messages, onDeleteMessage }) {
@@ -36,8 +37,8 @@ function MessageList({ messages, onDeleteMessage }) {
     e.preventDefault();
     // Clamp so the menu stays inside the viewport
     setContextMenu({
-      x: Math.min(e.clientX, window.innerWidth - 160),
-      y: Math.min(e.clientY, window.innerHeight - 60),
+      x: Math.min(e.clientX, window.innerWidth - CONTEXT_MENU_MARGIN),
+      y: Math.min(e.clientY, window.innerHeight - CONTEXT_MENU_MARGIN_Y),
       messageId: message.id,
     });
   };

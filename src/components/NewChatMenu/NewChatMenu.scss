@@ -4,16 +4,16 @@
   position: absolute;
   top: calc(100% + 0.6rem);
   right: 0;
-  z-index: 50;
+  z-index: $z-dropdown;
   min-width: 20rem;
   background-color: $card-bg;          // MAX --background-card / secondary
   border: 1px solid $surface-hover-strong;
-  border-radius: 1.2rem;
-  padding: 0.6rem;
+  border-radius: $radius-lg;
+  padding: 0.6rem;                     // 6px — MAX-matched tighter padding
   box-shadow: $shadow-popover;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: $spacing-2xs;
 }
 
 .new-chat-menu__item {
@@ -22,10 +22,10 @@
   gap: 1.2rem;
   width: 100%;
   padding: 1rem 1.2rem;
-  border-radius: 0.8rem;
+  border-radius: $radius-md;
   color: $text-primary;
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-size: $font-chat-name;
+  line-height: $line-height-base;
   text-align: left;
   cursor: pointer;
   transition: background-color $transition-fast;

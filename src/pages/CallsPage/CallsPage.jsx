@@ -2,6 +2,7 @@ import { useReducer, useEffect, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { getLastIncomingCalls, getLastOutgoingCalls } from '../../services/api';
+import { RETRY_BASE_DELAY_MS } from '../../constants';
 import SidePanel from '../../components/SidePanel/SidePanel';
 import ChatAvatar from '../../components/ChatAvatar/ChatAvatar';
 import { chatIdToPhone } from '../../context/ChatContext';
@@ -68,7 +69,7 @@ function CallsPage() {
         return;
       } catch {
         if (attempt < MAX_ATTEMPTS) {
-          await new Promise((r) => setTimeout(r, attempt * 500));
+          await new Promise((r) => setTimeout(r, attempt * RETRY_BASE_DELAY_MS));
         }
       }
     }

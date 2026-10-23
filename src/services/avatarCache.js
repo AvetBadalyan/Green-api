@@ -1,4 +1,5 @@
 import { getAvatar } from './api';
+import { AVATAR_MAX_CONCURRENT, AVATAR_QUEUE_DELAY_MS, STORAGE_KEYS } from '../constants';
 
 // ─── Persistence ─────────────────────────────────────────────────────────────
 // sessionStorage keeps avatars alive across page refreshes within the same tab.
@@ -6,11 +7,9 @@ import { getAvatar } from './api';
 // 100+ getAvatar requests and burn through the monthly quota in minutes.
 // sessionStorage is cleared when the tab closes or on explicit logout.
 
-const STORAGE_KEY = 'gapi_avatars'; // single JSON object { chatId: url|null }
-
 function loadFromSession() {
   try {
-    const raw = sessionStorage.getItem(STORAGE_KEY);
+    const raw = sessionStorage.getItem(STORAGE_KEYS.AVATARS);
     return raw ? JSON.parse(raw) : {};
   } catch {
     return {};
@@ -21,14 +20,14 @@ function saveToSession(chatId, url) {
   try {
     const existing = loadFromSession();
     existing[chatId] = url; // null is valid (= no photo)
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+    sessionStorage.setItem(STORAGE_KEYS.AVATARS, JSON.stringify(existing));
   } catch {
     // sessionStorage unavailable (private mode, storage full) — degrade silently
   }
 }
 
 function clearSession() {
-  try { sessionStorage.removeItem(STORAGE_KEY); } catch {}
+  try { sessionStorage.removeItem(STORAGE_KEYS.AVATARS); } catch {}
 }
 
 // ─── In-memory cache ──────────────────────────────────────────────────────────
@@ -37,12 +36,11 @@ const cache = new Map(Object.entries(loadFromSession()));
 const inflight = new Map(); // chatId → Promise (deduplicates concurrent calls)
 const queue = [];
 let active = 0;
-const MAX_CONCURRENT = 3; // stay well under GREEN-API rate limits
 
 // ─── Fetch queue ─────────────────────────────────────────────────────────────
 
 function drain() {
-  while (active < MAX_CONCURRENT && queue.length > 0) {
+  while (active < AVATAR_MAX_CONCURRENT && queue.length > 0) {
     const item = queue.shift();
 
     // May have been resolved while waiting in the queue
@@ -66,7 +64,7 @@ function drain() {
       .finally(() => {
         active--;
         inflight.delete(item.chatId);
-        setTimeout(drain, 50); // small breathing room between batches
+        setTimeout(drain, AVATAR_QUEUE_DELAY_MS); // small breathing room between batches
       });
   }
 }

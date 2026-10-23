@@ -2,6 +2,7 @@ import { useReducer, useEffect, useCallback, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useChat } from '../../context/ChatContext';
 import { getContacts } from '../../services/api';
+import { RETRY_BASE_DELAY_MS } from '../../constants';
 import SidePanel from '../SidePanel/SidePanel';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import { IconRefresh, IconAlertCircle } from '../../icons';
@@ -53,8 +54,8 @@ function ContactsPanel({ setCurrentView }) {
         return;
       } catch {
         if (attempt < MAX_ATTEMPTS) {
-          // Wait longer each attempt (0.5s, 1s) before retrying
-          await new Promise((r) => setTimeout(r, attempt * 500));
+          // Wait longer each attempt (500ms, 1000ms) before retrying
+          await new Promise((r) => setTimeout(r, attempt * RETRY_BASE_DELAY_MS));
         }
       }
     }

@@ -52,8 +52,8 @@
 
   // Avatar — 8px gap from back button, 12px gap to title (matches MAX profile button padding)
   .chat-avatar {
-    margin-left: 0.8rem;
-    margin-right: 1.2rem;
+    margin-left: $spacing-sm;
+    margin-right: 1.2rem;  // 12px — specific MAX spacing
   }
 
   .chat-header-info {
@@ -65,10 +65,10 @@
   }
 
   .chat-name {
-    font-size: 1.6rem;      // MAX confirmed: 16px
-    font-weight: 600;       // MAX confirmed: 600
-    letter-spacing: 0.15px; // sub-pixel — kept in px
-    line-height: 2rem;      // line-height defines the row box; no explicit height needed
+    font-size: $font-message;      // MAX confirmed: 16px
+    font-weight: 600;         // MAX confirmed: 600
+    letter-spacing: 0.15px;   // sub-pixel — kept in px
+    line-height: $line-height-base; // line-height defines the row box; no explicit height needed
     color: $text-primary;
     display: block;
     white-space: nowrap;
@@ -76,14 +76,14 @@
     text-overflow: ellipsis;
 
     @media (max-width: 768px) {
-      font-size: 1.4rem;
+      font-size: $font-body;
     }
   }
 
   .chat-subtitle {
-    font-size: 1.3rem;
+    font-size: $font-hint;
     font-weight: 400;
-    line-height: 1.6rem;   // line-height defines the row box; no explicit height needed
+    line-height: $line-height-sm; // line-height defines the row box; no explicit height needed
     color: $text-secondary;
     display: block;
     white-space: nowrap;
@@ -91,7 +91,7 @@
     text-overflow: ellipsis;
 
     @media (max-width: 768px) {
-      font-size: 1.2rem;
+      font-size: $font-caption;
     }
   }
 
@@ -121,13 +121,13 @@
   padding: $spacing-sm $spacing-md;
   background-color: $error-bg;
   color: $error-color;
-  font-size: 1.3rem;
+  font-size: $font-hint;
   border-bottom: 1px solid $error-border;
   flex-shrink: 0;
 
   button {
     color: inherit;
-    font-size: 1.6rem;
+    font-size: $font-message;
     padding: $spacing-xs;
   }
 }
@@ -142,7 +142,7 @@
   flex-shrink: 0;
   display: flex;
   justify-content: center;
-  padding: 0.8rem 1.6rem 1.6rem;
+  padding: $spacing-sm $spacing-md $spacing-md;
   background-color: transparent;
 }
 
@@ -155,12 +155,12 @@
 
   // THE card — solid dark with elevation, matching MAX's .composer exactly
   background-color: #17181c;  // --background-primary in space-dark
-  border-radius: 1.6rem;
+  border-radius: $radius-xl;
   box-shadow:
     rgba(0, 0, 0, 0.3) 0 0.4rem 1.6rem 0,
     rgba(0, 0, 0, 0.3) 0 0 0.2rem 0;
   // Left icon gets 4px breathing room; right icons sit 8px from the edge
-  padding: 0 0.8rem 0 0.4rem;
+  padding: 0 $spacing-sm 0 $spacing-xs;
 
   // No focus outline on the card itself
   &:focus-within {
@@ -169,7 +169,7 @@
 
   @media (max-width: 768px) {
     max-width: 100%;
-    border-radius: 1.2rem;
+    border-radius: $radius-lg;
   }
 }
 
@@ -180,7 +180,7 @@
   width: 4rem;
   min-width: 4rem;
   height: 4rem;
-  border-radius: 50%;
+  border-radius: $radius-full;
   color: $icon-tertiary;   // MAX --icon-tertiary (#ffffff85)
   display: flex;
   align-items: center;
@@ -208,7 +208,7 @@
   &:focus-visible {
     outline: 2px solid rgba($primary-accent, 0.6);
     outline-offset: -2px;
-    border-radius: 50%;
+    border-radius: $radius-full;
   }
 }
 
@@ -220,7 +220,7 @@
   min-height: 4.8rem;
   display: flex;
   align-items: center;
-  padding: 0 0.8rem;
+  padding: 0 $spacing-sm;
 }
 
 .input-field {
@@ -232,9 +232,9 @@
   -webkit-appearance: none;
   appearance: none;
   color: $text-primary;
-  font-size: 1.6rem;
+  font-size: $font-message;
   font-weight: 400;
-  line-height: 2rem;
+  line-height: $line-height-base;
   letter-spacing: 0.15px; // sub-pixel — kept in px
   min-width: 0;
   height: 2rem;
@@ -261,7 +261,7 @@
   width: 3.2rem;
   min-width: 3.2rem;
   height: 3.2rem;
-  border-radius: 50%;
+  border-radius: $radius-full;
   background-color: $primary-accent;
   color: $text-primary;
   display: flex;
@@ -271,7 +271,7 @@
   transition: background-color $transition-fast;
   flex-shrink: 0;
   padding: 0;
-  margin-left: 0.4rem;
+  margin-left: $spacing-xs;
 
   svg {
     width: 2rem;

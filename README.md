@@ -10,19 +10,23 @@ A React-based chat application for sending and receiving messages via MAX messen
 
 ### Desktop
 
-| Login | Chat List |
-|-------|-----------|
-| ![Login Desktop](screenshots/01-login-desktop.png) | ![Chat List](screenshots/03-chat-list-desktop.png) |
+| Login | Login (filled) |
+|-------|----------------|
+| ![Login Desktop](screenshots/01-login-desktop.png) | ![Login Filled](screenshots/02-login-filled-desktop.png) |
 
-| Chat Window | Contacts |
-|-------------|----------|
-| ![Chat Window](screenshots/04-chat-window-desktop.png) | ![Contacts](screenshots/06-contacts-desktop.png) |
+| Chat Page | New Chat Menu |
+|-----------|---------------|
+| ![Chat Page](screenshots/03-chat-page-desktop.png) | ![New Chat Menu](screenshots/04-new-chat-menu-desktop.png) |
 
-### Mobile
+| Contacts | Calls |
+|----------|-------|
+| ![Contacts](screenshots/05-contacts-panel-desktop.png) | ![Calls](screenshots/06-calls-page-desktop.png) |
 
-| Login | Chat Window |
-|-------|-------------|
-| ![Login Mobile](screenshots/02-login-mobile.png) | ![Chat Mobile](screenshots/05-chat-window-mobile.png) |
+### Tablet & Mobile
+
+| Tablet | Mobile |
+|--------|--------|
+| ![Tablet](screenshots/07-chat-page-tablet.png) | ![Mobile](screenshots/08-chat-page-mobile.png) |
 
 ## Features
 
@@ -109,7 +113,9 @@ src/
 │   ├── ChatBackground/      # Decorative SVG background pattern
 │   ├── ChatWindow/          # Main chat interface + input bar
 │   ├── ConnectionStatus/    # API connection indicator
-│   ├── ContactsPanel/       # Contacts view (empty state)
+│   ├── ContactsPanel/       # Contacts view
+│   ├── ErrorBoundary/       # Error boundary for lazy loading
+│   ├── LoadingScreen/       # Loading spinner for Suspense
 │   ├── MessageList/         # Scrollable message bubbles
 │   ├── NewChatMenu/         # Dropdown menu for new chat
 │   ├── NewChatModal/        # Phone number input modal
@@ -121,17 +127,20 @@ src/
 ├── hooks/                   # Custom React hooks
 │   ├── useConnectionStatus.js  # API health check polling
 │   └── useMessagePolling.js    # Incoming message polling
+├── icons/                   # SVG icon components (20 icons)
 ├── pages/                   # Page-level components
-│   ├── CallsPage/           # Calls view (placeholder)
+│   ├── CallsPage/           # Calls view
 │   ├── ChatPage/            # Main chat layout
 │   └── LoginPage/           # Login form
 ├── services/                # External API integration
-│   └── api.js               # GREEN-API wrapper functions
+│   ├── api.js               # GREEN-API wrapper functions
+│   └── avatarCache.js       # Avatar caching with rate limiting
 ├── styles/                  # Global styles & variables
 │   ├── global.scss          # CSS reset & base styles
-│   └── variables.scss       # SCSS color/spacing tokens
+│   └── variables.scss       # SCSS design tokens
+├── constants.js             # App-wide configuration constants
 ├── App.jsx                  # Root component with providers
-├── AppRouter.jsx            # Route definitions
+├── AppRouter.jsx            # Route definitions with ErrorBoundary
 └── main.jsx                 # Entry point
 ```
 
