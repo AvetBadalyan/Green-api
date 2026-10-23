@@ -32,6 +32,13 @@
     filter: blur(3rem);
     opacity: 0.55;
     pointer-events: none;
+
+    // Smaller halo on mobile to prevent overflow on narrow screens
+    @media (max-width: 480px) {
+      width: 14rem;
+      height: 14rem;
+      filter: blur(2rem);
+    }
   }
 }
 
