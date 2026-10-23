@@ -55,8 +55,7 @@ function ContactsPanel({ setCurrentView }) {
         return;
       } catch {
         if (attempt < MAX_ATTEMPTS) {
-          // Wait longer each attempt (500ms, 1000ms) before retrying
-          await new Promise((r) => setTimeout(r, attempt * RETRY_BASE_DELAY_MS));
+          await new Promise((resolve) => setTimeout(resolve, attempt * RETRY_BASE_DELAY_MS));
         }
       }
     }
@@ -75,8 +74,8 @@ function ContactsPanel({ setCurrentView }) {
 
   const filtered = contacts.filter((c) => {
     if (!searchValue.trim()) return true;
-    const q = searchValue.toLowerCase();
-    return (c.name || '').toLowerCase().includes(q) || c.id.includes(q);
+    const query = searchValue.toLowerCase();
+    return (c.name || '').toLowerCase().includes(query) || c.id.includes(query);
   });
 
   return (

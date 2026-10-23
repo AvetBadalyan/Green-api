@@ -41,11 +41,11 @@ export const MAX_PHONE_LENGTH = 16;
 // ─── UI Constants ────────────────────────────────────────────────────────────
 // Context menu positioning — offset from viewport edge to keep menu visible
 export const CONTEXT_MENU_MARGIN = 160;             // Horizontal margin (menu width ~140px)
-export const CONTEXT_MENU_MARGIN_Y = 60;            // Vertical margin
+export const CONTEXT_MENU_MARGIN_Y = 60;            // Y-axis offset from viewport edge
 
 // Message deduplication window — prevent showing duplicate messages from
 // both optimistic UI and server echo within this time window.
-export const DEDUP_WINDOW_MS = 2 * 60 * 1000;       // 2 minutes
+export const DEDUPLICATION_WINDOW_MS = 2 * 60 * 1000; // 2 minutes
 
 // Retry delays for fetching contacts/calls on transient failures
 export const RETRY_BASE_DELAY_MS = 500;             // 500ms, 1000ms progression

@@ -13,7 +13,6 @@
   &--md { .chat-avatar__initials { font-size: $font-body; } }
   &--lg { .chat-avatar__initials { font-size: $font-button; } }
 
-  // Real photo — fills the circle, clips overflow
   &__img {
     width: 100%;
     height: 100%;
@@ -22,7 +21,6 @@
     display: block;
   }
 
-  // Initials fallback
   &__initials {
     color: $text-primary;
     font-weight: 600;

@@ -90,13 +90,13 @@
 }
 
 .message-checkmark {
-  color: $tick-meta;         // MAX: rgba(255,255,255,0.88) for sent/delivered
+  color: $tick-sent;         // MAX: rgba(255,255,255,0.88) for sent/delivered
   display: block;
   flex-shrink: 0;
 
   &.read      { color: $primary-accent; } // MAX confirmed: rgb(0,122,255) = #007aff
-  &.delivered { color: $tick-meta; }
-  &.sent      { color: $tick-meta; }
+  &.delivered { color: $tick-sent; }
+  &.sent      { color: $tick-sent; }
 }
 
 // Context menu for message actions

@@ -63,7 +63,7 @@ function ChatWindow() {
         text: inputText.trim(),
         type: 'outgoing',
         timestamp: new Date().toISOString(),
-        status: 'sent', // sent → delivered → read
+        status: 'sent',
       });
 
       setInputText('');
@@ -150,7 +150,6 @@ function ChatWindow() {
             <IconAttach />
           </button>
 
-          {/* Text input */}
           <div className="input-field-wrap">
             <input
               ref={inputRef}

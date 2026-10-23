@@ -37,10 +37,10 @@ function NewChatMenu({ onSearchByNumber, onClose, triggerRef }) {
           menuRef.current?.querySelectorAll('[role="menuitem"]:not(:disabled)') ?? []
         );
         if (items.length === 0) return;
-        const idx = items.indexOf(document.activeElement);
+        const currentIndex = items.indexOf(document.activeElement);
         const next = e.key === 'ArrowDown'
-          ? (idx + 1) % items.length
-          : (idx - 1 + items.length) % items.length;
+          ? (currentIndex + 1) % items.length
+          : (currentIndex - 1 + items.length) % items.length;
         items[next].focus();
       }
     };

@@ -63,12 +63,12 @@ export default function useMessagePolling() {
 
           if (body?.typeWebhook === WEBHOOK_TYPES.INCOMING_MESSAGE) {
             const senderPhone = body.senderData?.sender?.replace(/@c\.us$/, '').replace(/@g\.us$/, '');
-            const md = body.messageData;
+            const messageData = body.messageData;
             // Plain text arrives as textMessageData.textMessage;
             // messages with links, quotes or any "extended" format arrive as extendedTextMessageData.text
             const text =
-              md?.textMessageData?.textMessage ??
-              md?.extendedTextMessageData?.text;
+              messageData?.textMessageData?.textMessage ??
+              messageData?.extendedTextMessageData?.text;
 
             if (senderPhone && text) {
               handleIncomingMessage(senderPhone, {

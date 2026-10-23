@@ -87,7 +87,7 @@
     min-width: 0;
 
     &::placeholder {
-      color: $icon-tertiary;  // 52% white — matches MAX placeholder
+      color: $icon-tertiary;
     }
 
     &::-webkit-search-cancel-button {

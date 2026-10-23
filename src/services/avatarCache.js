@@ -33,20 +33,20 @@ function clearSession() {
 // ─── In-memory cache ──────────────────────────────────────────────────────────
 // Pre-populated from sessionStorage so the first render after a refresh is instant.
 const cache = new Map(Object.entries(loadFromSession()));
-const inflight = new Map(); // chatId → Promise (deduplicates concurrent calls)
+const pendingFetches = new Map(); // chatId → pending Promise, deduplicates concurrent requests
 const queue = [];
-let active = 0;
+let activeFetchCount = 0;
 
 // ─── Fetch queue ─────────────────────────────────────────────────────────────
 
 function drain() {
-  while (active < AVATAR_MAX_CONCURRENT && queue.length > 0) {
+  while (activeFetchCount < AVATAR_MAX_CONCURRENT && queue.length > 0) {
     const item = queue.shift();
 
     // May have been resolved while waiting in the queue
     if (cache.has(item.chatId)) { item.resolve(cache.get(item.chatId)); continue; }
 
-    active++;
+    activeFetchCount++;
     getAvatar(item.credentials, item.chatId)
       .then((r) => {
         // urlAvatar can be an empty string when the contact has no photo
@@ -62,9 +62,9 @@ function drain() {
         item.resolve(null);
       })
       .finally(() => {
-        active--;
-        inflight.delete(item.chatId);
-        setTimeout(drain, AVATAR_QUEUE_DELAY_MS); // small breathing room between batches
+        activeFetchCount--;
+        pendingFetches.delete(item.chatId);
+        setTimeout(drain, AVATAR_QUEUE_DELAY_MS);
       });
   }
 }
@@ -81,13 +81,13 @@ function drain() {
 export function requestAvatar(credentials, chatId) {
   if (!credentials || !chatId) return Promise.resolve(null);
   if (cache.has(chatId)) return Promise.resolve(cache.get(chatId));
-  if (inflight.has(chatId)) return inflight.get(chatId);
+  if (pendingFetches.has(chatId)) return pendingFetches.get(chatId);
 
   const promise = new Promise((resolve) => {
     queue.push({ chatId, credentials, resolve });
     drain();
   });
-  inflight.set(chatId, promise);
+  pendingFetches.set(chatId, promise);
   return promise;
 }
 
@@ -97,8 +97,8 @@ export function requestAvatar(credentials, chatId) {
  */
 export function clearAvatarCache() {
   cache.clear();
-  inflight.clear();
+  pendingFetches.clear();
   queue.length = 0;
-  active = 0;
+  activeFetchCount = 0;
   clearSession();
 }

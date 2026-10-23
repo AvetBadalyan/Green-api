@@ -31,7 +31,6 @@ export function EmptyStateIcon({ children }) {
             <circle cx="36" cy="36" r="36" />
           </mask>
         </defs>
-        {/* Fill */}
         <circle cx="36" cy="36" r="36" fill="url(#ringFill)" />
         {/* Border (1px inset via mask) */}
         <circle cx="36" cy="36" r="35" stroke="url(#ringBorder)" strokeWidth="2" mask="url(#ringMask)" fill="none" />

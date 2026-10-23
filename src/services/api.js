@@ -13,9 +13,9 @@ import {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// In-flight request deduplication — if the same logical request is already
-// pending (e.g. React Strict Mode double-mount), return the existing promise
-// Deduplicates concurrent calls to the same endpoint (handles StrictMode double-mount).
+// In-flight request deduplication: if the same logical request is already
+// pending (e.g. React StrictMode double-mounts an effect), return the existing
+// promise instead of firing a second identical call.
 const pendingRequests = new Map();
 const dedupeRequest = (key, fn) => {
   if (pendingRequests.has(key)) return pendingRequests.get(key);

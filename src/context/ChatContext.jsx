@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useMemo, useCallback, useEffect } from 'react';
-import { DEDUP_WINDOW_MS, STORAGE_KEYS } from '../constants';
+import { DEDUPLICATION_WINDOW_MS, STORAGE_KEYS } from '../constants';
 import { chatIdToPhone } from '../utils/chatId';
 
 const ChatContext = createContext(null);
@@ -146,7 +146,6 @@ export function ChatProvider({ children, onMount }) {
       const existing = prev.find((c) => c.phoneNumber === phoneNumber);
       let updated;
       if (existing) {
-        // Deduplicate: skip if this message ID is already in the chat
         if (existing.messages.some((m) => m.id === message.id)) return prev;
         updated = prev.map((c) =>
           c.id === existing.id
@@ -192,14 +191,12 @@ export function ChatProvider({ children, onMount }) {
         const existingIdx = updated.findIndex((c) => c.phoneNumber === phone);
 
         if (existingIdx >= 0) {
-          // Update name if API has one and we don't
           if (apiChat.name && !updated[existingIdx].name) {
             updated = updated.map((c, i) =>
               i === existingIdx ? { ...c, name: apiChat.name, isGroup } : c
             );
           }
         } else {
-          // Add chat from API
           const now = new Date().toISOString();
           const newChat = {
             id: `api-${phone}`,
@@ -266,7 +263,7 @@ export function ChatProvider({ children, onMount }) {
           (api) =>
             api.text === m.text &&
             api.type === m.type &&
-            Math.abs(new Date(api.timestamp).getTime() - localTime) < DEDUP_WINDOW_MS
+            Math.abs(new Date(api.timestamp).getTime() - localTime) < DEDUPLICATION_WINDOW_MS
         );
         return !echo;
       });
@@ -321,7 +318,7 @@ export function ChatProvider({ children, onMount }) {
 // runtime impact, so the hook stays here next to the context it consumes.
 // eslint-disable-next-line react-refresh/only-export-components
 export function useChat() {
-  const ctx = useContext(ChatContext);
-  if (!ctx) throw new Error('useChat must be used within a ChatProvider');
-  return ctx;
+  const context = useContext(ChatContext);
+  if (!context) throw new Error('useChat must be used within a ChatProvider');
+  return context;
 }

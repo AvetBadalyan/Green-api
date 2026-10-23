@@ -103,7 +103,6 @@ function MessageList({ messages, onDeleteMessage }) {
  * Double tick blue = read
  */
 function MessageCheckmark({ status }) {
-  // Default to 'sent' if no status
   const actualStatus = status || 'sent';
 
   if (actualStatus === 'read') {

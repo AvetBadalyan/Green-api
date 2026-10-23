@@ -189,7 +189,7 @@
 .chat-item {
   display: flex;
   align-items: center;
-  gap: $spacing-row;            // MAX: avatar margin-right 12px
+  gap: $spacing-row;
   padding: 0.9rem $spacing-md;  // MAX confirmed: 9px top/bottom, 16px sides
   cursor: pointer;
   width: 100%;

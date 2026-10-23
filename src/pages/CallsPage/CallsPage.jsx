@@ -10,7 +10,7 @@ import { IconPhoneFilled } from '../../icons';
 import { chatIdToPhone } from '../../utils/chatId';
 import './CallsPage.scss';
 
-const INITIAL = { calls: [], loading: true, error: '' };
+const INITIAL_STATE = { calls: [], loading: true, error: '' };
 
 function reducer(state, action) {
   switch (action.type) {
@@ -47,7 +47,7 @@ function callStatusLabel(status) {
 function CallsPage() {
   const { credentials } = useAuth();
   const { createChat, setActiveChat, chats } = useChat();
-  const [{ calls, loading, error }, dispatch] = useReducer(reducer, INITIAL);
+  const [{ calls, loading, error }, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   const fetchCalls = useCallback(async () => {
     dispatch({ type: 'FETCH_START' });
@@ -65,13 +65,13 @@ function CallsPage() {
         const normalised = [
           ...(incoming ?? []).map((c) => ({ ...c, direction: 'incoming', phone: chatIdToPhone(c.from) })),
           ...(outgoing ?? []).map((c) => ({ ...c, direction: 'outgoing', phone: chatIdToPhone(c.to) })),
-        ].sort((a, b) => b.timestamp - a.timestamp); // newest first
+        ].sort((a, b) => b.timestamp - a.timestamp);
 
         dispatch({ type: 'FETCH_SUCCESS', calls: normalised });
         return;
       } catch {
         if (attempt < MAX_ATTEMPTS) {
-          await new Promise((r) => setTimeout(r, attempt * RETRY_BASE_DELAY_MS));
+          await new Promise((resolve) => setTimeout(resolve, attempt * RETRY_BASE_DELAY_MS));
         }
       }
     }
@@ -82,7 +82,6 @@ function CallsPage() {
   useEffect(() => { fetchCalls(); }, [fetchCalls]);
 
   const handleCallClick = (call) => {
-    // Open or create a chat with this contact
     const existing = chats.find((c) => c.phoneNumber === call.phone);
     if (existing) {
       setActiveChat(existing);

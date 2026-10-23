@@ -21,8 +21,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: $spacing-lg;            // 24px all sides
-  gap: $spacing-base;              // 20px between header and form
+  padding: $spacing-lg;
+  gap: $spacing-base;
 }
 
 // Header: title 24px/28px/600 (matches MAX DevTools), close button on the right
@@ -32,9 +32,9 @@
   justify-content: space-between;
 
   h2 {
-    font-size: $font-panel-title;  // 24px
+    font-size: $font-panel-title;
     font-weight: 600;
-    line-height: $line-height-xl;  // 28px
+    line-height: $line-height-xl;
     color: $text-primary;
     margin: 0;
   }

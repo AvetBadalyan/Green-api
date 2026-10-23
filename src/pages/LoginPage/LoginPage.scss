@@ -174,7 +174,7 @@
 .login-button {
   height: 6rem;                        // MAX Continue button height — replaces btn-primary padding
   padding: 0;
-  border-radius: $radius-2xl;         // 20px — larger than btn-primary's 16px
+  border-radius: $radius-2xl;
   margin-top: $spacing-sm;
 
   &:disabled {
@@ -204,7 +204,7 @@
       text-decoration: none;
 
       &:hover {
-        text-decoration: none;     // no underline on hover, just pointer
+        text-decoration: none;
       }
     }
   }
