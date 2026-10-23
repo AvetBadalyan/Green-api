@@ -5,7 +5,6 @@ import useMessagePolling from '../../hooks/useMessagePolling';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ChatWindow from '../../components/ChatWindow/ChatWindow';
 import ChatBackground from '../../components/ChatBackground/ChatBackground';
-import CallsEmpty from '../../pages/CallsPage/CallsEmpty';
 import NewChatModal from '../../components/NewChatModal/NewChatModal';
 import {
   getChats as apiGetChats,
@@ -88,9 +87,8 @@ function ChatPage() {
         <div className="chat-main__content">
           {activeChat
             ? <ChatWindow />
-            : currentView === 'calls'
-              ? <CallsEmpty />
-              : null /* no chat selected — background shows through */}
+            : null /* Empty states (chats, calls, contacts) live in the side panel, matching MAX */
+          }
         </div>
       </main>
 

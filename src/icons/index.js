@@ -12,7 +12,6 @@ export { default as IconClose }         from './IconClose';
 export { default as IconPlus }          from './IconPlus';
 export { default as IconGroup }         from './IconGroup';
 export { default as IconLink }          from './IconLink';
-export { default as IconPhone }         from './IconPhone';
 export { default as IconPhoneFilled }   from './IconPhoneFilled';
 export { default as IconChatsFilled }   from './IconChatsFilled';
 export { default as IconFolderFilled }  from './IconFolderFilled';

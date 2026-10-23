@@ -30,6 +30,14 @@
   }
 }
 
+// List wrapper fills the panel body (a flex column) so the empty state can
+// grow and center itself, matching Calls and web.max.ru.
+.contacts-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 // Contact rows reuse .list-item (global.scss) for layout; the classes below
 // style only the contact-specific content. The `.contact-item` marker class in
 // the JSX carries no styles of its own.

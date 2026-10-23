@@ -136,6 +136,72 @@ textarea:focus-visible,
   p { line-height: 1.5; }
 }
 
+// ─── Panel empty state — MAX-style ring icon + text, centered in the panel ───
+// Used by Calls, Contacts, and Chats empty states. Grows to fill the side-panel
+// body (which is a flex column) so the content sits centered, matching MAX.
+// The purple halo is a simplified radial gradient of MAX's 4 rotating divs.
+.panel-empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  // MAX div.empty: 0 top / 0 sides / 108px bottom — large bottom nudges the
+  // centered block above true vertical center, matching web.max.ru.
+  padding: 0 0 10.8rem;
+  gap: $spacing-base;
+
+  // On mobile the panel fills the whole screen; the big desktop bottom nudge
+  // wastes vertical space on short viewports, so shrink it.
+  @media (max-width: 768px) {
+    padding-bottom: 4.8rem;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: $spacing-xs;               // 4px — tight, matching MAX div.info
+  }
+
+  &__title {
+    font-size: $font-chat-name;
+    font-weight: 500;
+    color: $text-primary;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: $font-chat-name;     // 15px — matches MAX span.description
+    color: $text-tertiary;          // 64% white — matches MAX rgba(255,255,255,0.64)
+    margin: 0;
+    max-width: 24rem;
+    line-height: 1.5;
+  }
+}
+
+// ─── Primary button — matches MAX button-medium button-primary ────────────────
+// padding + font's ~20px line-height gives height ≈ 52px without needing
+// an explicit height or flex. letter-spacing and font-size are the visual
+// details that make it read like MAX's CTA.
+.btn-primary {
+  padding: $spacing-md $spacing-base;
+  border-radius: $radius-xl;        // 16px
+  background-color: $primary-accent;
+  color: $text-primary;
+  font-size: $font-button;          // 17px
+  font-weight: 500;
+  letter-spacing: 0.15px;           // sub-pixel — kept in px
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  @media (hover: hover) {
+    &:hover { background-color: $primary-accent-hover; }
+  }
+}
+
 // ─── Retry button — error state recovery action ──────────────────────────────
 .retry-btn {
   padding: $spacing-xs $spacing-md;

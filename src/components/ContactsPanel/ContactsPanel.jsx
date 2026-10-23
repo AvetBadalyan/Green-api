@@ -5,7 +5,8 @@ import { getContacts } from '../../services/api';
 import { RETRY_BASE_DELAY_MS } from '../../constants';
 import SidePanel from '../SidePanel/SidePanel';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
-import { IconRefresh, IconAlertCircle } from '../../icons';
+import { EmptyStateIcon } from '../EmptyState/EmptyState';
+import { IconRefresh, IconAlertCircle, IconContactsFilled } from '../../icons';
 import './ContactsPanel.scss';
 
 function formatPhone(id) {
@@ -102,7 +103,7 @@ function ContactsPanel({ setCurrentView }) {
         />
       }
     >
-      <div role="list" aria-live="polite" aria-busy={loading}>
+      <div className="contacts-list" role="list" aria-live="polite" aria-busy={loading}>
         {loading && (
           <div className="panel-status">
             <div className="spinner" aria-hidden="true" />
@@ -119,9 +120,21 @@ function ContactsPanel({ setCurrentView }) {
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <div className="panel-status">
-            <p>{searchValue ? 'No contacts match your search.' : 'No contacts found.'}</p>
-          </div>
+          searchValue ? (
+            <div className="panel-status">
+              <p>No contacts match your search.</p>
+            </div>
+          ) : (
+            <div className="panel-empty">
+              <EmptyStateIcon>
+                <IconContactsFilled size={32} />
+              </EmptyStateIcon>
+              <div className="panel-empty__info">
+                <p className="panel-empty__title">You have no contacts</p>
+                <p className="panel-empty__subtitle">Add a contact and start chatting</p>
+              </div>
+            </div>
+          )
         )}
 
         {!loading && !error && filtered.map((contact) => (
@@ -129,7 +142,7 @@ function ContactsPanel({ setCurrentView }) {
             key={contact.id}
             className="list-item contact-item"
             onClick={() => handleContactClick(contact)}
-            title={`Start chat with ${contact.name || formatPhone(contact.id)}`}
+            aria-label={`Start chat with ${contact.name || formatPhone(contact.id)}`}
           >
             <ChatAvatar
               phoneNumber={contact.id.replace(/@[cg]\.us$/, '')}

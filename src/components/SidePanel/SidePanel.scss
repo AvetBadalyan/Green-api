@@ -75,13 +75,6 @@
   border-radius: $radius-lg;
   padding: 0.6rem 1.2rem;  // 6px 12px — tighter than standard, MAX-matched
 
-  svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    flex-shrink: 0;
-    color: $icon-tertiary;
-  }
-
   input {
     flex: 1;
     background: transparent;
@@ -94,7 +87,7 @@
     min-width: 0;
 
     &::placeholder {
-      color: $text-tertiary;
+      color: $icon-tertiary;  // 52% white — matches MAX placeholder
     }
 
     &::-webkit-search-cancel-button {
@@ -103,9 +96,12 @@
   }
 }
 
-// Body — scrollable content area
+// Body — scrollable content area. Flex column so empty states can grow to
+// fill the panel and center their content (matches web.max.ru).
 .side-panel-body {
   flex: 1;
   overflow-y: auto;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
 }

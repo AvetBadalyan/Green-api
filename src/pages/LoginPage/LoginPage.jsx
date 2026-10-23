@@ -85,7 +85,7 @@ function LoginPage() {
 
           {error && <p id="login-error" className="error-message" role="alert">{error}</p>}
 
-          <button type="submit" className="login-button" disabled={loading}>
+          <button type="submit" className="btn-primary login-button" disabled={loading}>
             {loading ? 'Connecting...' : 'Sign in'}
           </button>
         </form>

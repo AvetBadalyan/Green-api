@@ -1,0 +1,64 @@
+@use '../../styles/variables.scss' as *;
+
+// MAX-style layered icon: 72×72 gradient ring + 32×32 centered icon.
+// Used by Calls, Contacts, and Chats panel empty states via EmptyStateIcon.
+
+.empty-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 7.2rem;
+  height: 7.2rem;
+
+  // Purple gradient halo behind the ring — simplified from MAX's 4 rotating
+  // bubble divs into one blurred radial gradient using MAX's 4 halo colors.
+  // Centered on the ring and sized larger so the blur bleeds past it.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20rem;
+    height: 20rem;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      $empty-halo-1 0%,
+      $empty-halo-4 30%,
+      $empty-halo-2 55%,
+      $empty-halo-3 75%,
+      transparent 100%
+    );
+    filter: blur(3rem);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+}
+
+// Ring and inner icon sit above the halo (position + z-index lifts them out of
+// the normal-flow paint group that the blurred ::before would otherwise cover).
+.empty-icon-ring {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 7.2rem;
+  height: 7.2rem;
+}
+
+.empty-icon-inner {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  color: $text-primary;
+
+  svg {
+    display: block;
+  }
+}

@@ -66,6 +66,12 @@ $bubble-gradient-incoming: linear-gradient(
 $avatar-gradient-start: #6b3fa0;
 $avatar-gradient-end: #3d2080;
 
+// Empty state halo — MAX uses 4 rotating divs, simplified to radial gradient
+$empty-halo-1: #7138a2;
+$empty-halo-2: #2d2ca2;
+$empty-halo-3: #2e5ca0;
+$empty-halo-4: #4612a2;
+
 // ─── Typography Scale ─────────────────────────────────────────────────────────
 // Semantic names based on usage. All sizes in rem where 1rem = 10px (html 62.5%).
 // Matched to web.max.ru design system.
@@ -94,6 +100,7 @@ $spacing-2xs: 0.2rem;  // 2px — fine adjustments
 $spacing-xs: 0.4rem;   // 4px — tight gaps
 $spacing-sm: 0.8rem;   // 8px — small gaps
 $spacing-md: 1.6rem;   // 16px — standard padding
+$spacing-base: 2rem;   // 20px — gaps, button horizontal padding
 $spacing-lg: 2.4rem;   // 24px — section spacing
 $spacing-xl: 3.2rem;   // 32px — large sections
 $spacing-2xl: 4.8rem;  // 48px — hero spacing
@@ -104,6 +111,7 @@ $radius-md: 0.8rem;   // 8px — context menus, dropdown items
 $radius-lg: 1.2rem;   // 12px — search bars, inputs, cards
 $radius-xl: 1.6rem;   // 16px — bubbles, composer, modals
 $radius-2xl: 2rem;    // 20px — large buttons, login card
+$radius-3xl: 3.2rem;  // 32px — modals (matches MAX)
 $radius-full: 50%;    // circles — avatars, status dots
 
 // ─── Z-Index scale ────────────────────────────────────────────────────────────

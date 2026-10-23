@@ -5,6 +5,8 @@ import { getLastIncomingCalls, getLastOutgoingCalls } from '../../services/api';
 import { RETRY_BASE_DELAY_MS } from '../../constants';
 import SidePanel from '../../components/SidePanel/SidePanel';
 import ChatAvatar from '../../components/ChatAvatar/ChatAvatar';
+import { EmptyStateIcon } from '../../components/EmptyState/EmptyState';
+import { IconPhoneFilled } from '../../icons';
 import { chatIdToPhone } from '../../context/ChatContext';
 import './CallsPage.scss';
 
@@ -106,8 +108,14 @@ function CallsPage() {
       )}
 
       {!loading && !error && calls.length === 0 && (
-        <div className="panel-status">
-          <p>No recent calls</p>
+        <div className="panel-empty calls-empty">
+          <EmptyStateIcon>
+            <IconPhoneFilled size={32} />
+          </EmptyStateIcon>
+          <div className="panel-empty__info">
+            <p className="panel-empty__title">Who would you like to call?</p>
+            <p className="panel-empty__subtitle">Your call history will be here</p>
+          </div>
         </div>
       )}
 
@@ -118,7 +126,7 @@ function CallsPage() {
               key={`${call.direction}-${call.id}-${call.timestamp}`}
               className="list-item call-item"
               onClick={() => handleCallClick(call)}
-              title={`Start chat with +${call.phone}`}
+              aria-label={`Start chat with +${call.phone}`}
             >
               <ChatAvatar phoneNumber={call.phone} size={56} />
               <div className="call-info">

@@ -170,27 +170,23 @@
 
 // .error-message is shared — defined in global.scss
 
+// Shares .btn-primary (global.scss); only login-specific overrides live here.
 .login-button {
-  height: 6rem;                        // MAX Continue button height
-  background-color: $primary-accent;
-  color: $text-primary;
-  font-size: $font-button;             // MAX button font-size
-  font-weight: 500;
-  letter-spacing: 0.15px;             // sub-pixel — kept in px
-  border-radius: $radius-2xl;         // MAX button radius
-  cursor: pointer;
-  transition: background-color $transition-fast;
+  height: 6rem;                        // MAX Continue button height — replaces btn-primary padding
+  padding: 0;
+  border-radius: $radius-2xl;         // 20px — larger than btn-primary's 16px
   margin-top: $spacing-sm;
-
-  @media (hover: hover) {
-    &:hover:not(:disabled) {
-      background-color: $primary-accent-hover;
-    }
-  }
 
   &:disabled {
     background-color: $button-disabled; // MAX --states-button-primary-disabled (#ffffff1f)
     color: $text-tertiary;
+  }
+
+  // btn-primary hovers unconditionally; login can be disabled, so suppress it.
+  @media (hover: hover) {
+    &:hover:disabled {
+      background-color: $button-disabled;
+    }
   }
 }
 

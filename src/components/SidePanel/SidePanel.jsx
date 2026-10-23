@@ -1,5 +1,4 @@
 import ConnectionStatus from '../ConnectionStatus/ConnectionStatus';
-import { IconSearch } from '../../icons';
 import './SidePanel.scss';
 
 // Shared layout shell for Chats, Contacts and Calls panels.
@@ -17,7 +16,6 @@ function SidePanel({ title, actions, search, children }) {
       {search && (
         <div className="side-panel-search">
           <div className="side-panel-search-box">
-            <IconSearch size={16} />
             {search}
           </div>
         </div>

@@ -6,6 +6,7 @@ import CallsPage from '../../pages/CallsPage/CallsPage';
 import SidePanel from '../SidePanel/SidePanel';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import NewChatMenu from '../NewChatMenu/NewChatMenu';
+import { EmptyStateIcon } from '../EmptyState/EmptyState';
 import {
   IconChatsFilled, IconFolderFilled, IconContactsFilled,
   IconPhoneFilled, IconLogoutFilled, IconPlus,
@@ -224,13 +225,30 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
         >
           <div className="chat-list" role="list">
             {visibleChats.length === 0 ? (
-              <div className="no-chats">
-                {searchQuery
-                  ? <p>No chats match "{searchQuery}"</p>
-                  : currentView === 'new'
-                    ? <><p>No unread messages</p><p>You're all caught up!</p></>
-                    : <><p>No chats yet</p><p>Click + to start a conversation</p></>
-                }
+              <div className="panel-empty">
+                <EmptyStateIcon>
+                  {currentView === 'new'
+                    ? <IconFolderFilled size={32} />
+                    : <IconChatsFilled size={32} />}
+                </EmptyStateIcon>
+                {searchQuery ? (
+                  <p className="panel-empty__title">No chats match "{searchQuery}"</p>
+                ) : currentView === 'new' ? (
+                  <>
+                    <p className="panel-empty__title">Folder doesn't contain chats yet</p>
+                    <button
+                      className="btn-primary"
+                      onClick={() => setMenuOpen(true)}
+                    >
+                      Add chats
+                    </button>
+                  </>
+                ) : (
+                  <div className="panel-empty__info">
+                    <p className="panel-empty__title">No chats yet</p>
+                    <p className="panel-empty__subtitle">Click + to start a new conversation</p>
+                  </div>
+                )}
               </div>
             ) : (
               visibleChats.map((chat) => {

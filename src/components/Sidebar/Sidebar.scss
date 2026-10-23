@@ -164,23 +164,16 @@
 .chat-list {
   flex: 1;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.no-chats {
-  text-align: center;
-  padding: $spacing-xl $spacing-md;
-  color: $text-secondary;
-
-  p {
-    font-size: $font-body;
-    margin-bottom: $spacing-xs;
-
-    &:first-child {
-      font-size: $font-chat-name;
-      color: $text-primary;
-      margin-bottom: $spacing-sm;
-    }
-  }
+// MAX-style empty state in sidebar — no card, just a subtle ring icon + text,
+// centered in the panel body (matches web.max.ru "New" folder empty state).
+// Layout/spacing/typography all come from the shared .panel-empty in global.scss.
+// Only override: a minimum height so the block doesn't collapse in short panels.
+.chat-list > .panel-empty {
+  min-height: 20rem;
 }
 
 .chat-item {
