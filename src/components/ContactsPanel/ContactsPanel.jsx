@@ -111,14 +111,14 @@ function ContactsPanel({ setCurrentView }) {
     >
       <div role="list" aria-live="polite" aria-busy={loading}>
         {loading && (
-          <div className="contacts-status">
+          <div className="panel-status">
             <div className="spinner" aria-hidden="true" />
             <p>Loading contacts…</p>
           </div>
         )}
 
         {!loading && error && (
-          <div className="contacts-status contacts-error" role="alert">
+          <div className="panel-status panel-status--error" role="alert">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
               <circle cx="12" cy="12" r="10" />
               <line x1="12" y1="8" x2="12" y2="12" />
@@ -130,7 +130,7 @@ function ContactsPanel({ setCurrentView }) {
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <div className="contacts-status">
+          <div className="panel-status">
             <p>{searchValue ? 'No contacts match your search.' : 'No contacts found.'}</p>
           </div>
         )}
@@ -138,7 +138,7 @@ function ContactsPanel({ setCurrentView }) {
         {!loading && !error && filtered.map((contact) => (
           <button
             key={contact.id}
-            className="contact-item"
+            className="list-item contact-item"
             onClick={() => handleContactClick(contact)}
             title={`Start chat with ${contact.name || formatPhone(contact.id)}`}
           >

@@ -12,8 +12,8 @@
 
 // Left navigation column — 77px confirmed from MAX DevTools
 .icon-nav {
-  width: 77px;
-  min-width: 77px;
+  width: 7.7rem;
+  min-width: 7.7rem;
   background-color: $sidebar-bg;
   border-right: 1px solid $surface-hover;
   display: flex;
@@ -25,15 +25,15 @@
 .nav-scroll {
   display: flex;
   flex-direction: column;
-  row-gap: 8px;
-  padding: 24px 4px 12px; // 24px top: 16px base + 8px visual gap before first item (matches MAX)
+  row-gap: 0.8rem;
+  padding: 2.4rem 0.4rem 1.2rem; // 24px top: 16px base + 8px visual gap before first item (matches MAX)
   overflow: hidden;
 }
 
 .nav-separator {
   height: 1px;
   background-color: $divider;
-  margin: 0 8px;
+  margin: 0 0.8rem;
   flex-shrink: 0;
 }
 
@@ -41,28 +41,26 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  row-gap: 8px;
-  padding: 0 4px;
-  margin-top: 12px;
+  row-gap: 0.8rem;
+  padding: 0 0.4rem;
+  margin-top: 1.2rem;
   overflow: hidden;
 }
 
 .nav-logout-slot {
   margin-top: auto;
-  padding-bottom: 16px;
+  padding-bottom: 1.6rem;
 }
 
 .nav-item {
   width: 100%;
-  height: 58px;
+  height: 5.8rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  row-gap: 2px;
-  padding: 8px 2px;
-  background: transparent;
-  border: none;
+  row-gap: 0.2rem;
+  padding: 0.8rem 0.2rem;
   cursor: pointer;
   color: $icon-tertiary;
   text-align: center;
@@ -86,14 +84,14 @@
 
 .nav-item__icon {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
   position: relative;
   flex-shrink: 0;
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 2.4rem;
+    height: 2.4rem;
     display: block;
   }
 }
@@ -101,28 +99,28 @@
 // Unread count badge on a nav icon
 .nav-item__badge {
   position: absolute;
-  top: -4px;
-  right: -6px;
-  min-width: 16px;
-  height: 16px;
-  border-radius: 8px;
+  top: -0.4rem;
+  right: -0.6rem;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.8rem;
   background-color: $primary-accent;
   color: $text-primary;
-  font-size: 10px;
+  font-size: 1rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 3px;
+  padding: 0 0.3rem;
   line-height: 1;
 }
 
 .nav-item__label {
-  width: 64px;
-  font-size: 11px;
+  width: 6.4rem;
+  font-size: 1.1rem;
   font-weight: 400;
-  line-height: 16px;
-  letter-spacing: 0.3px;
+  line-height: 1.6rem;
+  letter-spacing: 0.3px; // sub-pixel — kept in px
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -139,10 +137,10 @@
 }
 
 .new-chat-btn {
-  width: 32px;
-  min-width: 32px;
-  height: 32px;
-  border-radius: 18px;
+  width: 3.2rem;
+  min-width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 1.8rem;
   background-color: $primary-accent;
   color: $text-primary;
   display: flex;
@@ -152,8 +150,8 @@
   flex-shrink: 0;
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
   }
 
   @media (hover: hover) {
@@ -174,11 +172,11 @@
   color: $text-secondary;
 
   p {
-    font-size: 14px;
+    font-size: 1.4rem;
     margin-bottom: $spacing-xs;
 
     &:first-child {
-      font-size: 15px;
+      font-size: 1.5rem;
       color: $text-primary;
       margin-bottom: $spacing-sm;
     }
@@ -188,13 +186,11 @@
 .chat-item {
   display: flex;
   align-items: center;
-  gap: 12px;           // MAX: avatar margin-right 12px
-  padding: 9px $spacing-md;  // MAX confirmed: 9px top/bottom, 16px sides
+  gap: 1.2rem;           // MAX: avatar margin-right 12px
+  padding: 0.9rem $spacing-md;  // MAX confirmed: 9px top/bottom, 16px sides
   cursor: pointer;
   width: 100%;
   text-align: left;
-  background: transparent;
-  border: none;
   transition: background-color $transition-fast;
 
   @media (hover: hover) {
@@ -211,8 +207,8 @@
 // 64px slot mirrors MAX's ring-wrapper div — so 9px + 64px + 9px = 82px naturally
 // Avatar photo (56px) centers inside it: 4px buffer all around
 .chat-avatar-wrap {
-  width: 64px;
-  height: 64px;
+  width: 6.4rem;
+  height: 6.4rem;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -224,7 +220,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  // No gap — preview's padding-top: 2px handles visual spacing
+  // No gap — preview's padding-top: 0.2rem handles visual spacing
 }
 
 .chat-item-top {
@@ -239,14 +235,14 @@
   align-items: flex-start;   // preview is 2 lines; badge aligns to top
   justify-content: space-between;
   gap: $spacing-xs;
-  margin-top: 2px;
+  margin-top: 0.2rem;
 }
 
 .chat-name {
-  font-size: 15px;
+  font-size: 1.5rem;
   font-weight: 500;
-  line-height: 20px;     // line-height defines the single-line row box
-  letter-spacing: 0.15px;
+  line-height: 2rem;         // line-height defines the single-line row box
+  letter-spacing: 0.15px;    // sub-pixel — kept in px
   color: $text-primary;
   white-space: nowrap;
   overflow: hidden;
@@ -255,15 +251,15 @@
 
 // Time + tick row — MAX 16px line-height
 .chat-time {
-  font-size: 13px;
+  font-size: 1.3rem;
   font-weight: 400;
   color: $text-tertiary;
   flex-shrink: 0;
   white-space: nowrap;
   display: flex;
   align-items: center;   // vertically centers tick + time; no explicit height needed
-  gap: 4px;
-  line-height: 16px;     // MAX time span line-height
+  gap: 0.4rem;
+  line-height: 1.6rem;   // MAX time span line-height
 }
 
 // Tick mark next to time in chat list — same colors as the message bubble ticks
@@ -279,12 +275,12 @@
 }
 
 .chat-preview {
-  font-size: 15px;
+  font-size: 1.5rem;
   font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0.15px;
+  line-height: 2rem;
+  letter-spacing: 0.15px; // sub-pixel — kept in px
   color: $text-tertiary;
-  padding-top: 2px;      // MAX confirmed: 2px
+  padding-top: 0.2rem;    // MAX confirmed: 2px
   word-break: break-word;
   overflow: hidden;
   display: -webkit-box;
@@ -296,17 +292,17 @@
 
 .unread-badge {
   flex-shrink: 0;
-  min-width: 18px;
-  height: 18px;
-  border-radius: 9px;
+  min-width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.9rem;
   background-color: $primary-accent;
   color: $text-primary;
-  font-size: 11px;
+  font-size: 1.1rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 5px;
+  padding: 0 0.5rem;
   line-height: 1;
-  margin-top: 4px; // align with first text line inside 2-line preview
+  margin-top: 0.4rem; // align with first text line inside 2-line preview
 }

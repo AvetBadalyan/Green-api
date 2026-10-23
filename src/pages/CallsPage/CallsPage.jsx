@@ -91,21 +91,21 @@ function CallsPage() {
   return (
     <SidePanel title="Calls">
       {loading && (
-        <div className="calls-status">
-          <div className="calls-spinner" aria-hidden="true" />
+        <div className="panel-status">
+          <div className="spinner" aria-hidden="true" />
           <p>Loading calls…</p>
         </div>
       )}
 
       {!loading && error && (
-        <div className="calls-status calls-status--error" role="alert">
+        <div className="panel-status panel-status--error" role="alert">
           <p>{error}</p>
-          <button onClick={fetchCalls} className="calls-retry-btn">Retry</button>
+          <button onClick={fetchCalls} className="retry-btn">Retry</button>
         </div>
       )}
 
       {!loading && !error && calls.length === 0 && (
-        <div className="calls-status">
+        <div className="panel-status">
           <p>No recent calls</p>
         </div>
       )}
@@ -115,7 +115,7 @@ function CallsPage() {
           {calls.map((call) => (
             <button
               key={`${call.direction}-${call.id}-${call.timestamp}`}
-              className="call-item"
+              className="list-item call-item"
               onClick={() => handleCallClick(call)}
               title={`Start chat with +${call.phone}`}
             >

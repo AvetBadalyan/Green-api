@@ -10,8 +10,8 @@
   overflow: hidden;
 
   // Size variants
-  &--md { .chat-avatar__initials { font-size: 14px; } }
-  &--lg { .chat-avatar__initials { font-size: 17px; } }
+  &--md { .chat-avatar__initials { font-size: 1.4rem; } }
+  &--lg { .chat-avatar__initials { font-size: 1.7rem; } }
 
   // Real photo — fills the circle, clips overflow
   &__img {

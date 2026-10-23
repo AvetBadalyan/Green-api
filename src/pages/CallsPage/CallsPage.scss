@@ -2,79 +2,25 @@
 
 // CallsPage-specific styles only.
 // Shared panel structure lives in SidePanel.scss.
-
-.calls-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-xl $spacing-md;
-  color: $text-secondary;
-  text-align: center;
-  font-size: 14px;
-
-  &--error { color: $error-color-soft; }
-  p { line-height: 1.5; }
-}
-
-.calls-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2px solid $surface-field;
-  border-top-color: $primary-accent;
-  border-radius: 50%;
-  animation: callSpin 0.8s linear infinite;
-}
-
-@keyframes callSpin { to { transform: rotate(360deg); } }
-
-.calls-retry-btn {
-  margin-top: $spacing-xs;
-  padding: $spacing-xs $spacing-md;
-  background: transparent;
-  border: 1px solid $error-border;
-  border-radius: $radius-md;
-  color: $error-color-soft;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background-color $transition-fast;
-
-  @media (hover: hover) {
-    &:hover { background-color: $error-bg; }
-  }
-}
+// Shared status/spinner/retry/list-item classes live in global.scss.
 
 .calls-list {
   flex: 1;
 }
 
-.call-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;           // matches chat list
-  width: 100%;
-  padding: 9px $spacing-md;  // same as chat items
-  background: transparent;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  transition: background-color $transition-fast;
-
-  @media (hover: hover) {
-    &:hover { background-color: $surface-hover-soft; }
-  }
-}
-
+// Call rows reuse .list-item (global.scss) for layout; the classes below style
+// only the call-specific content. The `.call-item` marker class in the JSX
+// carries no styles of its own.
 .call-info {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.2rem;
 }
 
 .call-number {
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 500;
   color: $text-primary;
   white-space: nowrap;
@@ -83,15 +29,15 @@
 }
 
 .call-status {
-  font-size: 12px;
+  font-size: 1.2rem;
   color: $text-secondary;
 
   &--missed, &--notAnswered { color: $error-color-soft; }
-  &--accepted               { color: $positive; } // MAX --text-positive
+  &--accepted               { color: $positive; }
 }
 
 .call-time {
-  font-size: 11px;
+  font-size: 1.1rem;
   color: $text-muted;
   flex-shrink: 0;
   white-space: nowrap;
@@ -117,8 +63,8 @@
   gap: $spacing-md;
 
   .calls-icon {
-    width: 72px;
-    height: 72px;
+    width: 7.2rem;
+    height: 7.2rem;
     border-radius: 50%;
     background: $surface-field;
     display: flex;
@@ -129,17 +75,17 @@
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 500;
     color: $text-primary;
     margin: 0;
   }
 
   p {
-    font-size: 14px;
+    font-size: 1.4rem;
     color: $text-secondary;
     margin: 0;
-    max-width: 220px;
+    max-width: 22rem;
     line-height: 1.5;
   }
 }

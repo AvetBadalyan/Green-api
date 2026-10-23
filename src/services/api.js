@@ -246,10 +246,4 @@ export const getLastOutgoingCalls = async (credentials) => {
   return response.data;
 };
 
-// ─── Read mark ───────────────────────────────────────────────────────────────
 
-/**
- * Mark a specific chat as read on the WhatsApp side.
- * (Alias kept in sync with the ReadChat section in the API console.)
- */
-export { readChat as markChatRead };

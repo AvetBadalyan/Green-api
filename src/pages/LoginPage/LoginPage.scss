@@ -21,13 +21,13 @@
 .login-container {
   position: relative;
   background-color: $sidebar-bg;      // MAX card bg #17181c
-  border-radius: 28px;
+  border-radius: 2.8rem;
   border: 1px solid $surface-hover;   // very subtle hairline (6% white)
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 24px 0px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0.4rem 2.4rem 0;
   backdrop-filter: blur(25px);
-  padding: 48px 56px;
+  padding: 4.8rem 5.6rem;
   width: 100%;
-  max-width: 580px;
+  max-width: 58rem;
   text-align: center;
   overflow: hidden;
 
@@ -40,7 +40,7 @@
     left: 50%;
     transform: translateX(-50%);
     width: 120%;
-    height: 240px;
+    height: 24rem;
     background: radial-gradient(
       ellipse 60% 100% at 50% 0%,
       rgba(80, 91, 199, 0.4) 0%,
@@ -58,14 +58,14 @@
 
   @media (max-width: 768px) {
     max-width: 100%;
-    padding: 32px 24px;
-    border-radius: 20px;
+    padding: 3.2rem 2.4rem;
+    border-radius: 2rem;
   }
 
   // Small phones: tighten padding further so the form isn't cramped by margins
   @media (max-width: 480px) {
-    padding: 24px 16px;
-    border-radius: 16px;
+    padding: 2.4rem 1.6rem;
+    border-radius: 1.6rem;
   }
 }
 
@@ -85,8 +85,8 @@
     margin-bottom: $spacing-lg;
 
     .logo-icon {
-      width: 44px;
-      height: 44px;
+      width: 4.4rem;
+      height: 4.4rem;
       background: linear-gradient(135deg, $avatar-gradient-start, $avatar-gradient-end);
       color: $text-primary;
       border-radius: 50%;
@@ -94,18 +94,18 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 2rem;
     }
 
     .logo-text {
-      font-size: 20px;
+      font-size: 2rem;
       font-weight: 600;
       color: $text-primary;
     }
   }
 
   h1 {
-    font-size: 22px;
+    font-size: 2.2rem;
     font-weight: 600;
     color: $text-primary;
     margin-bottom: $spacing-sm;
@@ -113,22 +113,22 @@
 
   p {
     color: $text-secondary;
-    font-size: 14px;
+    font-size: 1.4rem;
   }
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;                          // MAX form row-gap
+  gap: 2.4rem;                        // MAX form row-gap
   // MAX input/button are ~336px; center the form column within the wide card
-  max-width: 336px;
+  max-width: 33.6rem;
   margin: 0 auto;
   width: 100%;
   text-align: left;
 
   @media (max-width: 768px) {
-    gap: 16px;
+    gap: 1.6rem;
   }
 }
 
@@ -138,19 +138,19 @@
   gap: $spacing-xs;
 
   label {
-    font-size: 13px;
+    font-size: 1.3rem;
     color: $text-tertiary;              // MAX label color (rgba white 0.64)
     font-weight: 500;
   }
 
   input {
-    padding: 0 12px;
+    padding: 0 1.2rem;
     background-color: $surface-field;   // MAX --background-tertiary (rgba white 0.09)
     border: 1px solid transparent;
-    border-radius: 16px;                // MAX input radius
+    border-radius: 1.6rem;              // MAX input radius
     color: $text-primary;
-    font-size: 15px;                    // MAX input font-size
-    height: 52px;                       // MAX input height
+    font-size: 1.5rem;                  // MAX input font-size
+    height: 5.2rem;                     // MAX input height
     transition: border-color $transition-fast, background-color $transition-fast;
 
     &::placeholder {
@@ -168,24 +168,16 @@
   }
 }
 
-.error-message {
-  background-color: $error-bg;
-  border: 1px solid $error-border;
-  color: $error-color-soft;
-  padding: $spacing-sm $spacing-md;
-  border-radius: $radius-md;
-  font-size: 13px;
-}
+// .error-message is shared — defined in global.scss
 
 .login-button {
-  height: 60px;                        // MAX Continue button height
+  height: 6rem;                        // MAX Continue button height
   background-color: $primary-accent;
   color: $text-primary;
-  font-size: 17px;                     // MAX button font-size
+  font-size: 1.7rem;                   // MAX button font-size
   font-weight: 500;
-  letter-spacing: 0.15px;
-  border: none;
-  border-radius: 20px;                 // MAX button radius
+  letter-spacing: 0.15px;             // sub-pixel — kept in px
+  border-radius: 2rem;                // MAX button radius
   cursor: pointer;
   transition: background-color $transition-fast;
   margin-top: $spacing-sm;
@@ -197,9 +189,8 @@
   }
 
   &:disabled {
-    background-color: $button-disabled;  // MAX --states-button-primary-disabled (#ffffff1f)
+    background-color: $button-disabled; // MAX --states-button-primary-disabled (#ffffff1f)
     color: $text-tertiary;
-    cursor: not-allowed;
   }
 }
 
@@ -209,7 +200,7 @@
 
   p {
     color: $text-secondary;
-    font-size: 13px;
+    font-size: 1.3rem;
 
     a {
       color: $text-primary;        // white link
@@ -225,9 +216,9 @@
   // MAX-style legal line — muted, smaller, links are emphasised not colored
   .login-legal {
     color: $text-tertiary;
-    font-size: 12px;
+    font-size: 1.2rem;
     line-height: 1.5;
-    max-width: 336px;
+    max-width: 33.6rem;
     margin: 0 auto $spacing-md;
 
     a {

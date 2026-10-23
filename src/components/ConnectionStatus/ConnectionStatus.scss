@@ -2,23 +2,23 @@
 
 .connection-status {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 0.8rem;
+  height: 0.8rem;
   border-radius: 50%;
   flex-shrink: 0;
 
   &--green {
     background-color: $status-online;
-    box-shadow: 0 0 6px rgba($status-online, 0.5);
+    box-shadow: 0 0 0.6rem rgba($status-online, 0.5);
   }
 
   &--yellow {
     background-color: $status-pending;
-    box-shadow: 0 0 6px rgba($status-pending, 0.5);
+    box-shadow: 0 0 0.6rem rgba($status-pending, 0.5);
   }
 
   &--red {
     background-color: $status-offline;
-    box-shadow: 0 0 6px rgba($status-offline, 0.5);
+    box-shadow: 0 0 0.6rem rgba($status-offline, 0.5);
   }
 }

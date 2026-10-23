@@ -2,39 +2,37 @@
 
 .new-chat-menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 0.6rem);
   right: 0;
   z-index: 50;
-  min-width: 200px;
+  min-width: 20rem;
   background-color: $card-bg;          // MAX --background-card / secondary
   border: 1px solid $surface-hover-strong;
-  border-radius: 12px;
-  padding: 6px;
+  border-radius: 1.2rem;
+  padding: 0.6rem;
   box-shadow: $shadow-popover;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.2rem;
 }
 
 .new-chat-menu__item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1.2rem;
   width: 100%;
-  padding: 10px 12px;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  border-radius: 0.8rem;
   color: $text-primary;
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 1.5rem;
+  line-height: 2rem;
   text-align: left;
   cursor: pointer;
   transition: background-color $transition-fast;
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
     flex-shrink: 0;
     color: $icon-secondary;
   }
@@ -53,6 +51,5 @@
   // Disabled (not-supported) items still render but look muted
   &:disabled {
     opacity: 0.4;
-    cursor: not-allowed;
   }
 }
