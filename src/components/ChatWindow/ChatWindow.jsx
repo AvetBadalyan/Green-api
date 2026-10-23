@@ -4,6 +4,10 @@ import { useChat, phoneToChatId } from '../../context/ChatContext';
 import { sendMessage, sendTyping, deleteMessage } from '../../services/api';
 import MessageList from '../MessageList/MessageList';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
+import {
+  IconBack, IconSearch, IconAttach, IconEmoji,
+  IconVideo, IconMic, IconSend,
+} from '../../icons';
 import './ChatWindow.scss';
 
 // Debounce typing indicator to avoid spamming the API
@@ -94,10 +98,7 @@ function ChatWindow() {
           onClick={() => setActiveChat(null)}
           aria-label="Back to chats"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
+          <IconBack />
         </button>
         <ChatAvatar
           phoneNumber={activeChat.phoneNumber}
@@ -121,10 +122,7 @@ function ChatWindow() {
           aria-label="Search in chat"
           title="Search not available (text-only mode)"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
+          <IconSearch strokeWidth={1.8} />
         </button>
       </div>
 
@@ -150,9 +148,7 @@ function ChatWindow() {
             disabled
             title="Attachments not available (text-only mode)"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-            </svg>
+            <IconAttach />
           </button>
 
           {/* Text input */}
@@ -170,7 +166,6 @@ function ChatWindow() {
             />
           </div>
 
-          {/* Icon buttons — visual only, text-only mode */}
           <button
             type="button"
             className="input-icon-btn"
@@ -178,12 +173,7 @@ function ChatWindow() {
             disabled
             title="Stickers not available (text-only mode)"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-              <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="2" />
-              <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="2" />
-            </svg>
+            <IconEmoji />
           </button>
 
           <button
@@ -193,10 +183,7 @@ function ChatWindow() {
             disabled
             title="Video messages not available (text-only mode)"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="2" y="6" width="13" height="12" rx="2" />
-              <path d="M22 8l-5 4 5 4V8z" />
-            </svg>
+            <IconVideo />
           </button>
 
           <button
@@ -206,12 +193,7 @@ function ChatWindow() {
             disabled
             title="Voice messages not available (text-only mode)"
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-              <line x1="12" y1="19" x2="12" y2="23" />
-              <line x1="8" y1="23" x2="16" y2="23" />
-            </svg>
+            <IconMic />
           </button>
 
           {inputText.trim() && (
@@ -221,9 +203,7 @@ function ChatWindow() {
               disabled={sending}
               aria-label="Send message"
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-              </svg>
+              <IconSend size={20} />
             </button>
           )}
         </form>

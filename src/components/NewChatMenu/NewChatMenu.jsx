@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
+import { IconSearch, IconGroup, IconLink } from '../../icons';
 import './NewChatMenu.scss';
 
 /**
  * Dropdown shown when the "+" button is clicked — mirrors MAX's menu.
- * Only "Search by number" is wired up (it opens the phone modal); the other
- * actions require WhatsApp features GREEN-API doesn't expose, so they're
- * present for layout parity but disabled.
+ * Only "Search by number" is wired up; the other actions require WhatsApp
+ * features GREEN-API doesn't expose, so they're present for layout parity only.
  */
 function NewChatMenu({ onSearchByNumber, onClose }) {
   const menuRef = useRef(null);
@@ -34,27 +34,17 @@ function NewChatMenu({ onSearchByNumber, onClose }) {
         role="menuitem"
         onClick={() => { onSearchByNumber(); onClose(); }}
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <circle cx="11" cy="11" r="8" />
-          <line x1="21" y1="21" x2="16.65" y2="16.65" />
-        </svg>
+        <IconSearch size={20} />
         Search by number
       </button>
 
       <button className="new-chat-menu__item" role="menuitem" disabled title="Not available via GREEN-API">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-          <circle cx="9" cy="7" r="4" />
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        </svg>
+        <IconGroup size={20} />
         Create group
       </button>
 
       <button className="new-chat-menu__item" role="menuitem" disabled title="Not available via GREEN-API">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-        </svg>
+        <IconLink size={20} />
         Invite via link
       </button>
     </div>

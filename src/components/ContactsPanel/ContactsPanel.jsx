@@ -4,6 +4,7 @@ import { useChat } from '../../context/ChatContext';
 import { getContacts } from '../../services/api';
 import SidePanel from '../SidePanel/SidePanel';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
+import { IconRefresh, IconAlertCircle } from '../../icons';
 import './ContactsPanel.scss';
 
 function formatPhone(id) {
@@ -87,16 +88,7 @@ function ContactsPanel({ setCurrentView }) {
           aria-label="Refresh contacts"
           disabled={loading}
         >
-          <svg
-            width="16" height="16" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" strokeWidth="2"
-            aria-hidden="true"
-            className={loading ? 'spinning' : ''}
-          >
-            <polyline points="23 4 23 10 17 10" />
-            <polyline points="1 20 1 14 7 14" />
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-          </svg>
+          <IconRefresh size={16} className={loading ? 'spinning' : ''} />
         </button>
       }
       search={
@@ -119,11 +111,7 @@ function ContactsPanel({ setCurrentView }) {
 
         {!loading && error && (
           <div className="panel-status panel-status--error" role="alert">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
+            <IconAlertCircle size={20} />
             <p>{error}</p>
             <button onClick={fetchContacts} className="retry-btn">Retry</button>
           </div>

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useChat } from '../../context/ChatContext';
 import { useAuth } from '../../context/AuthContext';
 import { checkWhatsapp } from '../../services/api';
+import { IconClose } from '../../icons';
 import './NewChatModal.scss';
 
 const MIN_PHONE_LENGTH = 11; // digits incl. country code
@@ -54,7 +55,6 @@ function NewChatModal({ onClose }) {
       return;
     }
 
-    // Validate phone exists on WhatsApp
     setChecking(true);
     try {
       const result = await checkWhatsapp(credentials, cleanPhone);
@@ -66,7 +66,6 @@ function NewChatModal({ onClose }) {
       onClose();
     } catch (err) {
       console.error('CheckWhatsapp error:', err);
-      // If API fails, still create chat (graceful fallback)
       createChat(cleanPhone);
       onClose();
     } finally {
@@ -90,10 +89,7 @@ function NewChatModal({ onClose }) {
         <div className="modal-header">
           <h2 id="modal-title">Search by number</h2>
           <button className="close-btn" onClick={onClose} aria-label="Close">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <IconClose size={20} />
           </button>
         </div>
 

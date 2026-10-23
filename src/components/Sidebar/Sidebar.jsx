@@ -6,6 +6,10 @@ import CallsPage from '../../pages/CallsPage/CallsPage';
 import SidePanel from '../SidePanel/SidePanel';
 import ChatAvatar from '../ChatAvatar/ChatAvatar';
 import NewChatMenu from '../NewChatMenu/NewChatMenu';
+import {
+  IconChatsFilled, IconFolderFilled, IconContactsFilled,
+  IconPhoneFilled, IconLogoutFilled, IconPlus,
+} from '../../icons';
 import './Sidebar.scss';
 
 function formatChatTime(timestamp) {
@@ -68,36 +72,11 @@ function ChatTick({ status }) {
 
 // Sidebar navigation icons (solid/filled style)
 const icons = {
-  // Filled chat bubble (All chats)
-  all: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-    </svg>
-  ),
-  // Filled folder (New / unread)
-  new: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
-    </svg>
-  ),
-  // Filled person/contacts
-  contacts: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
-    </svg>
-  ),
-  // Filled phone handset (Calls)
-  calls: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
-    </svg>
-  ),
-  // Filled logout arrow
-  logout: (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
-    </svg>
-  ),
+  all:      <IconChatsFilled />,
+  new:      <IconFolderFilled />,
+  contacts: <IconContactsFilled />,
+  calls:    <IconPhoneFilled />,
+  logout:   <IconLogoutFilled />,
 };
 
 function NavItem({ view, currentView, setCurrentView, label, icon, badge }) {
@@ -223,10 +202,7 @@ function Sidebar({ currentView, setCurrentView, onNewChat }) {
                 aria-haspopup="menu"
                 aria-expanded={menuOpen}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
+                <IconPlus size={20} />
               </button>
               {menuOpen && (
                 <NewChatMenu
