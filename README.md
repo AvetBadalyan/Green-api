@@ -73,7 +73,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173](http://localhost:5173) in your browser (or the port Vite prints if 5173 is already in use).
 
 ### Build for Production
 

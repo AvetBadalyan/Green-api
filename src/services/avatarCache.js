@@ -43,6 +43,9 @@ const pendingFetches = new Map(); // chatId → pending Promise, deduplicates co
 const queue = [];
 let activeFetchCount = 0;
 
+// 466 = quota exhausted for this session; stop all further requests until logout.
+let avatarsUnavailable = false;
+
 // ─── Fetch queue ─────────────────────────────────────────────────────────────
 
 function drain() {
@@ -57,9 +60,13 @@ function drain() {
 
     activeFetchCount++;
     getAvatar(item.credentials, item.chatId)
-      .then((r) => {
-        // urlAvatar can be an empty string when the contact has no photo
-        const url = r?.available && r.urlAvatar?.trim() ? r.urlAvatar : null;
+      .then((avatarResponse) => {
+        if (avatarResponse?.statusCode === 466) avatarsUnavailable = true;
+        // urlAvatar is an empty string when the contact has no photo
+        const url =
+          avatarResponse?.available && avatarResponse.urlAvatar?.trim()
+            ? avatarResponse.urlAvatar
+            : null;
         cache.set(item.chatId, url);
         saveToSession(item.chatId, url);
         item.resolve(url);
@@ -90,6 +97,8 @@ function drain() {
 export function requestAvatar(credentials, chatId) {
   if (!credentials || !chatId) return Promise.resolve(null);
   if (cache.has(chatId)) return Promise.resolve(cache.get(chatId));
+  // Account can't serve avatars this session — don't fire a request that will 466.
+  if (avatarsUnavailable) return Promise.resolve(null);
   if (pendingFetches.has(chatId)) return pendingFetches.get(chatId);
 
   const promise = new Promise((resolve) => {
@@ -109,5 +118,6 @@ export function clearAvatarCache() {
   pendingFetches.clear();
   queue.length = 0;
   activeFetchCount = 0;
+  avatarsUnavailable = false;
   clearSession();
 }

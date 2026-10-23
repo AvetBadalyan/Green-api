@@ -68,7 +68,8 @@ function NewChatModal({ onClose }) {
     setChecking(true);
     try {
       const result = await checkWhatsapp(credentials, cleanPhone);
-      if (!result.existsWhatsapp) {
+      // Rate-limited calls return 200 with empty body (existsWhatsapp undefined) — only block on explicit false.
+      if (result?.existsWhatsapp === false) {
         setError('This number is not registered on MAX');
         return;
       }

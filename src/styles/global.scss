@@ -1,5 +1,44 @@
 @use './variables.scss' as *;
 
+// Self-hosted Roboto — matches web.max.ru on all platforms (incl. Linux where it isn't installed).
+// font-display: optional → no swap event → no CLS. Font renders on first load if cached,
+// fallback persists for the session on cold load.
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: optional;
+  font-weight: 400;
+  src:
+    url('../../node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff2')
+      format('woff2'),
+    url('../../node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: optional;
+  font-weight: 500;
+  src:
+    url('../../node_modules/@fontsource/roboto/files/roboto-latin-500-normal.woff2')
+      format('woff2'),
+    url('../../node_modules/@fontsource/roboto/files/roboto-latin-500-normal.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-display: optional;
+  font-weight: 600;
+  src:
+    url('../../node_modules/@fontsource/roboto/files/roboto-latin-600-normal.woff2')
+      format('woff2'),
+    url('../../node_modules/@fontsource/roboto/files/roboto-latin-600-normal.woff')
+      format('woff');
+}
+
 // 62.5% base: 1rem = 10px (browser default 16px × 0.625).
 // All rem values follow: desired_px ÷ 10 → e.g. 2.4rem = 24px, 1.6rem = 16px.
 html {

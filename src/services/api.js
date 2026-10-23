@@ -218,11 +218,8 @@ export const getChatHistory = async (
 
 /**
  * Get the avatar URL for a chat or contact.
- * Returns: { urlAvatar, available }
- *
- * GREEN-API returns HTTP 466 when a contact is not registered on the platform.
- * validateStatus treats 466 as a non-error so the browser console stays clean
- * and the avatarCache `.then` handler gracefully resolves to null (no avatar).
+ * Returns: { urlAvatar, available, statusCode }
+ * 466 accepted without throwing (quota exhausted or contact unregistered); statusCode lets the caller detect it.
  */
 export const getAvatar = async (credentials, chatId) => {
   const { idInstance, apiTokenInstance } = credentials;
@@ -232,7 +229,7 @@ export const getAvatar = async (credentials, chatId) => {
     { chatId },
     { validateStatus: (status) => status === 200 || status === 466 },
   );
-  return response.data;
+  return { ...response.data, statusCode: response.status };
 };
 
 /**

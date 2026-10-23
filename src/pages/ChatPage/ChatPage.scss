@@ -3,6 +3,7 @@
 .chat-page {
   display: flex;
   height: 100vh;
+  height: 100dvh; // dvh tracks mobile toolbar show/hide; vh above is the fallback
   overflow: hidden;
   background-color: $chat-bg;
 }

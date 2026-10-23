@@ -3,6 +3,7 @@
 .sidebar-wrapper {
   display: flex;
   height: 100vh;
+  height: 100dvh; // dvh tracks mobile toolbar show/hide; vh above is the fallback
   flex-shrink: 0;
 
   @media (max-width: 768px) {
@@ -19,6 +20,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh; // dvh tracks mobile toolbar show/hide; vh above is the fallback
   overflow: hidden;
 }
 
