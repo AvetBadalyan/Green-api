@@ -39,17 +39,14 @@
 
 .message {
   display: flex;
-  max-width: min(49rem, 75%); // MAX: long bubbles cap at ~490px; % keeps it sane on narrow panes
+  max-width: min(49rem, 75%); // MAX: bubbles cap at ~490px; % keeps it sane on narrow panes
 
-  // MAX: 16px on three corners, 6px on the "tail" corner nearest the sender's
-  // edge. Outgoing (right-aligned) → tight top-right; incoming → tight top-left.
-  // Order: top-left top-right bottom-right bottom-left.
   &.outgoing {
     align-self: flex-end;
 
     .message-content {
       background: $bubble-gradient-outgoing; // MAX: 239deg purple→blue gradient
-      border-radius: 1.6rem;
+      border-radius: 1.6rem;                 // MAX: uniform 16px on all corners
     }
   }
 
@@ -58,14 +55,14 @@
 
     .message-content {
       background: $bubble-gradient-incoming; // MAX: 239deg dark-slate gradient
-      border-radius: 1.6rem;
+      border-radius: 1.6rem;                 // MAX: uniform 16px on all corners
     }
   }
 }
 
 .message-content {
-  padding: 0.8rem 1rem;  // MAX exact: 8px top/bottom, 10px sides
-  min-width: 7.2rem;     // prevent very short messages collapsing too narrow
+  padding: 0.8rem 1rem 1rem; // MAX main chat: 8px top, 10px sides, 10px bottom
+  min-width: 7.2rem;
 }
 
 .message-text {
