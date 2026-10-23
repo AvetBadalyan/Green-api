@@ -49,7 +49,7 @@
 
     .message-content {
       background: $bubble-gradient-outgoing; // MAX: 239deg purple→blue gradient
-      border-radius: 1.6rem 0.6rem 1.6rem 1.6rem;
+      border-radius: 1.6rem;
     }
   }
 
@@ -58,13 +58,14 @@
 
     .message-content {
       background: $bubble-gradient-incoming; // MAX: 239deg dark-slate gradient
-      border-radius: 0.6rem 1.6rem 1.6rem 1.6rem;
+      border-radius: 1.6rem;
     }
   }
 }
 
 .message-content {
-  padding: 0.8rem 1rem 1rem; // MAX exact: 8px top, 10px sides, 10px bottom
+  padding: 0.8rem 1rem;  // MAX exact: 8px top/bottom, 10px sides
+  min-width: 7.2rem;     // prevent very short messages collapsing too narrow
 }
 
 .message-text {
