@@ -51,7 +51,7 @@ function ChatPage() {
 
     if (!historyLoadedRef.current.has(activeChatId)) {
       historyLoadedRef.current.add(activeChatId);
-      getChatHistory(credentials, activeChatIdForApi, 50)
+      getChatHistory(credentials, activeChatIdForApi)
         .then((messages) => mergeHistory(activePhone, messages))
         .catch(() => {});
     }

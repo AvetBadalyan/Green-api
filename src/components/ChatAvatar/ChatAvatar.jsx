@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { requestAvatar } from '../../services/avatarCache';
+import { phoneToChatId } from '../../utils/chatId';
 import './ChatAvatar.scss';
 
 function getInitials(name, phoneNumber) {
@@ -26,7 +27,7 @@ function getInitials(name, phoneNumber) {
  */
 function ChatAvatar({ phoneNumber, name = '', size = 56, isGroup = false }) {
   const { credentials } = useAuth();
-  const chatId = `${phoneNumber}@${isGroup ? 'g' : 'c'}.us`;
+  const chatId = phoneToChatId(phoneNumber, isGroup);
 
   const [avatarUrl, setAvatarUrl] = useState(null);
 
